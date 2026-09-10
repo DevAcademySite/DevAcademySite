@@ -1,0 +1,176 @@
+* {
+    margin: 0; /*remove a margem padrão dos elementos*/
+    padding: 0; /*remove o espaço interno padrão*/
+    box-sizing: border-box; /*inclui padding e borda no tamanho do elemento*/
+}
+
+body {
+    font-family: Arial, sans-serif; /* fonte dos textos*/
+    background-color: black; /*cor de fundo da página*/
+}
+
+
+.pagina {
+    width: 100%;  /*ocupa toda a largura da tela*/
+    min-height: 100vh;  /*altura mínima de 100% da tela*/
+    display: flex;  /**/
+    justify-content: center; /*centraliza horizontalmente*/
+    align-items: center; /*centraliza verticalmente*/
+}
+
+.chaves {
+    pointer-events: none; /*o mouse deve ignorar esse elemento*/
+    position: absolute; /*as chaves agora podem ser posicionadas de maneira independente*/
+    top: 45%; /*coloca as chaves no meio da altura da tela*/
+    left: 49.6%; /*coloca as chaves no meio da largura da tela*/
+    transform: translate(-50%, -50%); /*ajusta a posição para o centro*/
+    
+    display: flex; /*alinha os elementos em linha*/
+}
+
+.chave-esquerda,
+.chave-direita { 
+    position: relative; /*permite deslocar esta chave individualmente*/
+    font-size: 550px; /*tamanho da fonte*/
+    font-family: "Share Tech Mono"; /*fonte da letra*/
+
+    background: linear-gradient(to bottom, rgb(255, 0, 212), rgb(0, 0, 143)); /*degrade de cor*/
+    /*to right → _ to bottom ↓ _ to top ↑*/
+    
+    background-clip: text; /*contorna o desenho das chaves, assim especificando onde o degrade deve aparecer*/
+    -webkit-text-fill-color: transparent; /*deixa a cor do texto transparente, assim o degrade aparece dentro do desenho das chaves feito pelo background-clip*/
+    /*-webkit-text-stroke: 1px rgb(43, 13, 177); /*cria um contorno no próprio caractere(chave) de 1px=1 pixel, white=cor branca*/
+
+    text-shadow:0 0 30px #0003a7;
+}
+
+.chave-esquerda {
+    animation: 
+    introxave 2s ease-out,
+    abrirEsquerda 2s ease-out 2s forwards;
+
+}
+
+.chave-direita {
+    animation: 
+    introxave 2s ease-out,
+    abrirDireita 2s ease-out 2s forwards; /*forwards = mantém o estado do último keyframe*/
+}
+
+
+@keyframes introxave {
+    0% {
+        transform: translateY(550px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+/* translateX:
+translateX(50px)     direita 
+translateX(-50px)    esquerda 
+translateX(0)        posição normal */
+
+/* translateY:
+translateY(50px)     baixo 
+translateY(-50px)    cima 
+translateY(0)        posição normal */
+}
+
+
+@keyframes abrirEsquerda {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-120px);
+    }
+}
+
+@keyframes abrirDireita {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(120px);
+    }
+}
+
+
+
+.login {
+    color: white; /*deixa os textos do login brancos*/
+}
+
+
+h1 {
+    margin-bottom: 60px; /*distância debaixo do elemento*/
+    text-align: center; /*centraliza o texto*/
+}
+
+
+.campo {
+    position: relative; /*cria uma referência para posicionar elementos dentro*/
+    margin-bottom: 20px; /*distância debaixo do elememto*/
+}
+
+.campo label { /*pegue os label que estão dentro de .campo*/
+    position: absolute; /*permite posicionar o label livremente*/
+    left: 10px; /*coloca o label 10px para a esquerda*/
+    top: 50%; /*coloca o label no meio da altura da caixa*/
+    transform: translateY(-50%); /*ajusta verticalmente o label*/
+    color: white; /*define a cor do label*/
+    transition: 0.3s; /*duração da animação do label,
+    sem isso, o label se teleptransporta*/
+}
+
+
+input {
+    width: 350px; /*largura da caixa*/
+    height: 55px; /*altura da caixa*/
+    border-radius: 10px; /*arredondamento da caixa*/
+    color: white; /*cor do texto digitado*/
+    background-color: transparent; /*deixa o fundo da caixa transparente*/
+    border: 1px solid white; /*cria a borda fina, contínua e branca*/
+    padding: 0 10px; /*espaçamento interno da caixa
+    0=sem espaçamento, 10px=10 pixels de espaçamento*/
+}
+
+input:focus + label, /*quando o input estiver em foco, pegue o label que está depois dele*/
+input:not(:placeholder-shown) + label { /*quando o input não estiver vazio, pegue o label que está depois dele*/
+    top: 0; /*move o label para cima da caixa*/
+    background-color: black; /*deixa o fundo do label preto*/
+    padding: 0 5px; /*espaçamento interno do label,
+    0=sem espaçamento, 5px=5 pixels de espaçamento*/
+}
+
+input:focus { /*quando o input estiver em foco*/
+    outline: none; /*remove o contorno automático do navegador*/
+    border-color: rgb(253, 2, 253); /*quando o campo é selecionado, a cor altera*/
+} 
+
+
+form {
+    display: flex; /*alinha os elementos em linha*/
+    flex-direction: column; /*alinha os elementos em coluna*/
+    align-items: center; /*centraliza os elementos horizontalmente*/
+}
+
+button {
+    width: 170px; /*largura do botão*/
+    height: 50px; /*altura do botão*/
+    border-radius: 30px; /*arredondamento do botão*/
+    color: white; /*cor do texto do botão*/
+    background-color: rgb(12, 12, 168); /*cor de fundo do botão*/
+    border: 1px solid white; /*cria a borda fina, contínua e branca*/
+    margin-top: 10px; /*distância de cima do botão*/
+    padding: 10px; /*espaçamento interno do botão*/
+    cursor: pointer; /*muda o cursor para uma mãozinha quando passa em cima do botão*/
+    transition: background-color 1s ease; /*animação da cor de fundo do botão, 1s=1 segundo, ease=suaviza a animação*/
+}
+
+button:hover {
+    background-color: rgb(0, 4, 255); /*quando o mouse passa em cima do botão, a cor do botão muda*/
+}
