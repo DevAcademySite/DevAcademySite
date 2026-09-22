@@ -1,0 +1,423 @@
+/*DONA DO CÓDIGO ---> CAMILA FERNANDES*/
+/*DURAÇÃO DO PROJETO --> 03/09/2026 - 21/03/2026*/
+
+
+* {
+    margin: 0; /*remove a margem padrão dos elementos*/
+    padding: 0; /*remove o espaço interno padrão*/
+    box-sizing: border-box; /*inclui padding e borda no tamanho do elemento*/
+}
+
+body {
+    font-family: Arial, sans-serif; /* fonte dos textos*/
+    background-color: black; /*cor de fundo da página*/
+}
+
+
+.pagina {
+    width: 100%;  /*ocupa toda a largura da tela*/
+    min-height: 100vh;  /*altura mínima de 100% da tela*/
+    display: flex;  /*centraliza os elementos em linha*/
+    justify-content: flex-end; /*centraliza horizontalmente*/
+    align-items: center; /*centraliza verticalmente*/
+    padding-right: 190px;
+    position: relative;
+}
+
+.vidro {
+    background-color: rgba(0, 0, 0, 0.1); /*COR de fundo do VIDRO e sua TRANSPARÊNCIA*/
+    backdrop-filter: blur(10px); /*opacidade do vidro*/
+    border: 1px solid rgba(34, 3, 206, 0.8); /*borda do vidro*/
+    border-radius: 60px; /*arredodamento do formato do vidro*/
+    box-shadow: 0 0 50px rgba(34, 3, 206, 0.8); /*luz do vidro*/
+
+    width: 350px; /*LARGURA do vidro*/
+    height: 440px; /*ALTURA do vidro*/
+    /*se o seu código tiver configurações de RESPONSIVIDADE*/
+    /*após fazer QUALQUER ALTERAÇÃO nos seletores, seja de largura, altura, etc*/
+    /*ALTERAR AS CONFIGURAÇÕES DE RESPONSIVIDADE*/
+
+    padding: 40px 20px; /*espaçamento entre a borda do vidro e o formulário*/
+    /*o padding recebe dois valores --> vertical(Y) e horizontal(X)*/
+    /*vertical(Y) = espaçamento de cima e baixo*/
+    /*horizontal(X) = espaçamento da esquerda e direita*/
+
+    opacity: 0;
+    animation: introVidro 2s ease-out 1.3s forwards;
+}
+
+@keyframes introVidro {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+.chaves-svg {
+    pointer-events: none; /*o mouse NÃO considera esse elemento um TEXTO. ele ignora*/
+    user-select: none; /*NÃO pode ser selecionado*/
+
+    position: absolute;
+
+    top: 55%;
+    left: 72.3%;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    gap: 120px;
+}
+
+
+.chave-svg {
+    width: 100px;
+    height: 300px;
+
+    overflow: visible;
+}
+
+
+.chave-svg text {
+    font-family: "Share Tech Mono";
+    font-size: 550px;
+
+    text-anchor: middle;
+
+    fill: transparent;
+}
+
+
+.brilho-chave {
+    fill: none;
+
+    stroke: blue;
+    stroke-width: 1;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+
+    animation: desenharChave 3s linear infinite;
+}
+
+
+@keyframes desenharChave {
+    0% {
+        stroke-dashoffset: 2000;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+
+
+.chaves {
+    pointer-events: none; /*o mouse deve ignorar esse elemento*/
+    user-select: none; /*NÃO pode ser SELECIONADO*/
+
+    position: absolute; /*as chaves agora podem ser posicionadas de maneira independente*/
+    top: 37%; /*coloca as chaves no meio da altura da tela*/
+    left: 49.4%; /*coloca as chaves no meio da largura da tela*/
+    transform: translate(-50%, -50%); /*ajusta a posição para o centro*/
+    
+    display: flex; /*centraliza os elementos em linha*/
+}
+
+.chave-esquerda,
+.chave-direita { 
+    position: relative; /*permite deslocar esta chave individualmente*/
+    font-size: 550px; /*tamanho da fonte*/
+    font-family: "Share Tech Mono"; /*fonte da letra*/
+    color: rgb(255, 255, 255); /*cor das chaves*/
+    
+}
+
+.chave-esquerda {
+    animation: abrirEsquerda 2s ease-out 1s forwards;
+
+    
+    /*background: linear-gradient(to bottom, rgb(255, 2, 200) 0%,rgb(255, 2, 200) 50%,rgb(2, 2, 197) 65%, rgb(2, 2, 197) 100%); /*degrade de cor*/
+    /*to right → _ to bottom ↓ _ to top ↑*/
+    
+    /* background-clip: text; /*contorna o desenho das chaves, assim especificando onde o degrade deve aparecer */
+    /* -webkit-text-fill-color: transparent; /*deixa a cor do texto transparente, assim o degrade aparece dentro do desenho das chaves feito pelo background-clip */
+    /*-webkit-text-stroke: 1px rgb(43, 13, 177); /*cria um contorno no próprio caractere(chave) de 1px=1 pixel, white=cor branca*/
+
+    /*text-shadow:0 0 45px #0003a7; */
+}
+
+.chave-direita {
+    animation: abrirDireita 2s ease-out 1s forwards; /*forwards = mantém o estado do último keyframe*/
+
+    
+    /*background: linear-gradient(to bottom, rgb(2, 2, 197) 0%, rgb(2, 2, 197) 50%, rgb(255, 2, 200) 65%, rgb(255, 2, 200) 100%); /*degrade de cor*/
+    /*to right → _ to bottom ↓ _ to top ↑*/
+    
+    /*background-clip: text; /*contorna o desenho das chaves, assim especificando onde o degrade deve aparecer*/
+    /*-webkit-text-fill-color: transparent; /*deixa a cor do texto transparente, assim o degrade aparece dentro do desenho das chaves feito pelo background-clip*/
+    /*-webkit-text-stroke: 1px rgb(43, 13, 177); /*cria um contorno no próprio caractere(chave) de 1px=1 pixel, white=cor branca*/
+
+    /*text-shadow:0 0 45px #0003a7;*/
+}
+
+
+@keyframes abrirEsquerda {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-140px);
+    }
+}
+
+@keyframes abrirDireita {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(140px);
+    }
+}
+
+
+h1 { /*titulo*/
+    margin-bottom: 60px; /*distância DEBAIXO do elemento*/
+    text-align: center; /*centraliza o texto*/
+    font-family:"Michroma"; /*fonte do texto*/
+
+    background: linear-gradient(to right, rgba(34, 3, 206, 0.8) 40%, rgb(0, 255, 255) 65%); /*degrade de cor*/
+    /*to right → _ to bottom ↓ _ to top ↑*/ /*as porcentagens definem em que posição daquela largura a cor está*/
+
+    background-clip: text; /*contorna o texto, assim especificando onde o degrade deve aparecer*/
+    -webkit-text-fill-color: transparent; /*deixa a cor do texto transparente, assim o degrade aparece dentro do desenho das chaves feito pelo background-clip*/
+    
+    /* text-shadow:0 0 45px #c903fa; */
+    /*-webkit-text-stroke: 1px rgb(43, 13, 177); cria um contorno no próprio caractere (LOGIN) de 1px=1 pixel, white=cor branca*/
+}
+
+
+.campo {
+    position: relative; /*cria uma referência para posicionar elementos dentro*/
+    margin-bottom: 25px; /*distância DEBAIXO do elemento*/
+}
+
+.campo label { /*pega os labels que estão dentro de .campo*/
+    position: absolute; /*permite posicionar o label livremente/dentro do input*/
+    left: 10px; /*coloca o label 10px afastado da esquerda. quanto maior o left, mais o elemento vai para a DIREITA*/
+    
+    top: 50%; /*distância A PARTIR do topo, ou seja, para BAIXO, no MEIO do input*/
+    /*exemplo: "top: 0;" significaria: "fique lá em cima" */
+    /*o que foi colocado no meio foi o TOPO do label. quem deixa o label NO MEIO é o tranform: translate*/
+    
+    transform: translateY(-50%); /*ajusta VERTICALMENTE o label*/
+    /*ele pega o label e sobe 50% da altura dele, ou seja, a metade*/
+    /*juntando o top e o transform = ele fica NO MEIO do INPUT horizontalmente(top) e CENTRALIZADO VERTICALMENTE(transform), com base na SUA PROPRIA ALTURA*/
+    
+    color: white; /*define a cor do label*/
+    font-size: 20px; /*tamanho da letra*/
+    font-family: "monospace thin font"; /*fonte do nome do campo*/
+    
+    transition: 0.3s; /*duração da animação do label, sem isso, o label se teleptransporta*/
+
+/*thin curly brace font 
+monospace thin font
+rounded monospace font*/
+}
+
+
+input {
+    width: 300px; /*largura da caixa*/
+    height: 55px; /*altura da caixa*/
+    border-radius: 15px; /*arredondamento da caixa*/
+    color: white; /*cor do texto digitado*/
+    background-color: transparent; /*deixa o fundo da caixa transparente*/
+    border: 1px solid aqua; /*cria a borda fina, contínua e branca*/
+    padding: 0 10px; /*espaçamento interno da caixa. 0=sem espaçamento, 10px=10 pixels de espaçamento*/
+
+    font-family: "monospace thin font"; /*fonte do texto (inserido pelo usuario) */
+    font-size: 22px; /*tamanho da letra (inserida pelo usuario) */
+}
+
+input:focus + label, /*quando o input estiver em foco, pegue o label que vem IMEDIATAMENTE DEPOIS dele*/
+
+input:not(:placeholder-shown) + label { /*enquanto o input estiver com conteúdo, PEGUE o label que está depois dele*/
+    /*PEGUE = selecione esse elemento (label) para que as propriedades que estão dentro das { } sejam aplicadas nele*/
+   /*assim, o label fica na borda superior do input SEM DESCER de volta enquanto tem conteudo*/
+
+    top: 0; /*move o label para cima da caixa*/
+    background-color: black; /*deixa o fundo do label preto para cobrir a borda/linha do input atrás dele*/
+    padding: 0 5px; /*espaçamento interno do label, 0=sem espaçamento, 5px=5 pixels de espaçamento*/
+}
+
+input:focus { /*quando o input estiver em foco*/
+    outline: none; /*remove o contorno automático do navegador*/
+    border-color: rgba(34, 3, 206, 0.8); /*quando o campo é selecionado, a cor altera*/
+} 
+
+
+form {
+    display: flex; /*centraliza os elementos em linha*/
+    flex-direction: column; /*alinha os elementos em coluna*/
+    align-items: center; /*centraliza os elementos horizontalmente*/
+
+    padding: 10px 0px;
+}
+
+
+button {
+    width: 170px; /*largura do botão*/
+    height: 50px; /*altura do botão, define a altura da caixa do elemento*/
+    border-radius: 15px; /*arredondamento do botão*/
+    color: white; /*cor do texto do botão*/
+    background-color: rgb(3, 3, 173); /*cor de FUNDO do botão*/
+    border: 1px solid transparent; /*cria a borda fina, contínua e transparent. ou qualquer cor q voce definir*/
+    margin-top: 10px; /*distância de cima do botão*/
+    padding: 10px; /*espaçamento interno do botão*/
+    cursor: pointer; /*muda o cursor para uma mãozinha quando passa em cima do botão*/
+    transition: background-color 2s ease-out; /*animação da cor de fundo do botão, 1s=1 segundo, ease=suaviza a animação*/
+
+    font-family: "monospace thin font"; /*fonte do texto = LOGAR */
+    font-size: 18px; /*tamanho da letra do texto = LOGAR */
+}
+
+button:hover {
+    box-shadow: 0 0 10px rgb(3, 3, 173), 0 0 20px rgb(3, 3, 173), 0 0 30px rgb(3, 3, 173);
+}
+
+
+h2 { /*TITULO 2*/
+/*
+h2 → tag --> <h2>
+.h2 → classe --> class="h2"
+#h2 → id --> id="h2"
+*/
+/*
+absolute --> o título vai embora JUNTO com a página,
+porque ele, nesse caso, posicionou o elemento em relação á PÁGINA.
+ou seja, se a página for scrollada, o título VAI SUBIR junto com a página.
+
+fixed --> é como se o elemento estivesse colado no VIDRO da tela.
+porque ele posiciona o elemento em relação à JANELA DO NAVEGADOR.
+ou seja, ele permanece NO MESMO LUGAR da tela mesmo quando a página é rolada.
+*/
+
+
+    font-size: 50px; /*tamanho da letra*/
+    position: absolute; /*posionou o titulo em relação á página*/
+    top: 65px; /*quanto maior o TOP, mais para baixo o elemento vai*/
+    left: 160px; /*quanto maior o LEFT, mais para a direita o elemento vai*/
+     
+    margin-bottom: 60px; /*distância DEBAIXO do elemento*/
+    text-align: center; /*centraliza o texto*/
+    font-family:"Michroma"; /*fonte do texto*/
+
+    background: linear-gradient(to right, rgb(162, 255, 1) 15%, rgb(0, 255, 255) 50%, rgb(211, 5, 166) 80%); /*degrade de cor*/
+    /*to right → _ to bottom ↓ _ to top ↑*/ /*as porcentagens definem em que posição daquela largura a cor está*/
+
+    background-clip: text; /*contorna o texto, assim especificando onde o degrade deve aparecer*/
+    -webkit-text-fill-color: transparent; /*deixa a cor do texto transparente, assim o degrade aparece dentro do desenho das chaves feito pelo background-clip*/
+    
+    /* text-shadow:0 0 45px #c903fa; */
+    /*-webkit-text-stroke: 1px rgb(43, 13, 177); cria um contorno no próprio caractere (LOGIN) de 1px=1 pixel, white=cor branca*/
+    
+    animation: h2-sbds 2s ease-in-out infinite;
+}
+
+@keyframes h2-sbds { /*mesma animação do robo*/
+    0%, 100% {
+        transform: translate(-1%, -1%);
+    }
+    50% {
+        transform: translate(-1%, calc(-1% - 20px));
+    }
+}
+
+
+.robo img {
+    position: absolute; /*tira o elemento do fluxo normal da página, agora a imagem pode ser posicionada de maneira independente*/
+    width: 450px; /*largura da imagem. tava 400px*/
+    
+    top: 50%; /*quanto maior o TOP, mais para baixo o elemento vai. tava 55%*/
+    /**/
+    
+    left: 25%; /*quanto maior o LEFT, mais para a direita o elemento vai*/
+    /*Xpixels DEPOIS da esquerda*/
+    
+    transform: translate(-50%, -50%);
+   
+    opacity: 1; /*controla o quanto o elemento fica transparente;
+    escala ↓
+    0 → completamente transparente
+    1 → completamente visível*/
+
+    pointer-events: none; /*o mouse NÃO considera esse elemento um TEXTO. ele ignora*/
+    user-select: none; /*NÃO pode ser SELECIONADO*/
+
+    animation: sobiDesce 2s ease-in-out infinite;
+
+}
+
+@keyframes sobiDesce {
+    0%, 100% {
+        transform: translate(-50%, -50%);
+    }
+    50% {
+        transform: translate(-50%, calc(-50% - 20px));
+    }
+
+/*translateX:
+translateX(50px)     direita 
+translateX(-50px)    esquerda 
+translateX(0)        posição normal
+
+translateY:
+translateY(50px)     baixo 
+translateY(-50px)    cima 
+translateY(0)        posição normal*/
+}
+
+
+
+
+/* .robo {
+    position: relative;
+}
+
+.sombra {
+    position: absolute;
+    width: 180px;
+    height: 35px;
+    background: gray;
+    border-radius: 50%;
+    
+    top: calc(50% + 210px); /*quanto mais o valor aumenta, mais para baixo o elemento vai*
+    left: -130%;
+    transform: translateX(-50%);
+    
+    opacity: 1;
+    filter: blur(10px);
+
+    animation: sombra 2s ease-in-out infinite;
+}
+
+@keyframes sombra {
+
+    0%, 100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 0.35;
+    }
+
+    50% {
+        transform: translateX(-50%) scale(0.75);
+        opacity: 0.18;
+    }
+} */
