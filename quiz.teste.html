@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dev Academy — Quiz</title>
+  <!-- Todo o CSS está aqui. Não é necessário carregar quiz.css. -->
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: Arial, sans-serif; background: #101527; color: #f3f5ff; padding: 32px 18px; }
+    .pagina { max-width: 720px; margin: 0 auto; }
+    .painel-status { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+    h1 { font-size: 22px; color: #a5b4fc; letter-spacing: 1px; }
+    .pontuacao-container { display: flex; gap: 16px; font-size: 14px; }
+    .vidro { background: #1c2440; border: 1px solid #3a466c; border-radius: 22px; padding: 28px; box-shadow: 0 20px 50px #0003; }
+    .etiqueta { color: #a5b4fc; font-size: 13px; letter-spacing: 2px; }
+    h2 { font-size: 25px; line-height: 1.4; margin: 16px 0 24px; }
+    #caixa-alternativas { display: grid; gap: 12px; }
+    button { font: inherit; }
+    .btn-alternativa { width: 100%; padding: 16px; border: 1px solid #596689; border-radius: 12px; background: #273253; color: #fff; text-align: left; cursor: pointer; line-height: 1.5; }
+    .btn-alternativa:hover:not(:disabled) { background: #384776; }
+    button:focus-visible { outline: 3px solid #b4c0ff; outline-offset: 4px; }
+    .btn-alternativa:disabled { cursor: default; }
+    .btn-alternativa.correta { background: #175943; border-color: #73e4b2; }
+    .btn-alternativa.errada { background: #702e42; border-color: #ffa3b7; }
+    .explicacao { margin-top: 22px; padding: 18px; background: #121a30; border-left: 4px solid #a5b4fc; border-radius: 8px; line-height: 1.6; }
+    .explicacao h3 { margin: 0 0 8px; font-size: 18px; }
+    .explicacao p { margin: 0; }
+    #proxima-pergunta { margin-top: 18px; background: #a5b4fc; color: #101527; text-align: center; font-weight: bold; }
+    .robo { display: flex; align-items: center; gap: 18px; margin-top: 24px; }
+    #imagem-robo { width: 90px; height: 110px; object-fit: contain; }
+    #robo-reserva { font-size: 64px; }
+    #fala-robo { flex: 1; background: #1c2440; border: 1px solid #3a466c; border-radius: 16px; padding: 18px; line-height: 1.6; }
+    .rodape { text-align: center; color: #b4bdd8; font-size: 13px; margin-top: 28px; }
+    [hidden] { display: none !important; }
+    @media (max-width: 480px) { .vidro { padding: 20px; } h2 { font-size: 21px; } .pontuacao-container { width: 100%; justify-content: space-between; } }
+  </style>
+</head>
+<body>
+  <main class="pagina">
+    <header class="painel-status">
+      <h1>DEV ACADEMY</h1>
+      <div class="pontuacao-container">
+        <span id="pontuacao">Pontos: 0</span>
+        <span id="progresso"></span>
+      </div>
+    </header>
+    <section class="vidro vidro-quiz" aria-labelledby="texto-pergunta">
+      <span class="etiqueta">TRILHA DE APRENDIZADO</span>
+      <h2 id="texto-pergunta" tabindex="-1">Carregando desafio...</h2>
+      <div id="caixa-alternativas"></div>
+      <div id="explicacao" class="explicacao" hidden>
+        <h3>Entenda a resposta</h3>
+        <p id="texto-explicacao"></p>
+      </div>
+      <button id="proxima-pergunta" type="button" class="btn-alternativa" hidden>Próxima pergunta</button>
+    </section>
+    <div class="robo robo-quiz">
+      <img id="imagem-robo" alt="Robô Dev Academy" hidden>
+      <span id="robo-reserva" role="img" aria-label="Robô Dev Academy">🤖</span>
+      <div id="fala-robo" role="status" aria-live="polite">Vamos lá! Escolha a resposta correta.</div>
+    </div>
+    <p class="rodape">Aprenda uma pergunta de cada vez. Cada acerto vale 10 pontos.</p>
+    <noscript>Ative o JavaScript do navegador para jogar.</noscript>
+  </main>
+
+  <!-- Todo o JavaScript está aqui. Não é necessário carregar quiz.js. -->
+  <script>
+    // 1. Banco local de perguntas: respostaCorreta é a posição, começando em 0.
+    const bancoDePerguntas = [
+      {
+        pergunta: "O que significa a sigla HTML?",
+        alternativas: ["Linguagem de Marcação de Hipertexto", "Linguagem Moderna de Alta Tecnologia", "Nível de Hiperlink e Marcação de Texto", "Linguagem de Marcação de Ferramentas Domésticas"],
+        respostaCorreta: 0,
+        explicacao: 'HTML significa HyperText Markup Language, ou Linguagem de Marcação de Hipertexto. Ele organiza o conteúdo da página com elementos como títulos, parágrafos, imagens e links. Por exemplo: <h1>Dev Academy</h1> define um título principal.'
+      },
+      {
+        pergunta: "Qual estrutura SQL é usada para selecionar dados de uma tabela?",
+        alternativas: ["UPDATE", "INSERT INTO", "SELECT", "DELETE"],
+        respostaCorreta: 2,
+        explicacao: 'SELECT é o comando SQL usado para consultar dados. Por exemplo: SELECT nome FROM estudantes; busca a coluna nome da tabela estudantes. Já INSERT INTO insere registros, UPDATE altera dados e DELETE remove registros.'
+      }
+    ];
+
+    // 2. Estado do jogo.
+    let indiceAtual = 0;
+    let pontos = 0;
+    let respostaBloqueada = false;
+
+    // 3. Elementos da página (o HTML acima já foi carregado).
+    const elementoPergunta = document.getElementById('texto-pergunta');
+    const caixaAlternativas = document.getElementById('caixa-alternativas');
+    const elementoProgresso = document.getElementById('progresso');
+    const elementoPontuacao = document.getElementById('pontuacao');
+    const falaRobo = document.getElementById('fala-robo');
+    const imagemRobo = document.getElementById('imagem-robo');
+    const roboReserva = document.getElementById('robo-reserva');
+    const caixaExplicacao = document.getElementById('explicacao');
+    const textoExplicacao = document.getElementById('texto-explicacao');
+    const botaoProxima = document.getElementById('proxima-pergunta');
+
+    // Só avança quando o aluno já respondeu e clica no botão.
+    botaoProxima.addEventListener('click', () => {
+      if (!respostaBloqueada || indiceAtual >= bancoDePerguntas.length) return;
+      indiceAtual++;
+      if (indiceAtual < bancoDePerguntas.length) carregarPergunta();
+      else finalizarQuiz();
+      elementoPergunta.focus();
+    });
+
+    // As imagens são opcionais: sem elas, aparece o emoji de robô.
+    imagemRobo.addEventListener('load', () => {
+      imagemRobo.hidden = false;
+      roboReserva.hidden = true;
+    });
+    imagemRobo.addEventListener('error', () => {
+      imagemRobo.hidden = true;
+      roboReserva.hidden = false;
+    });
+    function atualizarRobo(arquivo) {
+      imagemRobo.hidden = true;
+      roboReserva.hidden = false;
+      imagemRobo.src = arquivo;
+    }
+
+    // 4. Exibe a pergunta e cria os botões.
+    function carregarPergunta() {
+      respostaBloqueada = false;
+      caixaExplicacao.hidden = true;
+      textoExplicacao.textContent = '';
+      botaoProxima.hidden = true;
+      const perguntaAtual = bancoDePerguntas[indiceAtual];
+      elementoPergunta.textContent = perguntaAtual.pergunta;
+      elementoProgresso.textContent = `Pergunta ${indiceAtual + 1}/${bancoDePerguntas.length}`;
+      elementoPontuacao.textContent = `Pontos: ${pontos}`;
+      falaRobo.textContent = 'Vamos lá! Escolha a resposta correta.';
+      atualizarRobo('robo.png');
+      caixaAlternativas.replaceChildren();
+
+      perguntaAtual.alternativas.forEach((texto, indice) => {
+        const botao = document.createElement('button');
+        botao.type = 'button';
+        botao.className = 'btn-alternativa';
+        botao.textContent = texto;
+        botao.addEventListener('click', () => verificarResposta(indice));
+        caixaAlternativas.appendChild(botao);
+      });
+    }
+
+    // 5. Aceita somente uma resposta e mostra a explicação, sem cronômetro.
+    function verificarResposta(indiceEscolhido) {
+      if (respostaBloqueada) return;
+      respostaBloqueada = true;
+      const perguntaAtual = bancoDePerguntas[indiceAtual];
+      const respostaCerta = perguntaAtual.respostaCorreta;
+      const botoes = caixaAlternativas.querySelectorAll('button');
+      botoes.forEach(botao => { botao.disabled = true; });
+      botoes[respostaCerta].classList.add('correta');
+
+      if (indiceEscolhido === respostaCerta) {
+        pontos += 10;
+        elementoPontuacao.textContent = `Pontos: ${pontos}`;
+        falaRobo.textContent = 'Muito bem! Resposta exata! +10 pontos.';
+        atualizarRobo('robo.png');
+      } else {
+        botoes[indiceEscolhido].classList.add('errada');
+        falaRobo.textContent = `Vamos aprender! A resposta correta é: ${perguntaAtual.alternativas[respostaCerta]}.`;
+        atualizarRobo('roboz.png');
+      }
+
+      textoExplicacao.textContent = perguntaAtual.explicacao;
+      caixaExplicacao.hidden = false;
+      botaoProxima.textContent = indiceAtual === bancoDePerguntas.length - 1
+        ? 'Ver resultado' : 'Próxima pergunta';
+      botaoProxima.hidden = false;
+      botaoProxima.focus();
+    }
+
+    // 6. Resultado e botão para recomeçar.
+    function finalizarQuiz() {
+      caixaExplicacao.hidden = true;
+      botaoProxima.hidden = true;
+      elementoPergunta.textContent = 'Fim da Trilha!';
+      elementoProgresso.textContent = 'Trilha concluída';
+      falaRobo.textContent = `Parabéns! Você terminou com ${pontos} de ${bancoDePerguntas.length * 10} pontos!`;
+      atualizarRobo('robo.png');
+      caixaAlternativas.replaceChildren();
+      const botao = document.createElement('button');
+      botao.type = 'button';
+      botao.className = 'btn-alternativa';
+      botao.textContent = 'Tentar novamente';
+      botao.addEventListener('click', () => {
+        indiceAtual = 0;
+        pontos = 0;
+        carregarPergunta();
+        elementoPergunta.focus();
+      });
+      caixaAlternativas.appendChild(botao);
+    }
+
+    // 7. Inicia o jogo automaticamente.
+    carregarPergunta();
+  </script>
+</body>
+</html>

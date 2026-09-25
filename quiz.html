@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Academy - Trilha de Aprendizado</title>
+    <link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+    
+<div class="pagina">
+    <!-- Cabeçalho com o progresso do aluno -->
+    <header class="painel-status">
+        <h2>DEV ACADEMY</h2>
+        <div class="pontuacao-container">
+            <span id="pontuacao">Pontos: 0</span>
+            <span id="progresso">Pergunta 1/5</span>
+        </div>
+    </header>
+
+    <!-- Quadro principal (reaproveitando sua ideia do vidro) -->
+    <div class="vidro vidro-quiz">
+        <!-- Aqui vai a pergunta -->
+        <h3 id="texto-pergunta">Carregando desafio...</h3>
+        
+        <!-- Botões das alternativas -->
+        <div id="caixa-alternativas">
+            <button class="btn-alternativa">Alternativa A</button>
+            <button class="btn-alternativa">Alternativa B</button>
+            <button class="btn-alternativa">Alternativa C</button>
+            <button class="btn-alternativa">Alternativa D</button>
+        </div>
+    </div>
+
+    <!-- Nosso mascote interativo -->
+    <div class="robo robo-quiz">
+        <!-- Um balão de fala para o robô dar dicas ou feedback -->
+        <div class="balao-fala" id="fala-robo">
+            <p>Vamos lá! Escolha a resposta correta.</p>
+        </div>
+        <img src="robo.png" alt="Robô Dev Academy" id="imagem-robo">
+    </div> 
+
+</div>
+
+<script src="quiz.js"></script>
+</body>
+</html>

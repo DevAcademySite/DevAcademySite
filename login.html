@@ -10,45 +10,75 @@
 <body>
      
 <div class="pagina">
-    
-    <div class="chaves">
+ <!-- <div class="chaves">
          <span class="chave-esquerda">{</span>
          <span class="chave-direita">}</span>
-        </div>
+    </div> -->    
+ <!-- <div class="chaves-svg">
 
-         <div class="login">
-          <h1>LOGIN</h1>
-    
+    <svg class="chave-svg chave-esquerda" viewBox="0 0 180 600">
+        <text x="90" y="500">{</text>
 
+        <text class="brilho-chave brilho-1" x="90" y="500">{</text>
+        <text class="brilho-chave brilho-2" x="90" y="500">{</text>
+        <text class="brilho-chave brilho-3" x="90" y="500">{</text>
+        <text class="brilho-chave brilho-4" x="90" y="500">{</text>
+    </svg>
 
+    <svg class="chave-svg chave-direita" viewBox="0 0 180 600">
+        <text x="90" y="500">}</text>
 
-        <form>
+        <text class="brilho-chave brilho-1" x="90" y="500">}</text>
+        <text class="brilho-chave brilho-2" x="90" y="500">}</text>
+        <text class="brilho-chave brilho-3" x="90" y="500">}</text>
+        <text class="brilho-chave brilho-4" x="90" y="500">}</text>
+    </svg>
 
-         <div class="campo">
-          <input type="text" id="usuario" name="usuario" placeholder=" ">
-          <label for="usuario">Usuário:</label>
-         </div>
-        
+</div> -->
 
+    <div class="vidro">
+          
+        <h1>LOGIN</h1>
+
+        <form id="form-login"> <!--FORMULÁRIO-->
          <div class="campo">
           <input type="email" id="email" name="email" placeholder=" ">
           <label for="email">E-mail:</label>
          </div>
-         
 
          <div class="campo">
           <input type="password" id="senha" name="senha" placeholder=" ">
           <label for="senha">Senha:</label>
          </div>
 
-        
-         <button type="submit">CRIAR CONTA</button>
-    
+
+         <button type="submit">LOGAR</button>
         </form>
     </div>
+
+    
+<div class="chaves-svg">
+
+    <svg class="chave-svg chave-esquerda" viewBox="0 0 100 300">
+        <text x="50" y="250">{</text>
+        <text class="brilho-chave" x="50" y="250">{</text>
+    </svg>
+
+    <svg class="chave-svg chave-direita" viewBox="0 0 100 300">
+        <text x="50" y="250">}</text>
+        <text class="brilho-chave" x="50" y="250">}</text>
+    </svg>
 </div>
+      
 
-<h1> bia tarde </h1>
+<div class="robo">
+    <img src="robo.png" alt="robo">
+</div> 
 
+<!-- <h2>DEV ACADEMY</h2>  -->
+</div> <!-- Removi o ">" extra que estava aqui: </div>> -->
+
+<!-- Adicione esta linha para conectar o JS -->
+<script src="login.js"></script>
 </body>
 </html>
