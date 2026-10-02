@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dev Academy — Quiz</title>
+  <link rel="stylesheet" href="quiz.teste.css">
+</head>
+<body>
+  <main class="pagina">
+    <nav class="site-nav" aria-label="Navegação principal">
+      <a href="../home/home.html">Início</a>
+      <a href="../home/home.html#cursos">Cursos</a>
+      <a href="quiz.teste.html" class="active" aria-current="page">Quiz</a>
+      <a href="../home/profile.html">Perfil</a>
+    </nav>
+
+    <header class="painel-status">
+      <h1>DEV ACADEMY</h1>
+      <div class="pontuacao-container">
+        <span id="pontuacao">Pontos: 0</span>
+        <span id="progresso"></span>
+      </div>
+    </header>
+    <section class="vidro vidro-quiz" aria-labelledby="texto-pergunta">
+      <span class="etiqueta">TRILHA DE APRENDIZADO</span>
+      <h2 id="texto-pergunta" tabindex="-1">Carregando desafio...</h2>
+      <div id="caixa-alternativas"></div>
+      <div id="explicacao" class="explicacao" hidden>
+        <h3>Entenda a resposta</h3>
+        <p id="texto-explicacao"></p>
+      </div>
+      <button id="proxima-pergunta" type="button" class="btn-alternativa" hidden>Próxima pergunta</button>
+    </section>
+    <div class="robo robo-quiz">
+      <img id="imagem-robo" alt="Robô Dev Academy" hidden>
+      <span id="robo-reserva" role="img" aria-label="Robô Dev Academy">🤖</span>
+      <div id="fala-robo" role="status" aria-live="polite">Vamos lá! Escolha a resposta correta.</div>
+    </div>
+    <p class="rodape">Aprenda uma pergunta de cada vez. Cada acerto vale 10 pontos.</p>
+    <noscript>Ative o JavaScript do navegador para jogar.</noscript>
+  </main>
+
+  <script src="quiz.teste.js" defer></script>
+</body>
+</html>
