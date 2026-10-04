@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu perfil - DevAcademy</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo-container">
+            <img src="../img/robo.png" alt="Mascote DevAcademy" class="logo-img">
+            <span class="logo-text">Dev<span>Academy</span></span>
+        </div>
+
+        <nav class="nav-links" aria-label="Navegação principal">
+            <a href="home.html#home">Início</a>
+            <a href="home.html#cursos">Cursos</a>
+            <a href="../Quiz/quiz.teste.html">Quiz</a>
+            <a href="profile.html" class="active" aria-current="page">Perfil</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="perfil" class="profile-section">
+            <h1 class="section-title">Meu perfil</h1>
+            <p class="section-subtitle">Personalize seus dados</p>
+
+            <form id="profile-form" class="profile-form">
+                <div class="profile-fields">
+                    <div class="profile-field">
+                        <label for="profile-name">Nome</label>
+                        <input type="text" id="profile-name" name="name" autocomplete="name" required>
+                    </div>
+
+                    <div class="profile-field">
+                        <label for="profile-email">E-mail</label>
+                        <input type="email" id="profile-email" name="email" autocomplete="email">
+                    </div>
+
+                    <div class="profile-field">
+                        <label for="profile-track">Trilha de interesse</label>
+                        <select id="profile-track" name="track">
+                            <option value="">Selecione uma trilha</option>
+                            <option value="Desenvolvimento Web">Desenvolvimento Web</option>
+                            <option value="Desenvolvimento Backend">Desenvolvimento Backend</option>
+                            <option value="Full Stack">Full Stack</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="profile-save" type="submit">Salvar alterações</button>
+                <p id="profile-status" class="profile-status" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; DevAcademy. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="profile.js" defer></script>
+</body>
+</html>

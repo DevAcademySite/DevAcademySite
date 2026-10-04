@@ -1,0 +1,32 @@
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; font-family: Arial, sans-serif; background: #101527; color: #f3f5ff; padding: 32px 18px; }
+.pagina { max-width: 720px; margin: 0 auto; }
+.site-nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 18px; margin-bottom: 28px; }
+.site-nav a { color: #b4bdd8; text-decoration: none; }
+.site-nav a:hover, .site-nav a.active { color: #a5b4fc; }
+.site-nav a:focus-visible { outline: 2px solid #b4c0ff; outline-offset: 4px; }
+.painel-status { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+h1 { font-size: 22px; color: #a5b4fc; letter-spacing: 1px; }
+.pontuacao-container { display: flex; gap: 16px; font-size: 14px; }
+.vidro { background: #1c2440; border: 1px solid #3a466c; border-radius: 22px; padding: 28px; box-shadow: 0 20px 50px #0003; }
+.etiqueta { color: #a5b4fc; font-size: 13px; letter-spacing: 2px; }
+h2 { font-size: 25px; line-height: 1.4; margin: 16px 0 24px; }
+#caixa-alternativas { display: grid; gap: 12px; }
+button { font: inherit; }
+.btn-alternativa { width: 100%; padding: 16px; border: 1px solid #596689; border-radius: 12px; background: #273253; color: #fff; text-align: left; cursor: pointer; line-height: 1.5; }
+.btn-alternativa:hover:not(:disabled) { background: #384776; }
+button:focus-visible { outline: 3px solid #b4c0ff; outline-offset: 4px; }
+.btn-alternativa:disabled { cursor: default; }
+.btn-alternativa.correta { background: #175943; border-color: #73e4b2; }
+.btn-alternativa.errada { background: #702e42; border-color: #ffa3b7; }
+.explicacao { margin-top: 22px; padding: 18px; background: #121a30; border-left: 4px solid #a5b4fc; border-radius: 8px; line-height: 1.6; }
+.explicacao h3 { margin: 0 0 8px; font-size: 18px; }
+.explicacao p { margin: 0; }
+#proxima-pergunta { margin-top: 18px; background: #a5b4fc; color: #101527; text-align: center; font-weight: bold; }
+.robo { display: flex; align-items: center; gap: 18px; margin-top: 24px; }
+#imagem-robo { width: 90px; height: 110px; object-fit: contain; }
+#robo-reserva { font-size: 64px; }
+#fala-robo { flex: 1; background: #1c2440; border: 1px solid #3a466c; border-radius: 16px; padding: 18px; line-height: 1.6; }
+.rodape { text-align: center; color: #b4bdd8; font-size: 13px; margin-top: 28px; }
+[hidden] { display: none !important; }
+@media (max-width: 480px) { .vidro { padding: 20px; } h2 { font-size: 21px; } .pontuacao-container { width: 100%; justify-content: space-between; } }
