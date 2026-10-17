@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevAcademy - Acelere sua Carreira Dev</title>
-    <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+<main>
 
     <!-- Header / Navbar -->
     <header class="navbar">
@@ -20,7 +20,7 @@
         <nav class="nav-links">
             <a href="#home" class="active">Início</a>
             <a href="#cursos">Cursos</a>
-            <a href="profile.html">Perfil</a>
+            <a href="#login" data-guest>Entrar</a><a href="profile.html" data-member hidden>Perfil</a><button type="button" data-logout hidden>Sair</button>
         </nav>
 
     </header>
@@ -28,6 +28,7 @@
     <!-- Hero Section -->
     <section id="home" class="hero-section">
         <div class="hero-content">
+            <div class="mascot-line"><img src="../img/robo.png" alt="Mascote DevAcademy"><span>APRENDA. PRATIQUE. EVOLUA.</span></div>
             <h1>Aprenda a programar na prática com a <span>DevAcademy</span></h1>
             <p>Aprenda as tecnologias do mercado, construa projetos reais e acelere a sua carreira em tecnologia.</p>
             
@@ -37,39 +38,70 @@
 
         </div>
 
-        <div class="hero-image">
-            <img src="../img/robo.png" alt="Mascote DevAcademy" class="floating-robo">
-        </div>
+        <aside id="login" class="access-card" aria-labelledby="access-title">
+            <div data-auth-panel>
+                <p class="eyebrow">SEU PRÓXIMO PASSO COMEÇA AQUI</p>
+                <h2 id="access-title" tabindex="-1">Login</h2>
+                <p id="access-description">Entre para começar seus desafios.</p>
+                <form id="access-form">
+                    <div id="name-field" hidden><label for="account-name">Seu nome</label><input id="account-name" name="name" autocomplete="name" minlength="2" maxlength="80" disabled></div>
+                    <label for="email">E-mail</label><input id="email" name="email" type="email" placeholder="voce@exemplo.com" autocomplete="username" maxlength="254" required>
+                    <div id="code-field" hidden><label for="recovery-code">Código de recuperação</label><input id="recovery-code" name="code" autocomplete="off" disabled></div>
+                    <label for="password" id="password-label">Senha</label>
+                    <div class="password-wrap"><input id="password" name="password" type="password" placeholder="Insira sua senha" autocomplete="current-password" minlength="8" maxlength="128" required><button type="button" id="show-password" aria-pressed="false" aria-controls="password">Mostrar</button></div>
+                    <button type="button" class="text-button forgot" data-mode="recover">Esqueceu sua senha?</button>
+                    <p id="access-status" class="access-status" role="status" aria-live="polite"></p>
+                    <button type="submit" id="access-submit" class="access-primary">Entrar</button>
+                </form>
+                <div class="access-divider">Novo por aqui?</div>
+                <button type="button" data-mode="register" class="access-secondary">Criar nova conta</button>
+                <button type="button" data-mode="login" class="text-button back-login" hidden>Voltar ao login</button>
+                <p class="access-note">Aprenda no seu ritmo, uma pergunta de cada vez.</p>
+            </div>
+            <div id="recovery-result" hidden>
+                <h2 tabindex="-1">Guarde seu código</h2>
+                <p>Este código permite redefinir sua senha. Guarde em um local seguro: ele aparece apenas agora e não é enviado por e-mail.</p>
+                <code id="new-recovery-code"></code>
+                <button type="button" id="saved-code" class="access-primary">Guardei meu código. Fazer login</button>
+            </div>
+            <div id="welcome" hidden><p class="eyebrow">BOM TER VOCÊ DE VOLTA</p><h2>Vamos praticar?</h2><p id="welcome-name"></p><a class="access-primary" href="#cursos">Escolher minha trilha →</a><a class="back-login" href="profile.html">Ver meu perfil</a></div>
+        </aside>
     </section>
 
     <!-- Seção de Recursos / Destaques -->
     <section id="cursos" class="features-section">
         <h2 class="section-title">O que você vai aprender?</h2>
-        <p class="section-subtitle">Trilhas de aprendizagem completas do zero ao avançado</p>
+        <p class="section-subtitle">Explore os temas e pratique com perguntas comentadas</p>
 
         <div class="cards-grid">
-            <a class="card course-card" href="../Quiz/quiz.teste.html">
+            <a class="card course-card" href="../Quiz/quiz.teste.html?track=web" data-quiz-link>
                 <div class="card-icon"><i class="fa-brands fa-html5"></i></div>
                 <h3>Desenvolvimento Web</h3>
                 <p>Aprenda HTML5, CSS3 e JavaScript construindo interfaces incríveis e responsivas.</p>
-                <span class="course-link">Iniciar quiz <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+                <div class="track-progress" data-track="web"><div class="progress-caption"><span>Seu progresso</span><span data-percent>Entre para acompanhar</span></div><progress max="100" value="0" aria-label="Progresso em Desenvolvimento Web"></progress><p data-progress-detail>Acertos salvos na sua conta.</p><div class="module-summary" data-module-summary></div></div>
+                <span class="course-link">Ver módulo <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
             </a>
 
-            <a class="card course-card" href="../Quiz/quiz.teste.html">
+            <a class="card course-card" href="../Quiz/quiz.teste.html?track=backend" data-quiz-link>
                 <div class="card-icon"><i class="fa-solid fa-server"></i></div>
                 <h3>Desenvolvimento Backend</h3>
                 <p>Domine Lógica de Programação do básico ao avançado</p>
-                <span class="course-link">Iniciar quiz <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+                <div class="track-progress" data-track="backend"><div class="progress-caption"><span>Seu progresso</span><span data-percent>Entre para acompanhar</span></div><progress max="100" value="0" aria-label="Progresso em Desenvolvimento Backend"></progress><p data-progress-detail>Acertos salvos na sua conta.</p><div class="module-summary" data-module-summary></div></div>
+                <span class="course-link">Ver módulo <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
             </a>
 
         </div>
 
     </section>
 
+    </main>
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; DevAcademy. Todos os direitos reservados.</p>
     </footer>
 
+<script src="auth.js" defer></script>
+<script src="home.js" defer></script>
+<noscript>Ative o JavaScript para fazer login.</noscript>
 </body>
 </html>
