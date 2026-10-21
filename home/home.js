@@ -3,7 +3,7 @@ const statusText=document.querySelector('#access-status');
 const title=document.querySelector('#access-title');
 const submit=document.querySelector('#access-submit');
 const password=document.querySelector('#password');
-let mode='login', currentUser=null, pendingQuiz=null;
+let mode='login', currentUser=null, pendingQuiz=null, availableModules=[];
 const next=new URLSearchParams(location.search).get('next');
 const requestedTrack=new URLSearchParams(location.search).get('track');
 const requestedModule=new URLSearchParams(location.search).get('module');
@@ -14,9 +14,11 @@ function changeMode(value) {
   document.querySelector('#show-password').textContent='Mostrar';
   document.querySelector('#show-password').setAttribute('aria-pressed','false');
   const isRegister=mode==='register', isRecover=mode==='recover';
-  title.textContent=isRegister?'Criar nova conta':isRecover?'Recuperar acesso':'Login';
+  title.textContent=isRegister?'Criar nova conta':isRecover?'Recuperar acesso':'Entrar na sua conta';
   submit.textContent=isRegister?'Criar minha conta':isRecover?'Redefinir senha':'Entrar';
-  document.querySelector('#access-description').textContent=isRecover?'Use o código entregue ao criar sua conta. Ainda não enviamos recuperação por e-mail.':isRegister?'Comece sua jornada de programação.':'Entre para começar seus desafios.';
+  const description=document.querySelector('#access-description');
+  description.textContent=isRecover?'Use o código entregue ao criar sua conta. Ainda não enviamos recuperação por e-mail.':isRegister?'Comece sua jornada de programação.':'';
+  description.hidden=mode==='login';
   document.querySelector('#password-label').textContent=isRecover?'Nova senha':'Senha';
   password.autocomplete=mode==='login'?'current-password':'new-password';
   for(const [id, enabled] of [['name-field',isRegister],['code-field',isRecover]]) {
@@ -46,7 +48,9 @@ form.addEventListener('submit',async event=>{
       const session=await DevAcademy.api('/api/session');
       if(!session.user) throw new Error('O navegador não manteve sua sessão. Permita cookies para este site e tente novamente.');
       await showSession(session.user);
-      location.assign(pendingQuiz || target);
+      const destination=pendingQuiz || target;
+      rememberDestination(destination);
+      location.assign(destination);
       return;
     }
     document.querySelector('[data-auth-panel]').hidden=true;
@@ -64,6 +68,7 @@ document.querySelector('#saved-code').addEventListener('click',()=>{
 });
 async function showSession(user) {
   currentUser=user;
+  document.body.classList.toggle('is-authenticated',!!user);
   document.querySelectorAll('[data-guest]').forEach(el=>el.hidden=!!user);
   document.querySelectorAll('[data-member], [data-logout]').forEach(el=>el.hidden=!user);
   document.querySelector('[data-auth-panel]').hidden=!!user;
@@ -71,16 +76,21 @@ async function showSession(user) {
   if(user) {
     document.querySelector('[data-auth-panel]').hidden=true;
     document.querySelector('#welcome').hidden=false;
-    document.querySelector('#welcome-name').textContent='Olá, '+user.name+'. Escolha sua trilha para continuar.';
+    document.querySelector('#welcome-name').textContent='Olá, '+user.name+'. Vamos dar mais um passo?';
+    document.querySelector('#student-summary').setAttribute('aria-busy','true');
     try {
       const result=await DevAcademy.api('/api/progress');
+      availableModules=Object.entries(result.tracks).flatMap(([track,p])=>(p.modules||[]).map(module=>({...module,track})));
+      renderStudentSummary(result.tracks);
       document.querySelectorAll('[data-track]').forEach(card=>{
         const progress=result.tracks[card.dataset.track];
+        if(!progress)return;
+        updateMetric(card.dataset.track,progress);
         card.querySelector('progress').value=progress.percent;
         card.querySelector('[data-percent]').textContent=progress.percent+'%';
         card.querySelector('[data-progress-detail]').textContent=progress.completed+' de '+progress.total+' pergunta(s) com acerto';
         const link=card.closest('a').querySelector('.course-link');
-        link.textContent=progress.status==='completed'?'Revisar módulo →':progress.status==='in_progress'?'Continuar módulo →':'Começar módulo →';
+        setLinkText(link,progress.status==='completed'?'Revisar módulo':progress.status==='in_progress'?'Continuar módulo':'Começar módulo');
         const summary=card.querySelector('[data-module-summary]');
         if(summary){
           summary.replaceChildren();
@@ -94,9 +104,10 @@ async function showSession(user) {
         }
       });
     } catch(error) {
+      document.querySelector('#summary-detail').textContent='Não foi possível carregar seu progresso. Atualize a página para tentar novamente.';
       document.querySelectorAll('[data-percent]').forEach(el=>el.textContent='Indisponível');
       document.querySelectorAll('[data-progress-detail]').forEach(el=>el.textContent='Atualize a página para tentar carregar o progresso.');
-    }
+    } finally {document.querySelector('#student-summary').setAttribute('aria-busy','false');}
   } else if(next) {statusText.textContent='Faça login para acessar '+(next==='profile'?'seu perfil.':'o quiz.');}
 }
 DevAcademy.ready.then(user=>{
@@ -107,9 +118,68 @@ document.querySelectorAll('[data-quiz-link]').forEach(link=>link.addEventListene
   // Cancele antes de aguardar: o navegador executa o link imediatamente.
   event.preventDefault();
   await DevAcademy.ready;
-  if(currentUser){location.assign(link.href);return;}
+  if(currentUser){rememberDestination(link.href);location.assign(link.href);return;}
   pendingQuiz=link.href;
   document.querySelector('#login').scrollIntoView({behavior:'smooth'});
   statusText.textContent='Entre na sua conta para começar o quiz.';
   document.querySelector('#email').focus({preventScroll:true});
 }));
+
+
+// A última trilha é uma preferência local por conta, nunca uma prova de login.
+function lastTrackKey(){return currentUser?.email?'devAcademyLastTrack:'+encodeURIComponent(currentUser.email):null;}
+function rememberDestination(destination){
+  if(!currentUser)return;
+  try{
+    const url=new URL(destination,location.href),track=url.searchParams.get('track');
+    const key=lastTrackKey();
+    if(key && ['web','backend'].includes(track))localStorage.setItem(key,track);
+  }catch(error){/* O estudo continua mesmo com armazenamento local desativado. */}
+}
+function setLinkText(link,text){
+  if(!link)return;
+  link.replaceChildren(document.createTextNode(text+' '));
+  const arrow=document.createElement('span');arrow.setAttribute('aria-hidden','true');arrow.textContent='↗';link.append(arrow);
+}
+function updateMetric(track,progress){
+  const modules=document.querySelector('[data-module-count="'+track+'"]');
+  if(modules && progress.modules){modules.textContent=progress.modules.length;modules.nextSibling.textContent=progress.modules.length===1?' módulo disponível':' módulos disponíveis';}
+  const questions=document.querySelector('[data-question-count="'+track+'"]');
+  if(questions){questions.textContent=progress.total;questions.nextSibling.textContent=progress.total===1?' questão':' questões';}
+}
+function renderStudentSummary(tracks){
+  const totals=Object.values(tracks).reduce((sum,track)=>({correct:sum.correct+track.completed,total:sum.total+track.total}),{correct:0,total:0});
+  document.querySelector('#hero-track-count').textContent=Object.keys(tracks).length;
+  document.querySelector('#hero-question-count').textContent=totals.total;
+  const finished=availableModules.filter(module=>module.progress.status==='completed').length;
+  const percent=totals.total?Math.round(totals.correct*100/totals.total):0;
+  document.querySelector('#summary-correct').textContent=totals.correct+'/'+totals.total;
+  document.querySelector('#summary-modules').textContent=finished+'/'+availableModules.length;
+  document.querySelector('#summary-percent').textContent=percent+'%';
+  document.querySelector('#summary-bar').value=percent;
+  document.querySelector('#summary-detail').textContent=finished===availableModules.length && availableModules.length?'Você concluiu os módulos disponíveis. Revise para consolidar o aprendizado.':totals.correct?'Cada acerto conta. Seu progresso está salvo para continuar.':'Escolha uma trilha e comece sua primeira conquista.';
+  let last=null;
+  try{const key=lastTrackKey();last=key?localStorage.getItem(key):null;}catch(error){}
+  const lastModules=availableModules.filter(module=>module.track===last);
+  const candidate=lastModules.find(module=>module.progress.status!=='completed')||availableModules.find(module=>module.progress.status==='in_progress')||availableModules.find(module=>module.progress.status!=='completed')||lastModules[0]||availableModules[0];
+  if(!candidate)return;
+  const isReview=candidate.progress.status==='completed';
+  document.querySelector('#resume-card').hidden=false;
+  document.querySelector('#resume-label').textContent=isReview?'HORA DE REVISAR':candidate.track===last?'SUA ÚLTIMA TRILHA':'SEU PRÓXIMO PASSO';
+  document.querySelector('#resume-module').textContent=candidate.title;
+  document.querySelector('#resume-detail').textContent=candidate.progress.percent+'% concluído · '+candidate.progress.completed+' de '+candidate.progress.total+' pergunta(s) com acerto';
+  const destination='../Quiz/quiz.teste.html?track='+encodeURIComponent(candidate.track)+'&module='+encodeURIComponent(candidate.id);
+  const resume=document.querySelector('#resume-link');resume.href=destination;
+  setLinkText(resume,isReview?'Revisar módulo':candidate.progress.status==='in_progress'?'Continuar estudando':'Começar este módulo');
+  const hero=document.querySelector('#hero-start');hero.href=destination;setLinkText(hero,isReview?'Revisar meu aprendizado':'Continuar estudando');
+}
+for(const id of ['resume-link','hero-start']){
+  const link=document.getElementById(id);if(link)link.addEventListener('click',()=>rememberDestination(link.href));
+}
+
+// Mantém a marca legível mesmo quando uma imagem não é encontrada.
+document.querySelectorAll('[data-robot-image]').forEach(img=>{
+  const fallback=()=>{img.hidden=true;const sibling=img.nextElementSibling;if(sibling)sibling.hidden=false;};
+  img.addEventListener('error',fallback);
+  if(img.complete && !img.naturalWidth)fallback();
+});
