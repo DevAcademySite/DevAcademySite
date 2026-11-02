@@ -1,0 +1,5 @@
+
+dados/
+**/[Bb]ackup/
+__pycache__/
+*.pyc
