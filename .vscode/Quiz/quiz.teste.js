@@ -64,14 +64,14 @@ const LOCAL_TRACKS = {
   function stage(value) {
     $('lesson-steps').hidden = !value;
     document.querySelectorAll('[data-step]').forEach(el => {
-      if (el.dataset.step === value) el.setAttribute('aria-current', 'step');
-      else el.removeAttribute('aria-current');
+      el.setAttribute('aria-pressed', String(el.dataset.step === value));
     });
   }
   function clean() {
     box.replaceChildren();
     $('lesson-content').replaceChildren();
     $('lesson-content').hidden = true;
+    $('code-content').hidden = true;
     $('explicacao').hidden = true;
     next.hidden = true;
     $('review-lesson').hidden = true;
@@ -151,6 +151,25 @@ const LOCAL_TRACKS = {
       question.focus();
     });
     robot('Leia no seu ritmo. Quando estiver pronto, comece a prática.');
+  }
+
+  function showCoding() {
+    clean();
+    stage('code');
+    question.textContent = 'Codar: ' + module.title;
+    $('pontuacao').textContent = 'Prática de código';
+    $('progresso').textContent = module.duration;
+
+    const editor = $('code-editor');
+    if (editor.dataset.module !== module.id) {
+      const example = module.lesson.find(block => block.code);
+      editor.value = example ? example.code : '';
+      editor.dataset.module = module.id;
+    }
+    $('code-instructions').textContent = 'Edite o exemplo da aula ou escreva sua própria solução. Você pode trocar de opção e voltar sem perder seu código.';
+    $('code-content').hidden = false;
+    robot('Agora é sua vez! Experimente modificar o código e criar sua própria solução.');
+    editor.focus();
   }
 
   function startQuiz(reviewAll = false) {
@@ -260,6 +279,26 @@ const LOCAL_TRACKS = {
     if (index < attempt.length) render();
     else finish();
     question.focus();
+  });
+
+  $('lesson-steps').addEventListener('click', event => {
+    const selected = event.target.closest('[data-step]');
+    if (!selected || !module) return;
+
+    switch (selected.dataset.step) {
+      case 'lesson':
+        showLesson();
+        break;
+      case 'quiz':
+        startQuiz(false);
+        break;
+      case 'result':
+        finish();
+        break;
+      case 'code':
+        showCoding();
+        break;
+    }
   });
 
   $('review-lesson').addEventListener('click', () => {

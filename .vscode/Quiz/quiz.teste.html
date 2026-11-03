@@ -26,11 +26,23 @@
     </header>
     <section class="vidro vidro-quiz" aria-labelledby="texto-pergunta">
       <span class="etiqueta" id="track-title">ESCOLHA SUA TRILHA</span>
-      <ol id="lesson-steps" class="lesson-steps" aria-label="Etapas do módulo" hidden><li data-step="lesson">1. Aula</li><li data-step="quiz">2. Exercícios</li><li data-step="result">3. Resultado</li></ol>
+      <nav id="lesson-steps" class="lesson-steps" aria-label="O que você quer fazer?" hidden>
+        <button type="button" data-step="lesson" aria-pressed="false">1. Aula</button>
+        <button type="button" data-step="quiz" aria-pressed="false">2. Exercícios</button>
+        <button type="button" data-step="result" aria-pressed="false">3. Resultado</button>
+        <button type="button" data-step="code" aria-pressed="false">4. Codar</button>
+      </nav>
       <div class="track-progress"><div class="progress-caption"><span id="progress-label">Seu progresso</span><span id="track-percent">—</span></div><progress id="track-bar" max="100" value="0" aria-label="Progresso da trilha"></progress><p id="track-detail" role="status" aria-live="polite"></p></div>
       <h2 id="texto-pergunta" tabindex="-1">Carregando desafio...</h2>
       <p id="question-state" class="question-state" hidden></p>
       <div id="lesson-content" class="lesson-content" hidden></div>
+      <section id="code-content" class="code-content" aria-labelledby="code-title" hidden>
+        <h3 id="code-title">Pratique o que aprendeu</h3>
+        <p id="code-instructions"></p>
+        <label for="code-editor">Seu código</label>
+        <textarea id="code-editor" rows="12" spellcheck="false" autocapitalize="off"></textarea>
+        <p class="code-note">Seu código fica nesta sessão e não é executado nem enviado.</p>
+      </section>
       <div id="caixa-alternativas"></div>
       <div id="explicacao" class="explicacao" hidden>
         <h3>Entenda a resposta</h3>

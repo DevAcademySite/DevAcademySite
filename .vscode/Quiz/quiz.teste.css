@@ -272,16 +272,22 @@ progress::-moz-progress-bar {
     margin: 22px 0;
 }
 
-.lesson-steps li {
+.lesson-steps button {
+    font: inherit;
     background: #121a30;
     color: #b4bdd8;
     padding: 8px 12px;
     border-radius: 8px;
     font-size: 14px;
     border: 1px solid #3a466c;
+    cursor: pointer;
 }
 
-.lesson-steps [aria-current="step"] {
+.lesson-steps button:hover {
+    border-color: #a5b4fc;
+}
+
+.lesson-steps button[aria-pressed="true"] {
     background: #a5b4fc;
     color: #101527;
     border-color: #a5b4fc;
@@ -306,6 +312,44 @@ progress::-moz-progress-bar {
 
 .lesson-content p {
     margin: 10px 0;
+}
+
+.code-content {
+    display: grid;
+    gap: 12px;
+    color: #d9dfef;
+}
+
+.code-content h3,
+.code-content p {
+    margin: 0;
+}
+
+.code-content label {
+    font-weight: bold;
+}
+
+#code-editor {
+    width: 100%;
+    min-height: 240px;
+    resize: vertical;
+    padding: 16px;
+    border: 1px solid #596689;
+    border-radius: 12px;
+    background: #0c1325;
+    color: #c8d6ff;
+    font: 14px/1.65 Consolas, monospace;
+    tab-size: 2;
+}
+
+#code-editor:focus-visible {
+    outline: 3px solid #b4c0ff;
+    outline-offset: 3px;
+}
+
+.code-note {
+    color: #b4bdd8;
+    font-size: 13px;
 }
 
 .lesson-content pre {
@@ -427,7 +471,7 @@ progress::-moz-progress-bar {
         padding: 18px;
     }
 
-    .lesson-steps li {
+    .lesson-steps button {
         font-size: 12px;
         padding: 8px;
     }
