@@ -314,6 +314,10 @@ progress::-moz-progress-bar {
     margin: 10px 0;
 }
 
+
+/* ---Parte de Codar do Usuário --- */
+
+
 .code-content {
     display: grid;
     gap: 12px;
@@ -351,6 +355,120 @@ progress::-moz-progress-bar {
     color: #b4bdd8;
     font-size: 13px;
 }
+
+.code-result {
+    padding: 14px;
+    border-radius: 10px;
+    line-height: 1.6;
+}
+
+.code-result-success {
+    border: 1px solid #73e4b2;
+    background: #175943;
+    color: #d7ffec;
+}
+
+.code-result-error {
+    border: 1px solid #ffa3b7;
+    background: #702e42;
+    color: #ffe2e9;
+}
+
+.code-result ul {
+    margin: 8px 0 0;
+    padding-left: 22px;
+}
+
+.answer-review {
+    display: grid;
+    gap: 14px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #3a466c;
+}
+
+.answer-review h3,
+.answer-review-card h4,
+.answer-review-card p {
+    margin: 0;
+}
+
+.answer-review-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.answer-review-filters button {
+    padding: 9px 12px;
+    border: 1px solid #596689;
+    border-radius: 8px;
+    background: #121a30;
+    color: #d9dfef;
+    cursor: pointer;
+}
+
+.answer-review-filters button[aria-pressed="true"] {
+    border-color: #a5b4fc;
+    background: #a5b4fc;
+    color: #101527;
+    font-weight: bold;
+}
+
+.answer-review-list {
+    display: grid;
+    gap: 12px;
+}
+
+.answer-review-card {
+    display: grid;
+    gap: 8px;
+    padding: 16px;
+    border: 1px solid #3a466c;
+    border-radius: 10px;
+    background: #121a30;
+    line-height: 1.55;
+}
+
+.answer-review-card h4 {
+    color: #f3f5ff;
+    font-size: 16px;
+}
+
+.answer-review-status.correct {
+    color: #73e4b2;
+    font-weight: bold;
+}
+
+.answer-review-status.incorrect {
+    color: #ffa3b7;
+    font-weight: bold;
+}
+
+.answer-review-explanation {
+    color: #b4bdd8;
+}
+
+.code-preview-container h4 {
+    margin: 0 0 8px;
+}
+
+#code-preview {
+    display: block;
+    width: 100%;
+    min-height: 160px;
+    border: 1px solid #596689;
+    border-radius: 10px;
+    background: #fff;
+}
+
+#test-code:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+
+
 
 .lesson-content pre {
     overflow: auto;

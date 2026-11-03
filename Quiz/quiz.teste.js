@@ -37,6 +37,43 @@ const LOCAL_TRACKS = {
   }
 };
 
+/* ---Parte de Codar do Usuário --- */
+
+const CODING_CHALLENGES = {
+  html: {
+    prompt: 'Crie um título principal com o texto "Minha primeira página" e um parágrafo com o texto "Estou aprendendo HTML!".',
+    example: '<h1>Minha primeira página</h1>\n<p>Estou aprendendo HTML!</p>',
+    validate(code) {
+      const parsed = new DOMParser().parseFromString(code, 'text/html');
+      const normalize = text => text.replace(/\s+/g, ' ').trim();
+      return [
+        {
+          passed: Array.from(parsed.querySelectorAll('h1')).some(element => normalize(element.textContent) === 'Minha primeira página'),
+          message: 'Adicione um <h1> com o texto "Minha primeira página".'
+        },
+        {
+          passed: Array.from(parsed.querySelectorAll('p')).some(element => normalize(element.textContent) === 'Estou aprendendo HTML!'),
+          message: 'Adicione um <p> com o texto "Estou aprendendo HTML!".'
+        }
+      ];
+    }
+  },
+  sql: {
+    prompt: 'Escreva uma consulta que selecione as colunas nome e email da tabela usuarios.',
+    example: 'SELECT nome, email FROM usuarios;',
+    validate(code) {
+      const passed = /^\s*SELECT\s+nome\s*,\s*email\s+FROM\s+usuarios\s*;?\s*$/i.test(code);
+      return [{
+        passed,
+        message: 'Use SELECT nome, email FROM usuarios; para concluir o desafio.'
+      }];
+    }
+  }
+};
+
+
+
+
 (async function initQuiz() {
   const user = window.DevAcademy ? await DevAcademy.ready.catch(() => null) : null;
   const $ = id => document.getElementById(id);
@@ -45,6 +82,7 @@ const LOCAL_TRACKS = {
   const box = $('caixa-alternativas'), question = $('texto-pergunta'), next = $('proxima-pergunta');
   let module = null, questions = [], attempt = [], index = 0, points = 0, locked = false;
   let completed = new Set(), progress = null, completedBefore = false;
+  const reviewAnswers = new Map();
 
   const statusName = p => (p && p.status === 'completed') ? '✓ Concluído' : (p && p.status === 'in_progress') ? 'Em andamento' : 'Não iniciado';
   function node(tag, text, className) {
@@ -73,6 +111,8 @@ const LOCAL_TRACKS = {
     $('lesson-content').hidden = true;
     $('code-content').hidden = true;
     $('explicacao').hidden = true;
+    $('answer-review').hidden = true;
+    $('answer-review-list').replaceChildren();
     next.hidden = true;
     $('review-lesson').hidden = true;
     $('question-state').hidden = true;
@@ -161,17 +201,110 @@ const LOCAL_TRACKS = {
     $('progresso').textContent = module.duration;
 
     const editor = $('code-editor');
+    const challenge = CODING_CHALLENGES[module.id];
     if (editor.dataset.module !== module.id) {
-      const example = module.lesson.find(block => block.code);
-      editor.value = example ? example.code : '';
+      editor.value = challenge ? challenge.example : '';
       editor.dataset.module = module.id;
     }
-    $('code-instructions').textContent = 'Edite o exemplo da aula ou escreva sua própria solução. Você pode trocar de opção e voltar sem perder seu código.';
+    $('code-challenge').textContent = challenge ? challenge.prompt : 'Este módulo ainda não tem um desafio de código.';
+    $('code-instructions').textContent = challenge
+      ? 'Escreva sua solução no editor e teste quando estiver pronto.'
+      : 'Você pode consultar os exemplos da aula enquanto pratica.';
+    $('test-code').disabled = !challenge;
     $('code-content').hidden = false;
     robot('Agora é sua vez! Experimente modificar o código e criar sua própria solução.');
     editor.focus();
   }
 
+  /* --- Checar o resultado do código --- */
+
+  function showCodeResult(checks) {
+    const result = $('code-result');
+    const passed = checks.every(check => check.passed);
+    result.replaceChildren();
+    result.className = 'code-result ' + (passed ? 'code-result-success' : 'code-result-error');
+    result.append(node('strong', passed ? 'Deu certo! Desafio concluído.' : 'Ainda não deu certo. Confira o que falta:'));
+
+    if (!passed) {
+      const list = node('ul');
+      checks.filter(check => !check.passed).forEach(check => list.append(node('li', check.message)));
+      result.append(list);
+    }
+    result.hidden = false;
+  }
+
+  function renderAnswerReview(onlyWrong = false) {
+    const list = $('answer-review-list');
+    const entries = questions.map((item, questionIndex) => ({
+      item,
+      questionIndex,
+      answer: reviewAnswers.get(item.id)
+    })).filter(entry => !onlyWrong || (entry.answer && !entry.answer.correct));
+
+    list.replaceChildren();
+    $('review-wrong').setAttribute('aria-pressed', String(onlyWrong));
+    $('review-all').setAttribute('aria-pressed', String(!onlyWrong));
+
+    if (!entries.length) {
+      list.append(node('p', onlyWrong
+        ? 'Não há respostas erradas para revisar.'
+        : 'Ainda não há questões para mostrar.'));
+      return;
+    }
+
+    for (const { item, questionIndex, answer } of entries) {
+      const card = node('article', undefined, 'answer-review-card');
+      const state = answer
+        ? answer.correct ? 'Resposta correta' : 'Resposta errada'
+        : completed.has(item.id) ? 'Concluída anteriormente' : 'Não respondida';
+      card.append(node('h4', `Questão ${questionIndex + 1}: ${item.pergunta}`));
+      card.append(node('p', state, answer ? (answer.correct ? 'answer-review-status correct' : 'answer-review-status incorrect') : 'answer-review-status'));
+
+      if (answer) {
+        card.append(node('p', 'Sua resposta: ' + item.alternativas[answer.selected]));
+        card.append(node('p', 'Resposta correta: ' + item.alternativas[answer.correctIndex]));
+        if (answer.explanation) card.append(node('p', answer.explanation, 'answer-review-explanation'));
+      } else if (completed.has(item.id)) {
+        card.append(node('p', 'Esta questão foi concluída em uma tentativa anterior.'));
+      } else {
+        card.append(node('p', 'Esta questão ainda não foi respondida.'));
+      }
+      list.append(card);
+    }
+  }
+
+  $('review-wrong').addEventListener('click', () => renderAnswerReview(true));
+  $('review-all').addEventListener('click', () => renderAnswerReview(false));
+
+  $('test-code').addEventListener('click', () => {
+    const challenge = module && CODING_CHALLENGES[module.id];
+    if (!challenge) return;
+
+    const code = $('code-editor').value;
+    const checks = challenge.validate(code);
+    showCodeResult(checks);
+
+    const previewContainer = $('code-preview-container');
+    if (module.id === 'html') {
+      $('code-preview').srcdoc = '<!doctype html><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'"><meta charset="UTF-8"><body>' + code + '</body>';
+      previewContainer.hidden = false;
+    } else {
+      previewContainer.hidden = true;
+      $('code-preview').srcdoc = '';
+    }
+    const resultTarget = checks.every(check => check.passed) && module.id === 'html'
+      ? previewContainer
+      : $('code-result');
+    resultTarget.scrollIntoView({ block: 'center' });
+  });
+
+  $('code-editor').addEventListener('input', () => {
+    $('code-result').hidden = true;
+    $('code-preview-container').hidden = true;
+  });
+
+
+  
   function startQuiz(reviewAll = false) {
     const pending = questions.filter(q => !completed.has(q.id));
     attempt = reviewAll || !pending.length ? [...questions] : pending;
@@ -229,6 +362,7 @@ const LOCAL_TRACKS = {
         });
       }
 
+      reviewAnswers.set(current.id, { selected, correctIndex, correct, explanation });
       buttons[correctIndex].classList.add('correta');
       if (correct) {
         points += 10;
@@ -258,19 +392,16 @@ const LOCAL_TRACKS = {
   function finish() {
     clean();
     stage('result');
+    $('answer-review').hidden = false;
+    renderAnswerReview(false);
     const pending = questions.filter(q => !completed.has(q.id));
+    question.textContent = 'Respostas do módulo';
     if (!pending.length) {
-      question.textContent = completedBefore ? 'Revisão finalizada!' : 'Módulo concluído!';
-      robot(`Parabéns! Você concluiu todas as perguntas deste módulo.`);
+      robot(completedBefore ? 'Revisão finalizada. Confira suas respostas abaixo.' : 'Parabéns! Você concluiu todas as perguntas deste módulo.');
     } else {
-      question.textContent = 'Etapa finalizada. Vamos revisar?';
       robot(`Você fez ${points} pontos nesta tentativa. Faltam ${pending.length} pergunta(s) para concluir o módulo.`);
-      action(`Revisar ${pending.length} pergunta(s) pendente(s)`, () => { startQuiz(false); question.focus(); });
     }
     if (progress) $('progresso').textContent = statusName(progress);
-    action('Revisar todas as perguntas', () => { startQuiz(true); question.focus(); });
-    action('Ler a aula novamente', () => { showLesson(); question.focus(); });
-    action('Voltar aos módulos', () => { loadTrack(); question.focus(); });
   }
 
   next.addEventListener('click', () => {

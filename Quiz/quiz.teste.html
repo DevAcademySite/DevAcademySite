@@ -38,16 +38,31 @@
       <div id="lesson-content" class="lesson-content" hidden></div>
       <section id="code-content" class="code-content" aria-labelledby="code-title" hidden>
         <h3 id="code-title">Pratique o que aprendeu</h3>
+        <p id="code-challenge"></p>
         <p id="code-instructions"></p>
         <label for="code-editor">Seu código</label>
         <textarea id="code-editor" rows="12" spellcheck="false" autocapitalize="off"></textarea>
-        <p class="code-note">Seu código fica nesta sessão e não é executado nem enviado.</p>
+        <button id="test-code" type="button" class="btn-alternativa">Testar meu código</button>
+        <div id="code-result" class="code-result" role="status" aria-live="polite" hidden></div>
+        <div id="code-preview-container" class="code-preview-container" hidden>
+          <h4>Prévia segura do HTML</h4>
+          <iframe id="code-preview" title="Prévia do código HTML" sandbox="" referrerpolicy="no-referrer"></iframe>
+        </div>
+        <p class="code-note">O HTML é exibido em uma prévia isolada. Consultas SQL são verificadas pelo desafio, sem execução em um banco de dados.</p>
       </section>
       <div id="caixa-alternativas"></div>
       <div id="explicacao" class="explicacao" hidden>
         <h3>Entenda a resposta</h3>
         <p id="texto-explicacao"></p>
       </div>
+      <section id="answer-review" class="answer-review" aria-labelledby="answer-review-title" hidden>
+        <h3 id="answer-review-title">Revisar respostas</h3>
+        <div class="answer-review-filters" role="group" aria-label="Filtrar questões">
+          <button id="review-wrong" type="button" aria-pressed="false">Ver somente as erradas</button>
+          <button id="review-all" type="button" aria-pressed="true">Ver todas as questões</button>
+        </div>
+        <div id="answer-review-list" class="answer-review-list"></div>
+      </section>
       <button id="proxima-pergunta" type="button" class="btn-alternativa" hidden>Próxima pergunta</button>
       <button id="review-lesson" type="button" class="lesson-return" hidden>Consultar a aula</button>
     </section>
