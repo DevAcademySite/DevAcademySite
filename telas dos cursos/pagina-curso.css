@@ -1,0 +1,262 @@
+/* =====================================================================
+   pagina-curso.css — ESTILOS DA PÁGINA "CURSO DE HTML" (curso-html.html)
+   ---------------------------------------------------------------------
+   É a página de apresentação: explica o que é HTML, como o curso funciona
+   e mostra os 6 módulos, com o botão azul "Ver os módulos".
+
+   Usa junto: home.css (navbar, hero, cards, footer) + base-curso.css
+   (botões e etiqueta).
+
+   ÍNDICE
+     1. Janelinha de código (no topo, à direita)
+     2. "O que é HTML?"
+     3. "Como funciona o curso" (passos)
+     4. "Os 6 módulos" (resumo)
+     5. Chamada final
+     6. Celular
+   ===================================================================== */
+
+
+/* =====================================================================
+   1. JANELINHA DE CÓDIGO (fica no topo, no lugar onde antes ficava o robô)
+   ===================================================================== */
+
+/* CONTAINER: .hero-codigo
+   Caixa que posiciona a janelinha de código à direita do texto do topo.
+   Ela fica dentro da .hero-section (do home.css), ao lado da .hero-content. */
+.hero-codigo {
+    width: 100%;
+    max-width: 460px;            /* a janelinha nunca passa de 460px de largura */
+}
+
+/* CONTAINER: .mini-codigo
+   A "janela de editor": barra de cima com 3 bolinhas + o código embaixo. */
+.mini-codigo {
+    background: #010409;         /* preto mais escuro que o fundo do site */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;            /* corta o que passar dos cantos arredondados */
+}
+
+/* CONTAINER: .mini-codigo-barra
+   A faixa de cima, com as bolinhas e o nome do arquivo. */
+.mini-codigo-barra {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 12px 16px;
+    background: #161b22;
+}
+
+/* As 3 bolinhas coloridas */
+.bolinha {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;          /* 50% transforma o quadrado em círculo */
+}
+.bolinha.vermelha { background: #ff5f56; }
+.bolinha.amarela  { background: #ffbd2e; }
+.bolinha.verde    { background: #27c93f; }
+
+/* CONTAINER: .mini-codigo-nome  (nome do arquivo, no canto direito da barra) */
+.mini-codigo-nome {
+    margin-left: auto;           /* empurra o nome para a direita */
+    font-size: 0.8rem;
+    color: #8b949e;
+}
+
+/* CONTAINER: .mini-codigo-corpo
+   A área onde o código aparece. */
+.mini-codigo-corpo {
+    padding: 22px;
+    font-family: 'Courier New', monospace;  /* fonte de código: todas as letras têm a mesma largura */
+    font-size: 0.95rem;
+    line-height: 1.9;
+    white-space: pre-wrap;       /* respeita as quebras de linha e os espaços do HTML */
+}
+
+/* CORES DO CÓDIGO: usadas em <span class="c-tag"> etc. no HTML */
+.c-tag        { color: #ff7b72; }   /* tags: <h1> </p>   */
+.c-atributo   { color: #79c0ff; }   /* atributos: class, href */
+.c-texto      { color: #e6edf3; }   /* texto normal */
+.c-valor      { color: #a5d6ff; }   /* valores entre aspas */
+.c-comentario { color: #8b949e; }   /* comentários */
+
+
+/* =====================================================================
+   2. "O QUE É HTML?"
+   ===================================================================== */
+
+/* CONTAINER: .curso-explicacao
+   A seção inteira. Fica com o texto centralizado e largura limitada. */
+.curso-explicacao {
+    padding: 70px 8% 30px;
+    text-align: center;
+    scroll-margin-top: 90px;     /* evita que a navbar fixa tape o título quando o link #ancora é clicado */
+}
+
+/* CONTAINER: .curso-explicacao-texto
+   Os parágrafos de explicação, em uma coluna estreita para ler melhor. */
+.curso-explicacao-texto {
+    max-width: 760px;
+    margin: 0 auto 50px;
+}
+
+.curso-explicacao-texto p {
+    color: #8b949e;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+/* Os 3 cards "Estrutura / Visual / Comportamento" usam .cards-grid e .card
+   do home.css. Aqui só ajustamos o ícone de cada um. */
+
+/* CONTAINER: .explicacao-icone
+   O quadradinho colorido com o ícone dentro de cada card. */
+.explicacao-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    font-size: 1.3rem;
+    color: #58a6ff;
+    background: rgba(88, 166, 255, 0.15);
+    border-radius: 12px;
+}
+
+
+/* =====================================================================
+   3. "COMO FUNCIONA O CURSO" (3 passos)
+   ===================================================================== */
+
+/* CONTAINER: .passo-numero
+   O círculo azul com o número do passo (1, 2, 3).
+   O card em si usa .card do home.css. */
+.passo-numero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 16px;
+    font-weight: 700;
+    color: #58a6ff;
+    background: rgba(88, 166, 255, 0.15);
+    border-radius: 50%;
+}
+
+
+/* =====================================================================
+   4. "OS 6 MÓDULOS" (resumo)
+   ===================================================================== */
+
+/* CONTAINER: .resumo-modulos
+   A seção inteira com a lista dos 6 módulos. */
+.resumo-modulos {
+    padding: 60px 8% 70px;
+    text-align: center;
+    scroll-margin-top: 90px;
+}
+
+/* CONTAINER: .resumo-lista
+   A grade com os 6 itens, em 2 colunas. */
+.resumo-lista {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);   /* 2 colunas iguais */
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+/* CONTAINER: .resumo-item
+   Cada linha da lista: número do módulo + título. */
+.resumo-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    background: #161b22;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+}
+
+/* CONTAINER: .resumo-numero  (o quadradinho com o número do módulo) */
+.resumo-numero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;              /* o quadradinho não encolhe quando falta espaço */
+    width: 40px;
+    height: 40px;
+    font-weight: 700;
+    color: #58a6ff;
+    background: rgba(88, 166, 255, 0.15);
+    border-radius: 10px;
+}
+
+/* O .resumo-item é um link <a>: tiramos o sublinhado/azul padrão e criamos o efeito ao passar o mouse */
+a.resumo-item {
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.3s;
+}
+
+a.resumo-item:hover {
+    border-color: #58a6ff;       /* a borda fica azul ao passar o mouse */
+}
+
+.resumo-item h3 {
+    font-size: 1rem;
+}
+
+.resumo-item p {
+    font-size: 0.85rem;
+    color: #8b949e;
+}
+
+
+/* =====================================================================
+   5. CHAMADA FINAL ("Pronto para começar?")
+   ===================================================================== */
+
+/* CONTAINER: .curso-cta  (a seção) */
+.curso-cta {
+    padding: 0 8% 90px;
+}
+
+/* CONTAINER: .curso-cta-caixa  (a caixa com borda azul) */
+.curso-cta-caixa {
+    padding: 50px 30px;
+    text-align: center;
+    background: #161b22;
+    border: 1px solid rgba(88, 166, 255, 0.35);
+    border-radius: 12px;
+}
+
+.curso-cta-caixa h2 {
+    margin-bottom: 10px;
+}
+
+.curso-cta-caixa p {
+    margin-bottom: 26px;
+    color: #8b949e;
+}
+
+
+/* =====================================================================
+   6. CELULAR E TABLET
+   ===================================================================== */
+
+/* Telas até 900px */
+@media (max-width: 900px) {
+    .resumo-lista {
+        grid-template-columns: 1fr;     /* de 2 colunas para 1 */
+    }
+
+    .hero-codigo {
+        margin-top: 40px;
+    }
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/png" href="Robô Azul Claro Edição.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 6 | Curso de HTML | DevAcademy</title>
+
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="base-curso.css">
+    <!-- CSS só das páginas de módulo (as 6 páginas usam este mesmo arquivo) -->
+    <link rel="stylesheet" href="pagina-modulo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- =================================================================
+         PÁGINA DO MÓDULO 6
+         As 6 páginas de módulo (modulo-1.html ... modulo-6.html) têm o
+         MESMO esqueleto. O que muda de uma para outra é só:
+           1) o título e a descrição do módulo
+           2) o arquivo PDF dentro do <iframe>
+           3) qual item do menu lateral tem class="atual"
+           4) os links dos botões Anterior e Próximo
+         ================================================================= -->
+
+    <!-- CONTAINER: .navbar  (troque os caminhos pelos reais do seu site) -->
+    <header class="navbar">
+        <div class="logo-container">
+        <img src="Robô Azul Claro Edição.png" alt="DevAcademy Mascot" class="logo-img">
+            <span class="logo-text">Dev<span>Academy</span></span>
+        </div>
+
+        <nav class="nav-links">
+            <a href="../Home/home.html">Início</a>
+            <a href="../Home/home.html#cursos" class="active">Cursos</a>
+            <a href="../Home/profile.html">Perfil</a>
+        </nav>
+    </header>
+
+
+    <!-- CONTAINER: .pagina-conteudo  (caixa geral da página) -->
+    <main class="pagina-conteudo">
+
+        <!-- CONTAINER: .migalhas  (caminho de navegação) -->
+        <nav class="migalhas">
+            <a href="../Home/home.html#cursos">Cursos</a> /
+            <a href="curso-html.html">Curso de HTML</a> /
+            <a href="modulos.html">Módulos</a> /
+            <span>Módulo 6</span>
+        </nav>
+
+        <!-- CONTAINER: .leitor  (caixa com 2 colunas: menu lateral + conteúdo) -->
+        <div class="leitor">
+
+            <!-- =========================================================
+                 CONTAINER: .leitor-menu  (coluna da ESQUERDA: lista dos 6 módulos)
+                 O link do módulo que está aberto leva class="atual" (fica azul).
+                 ========================================================= -->
+            <aside class="leitor-menu">
+                <h2>Módulos do curso</h2>
+                <ul>
+                    <li><a href="modulo-1.html">Módulo 1 · Fundamentos do HTML</a></li>
+                    <li><a href="modulo-2.html">Módulo 2 · Estrutura e Semântica</a></li>
+                    <li><a href="modulo-3.html">Módulo 3 · Tabelas e Formulários</a></li>
+                    <li><a href="modulo-4.html">Módulo 4 · Mídia e CSS Essencial</a></li>
+                    <li><a href="modulo-5.html">Módulo 5 · Responsividade, Acessibilidade e SEO</a></li>
+                    <li><a href="modulo-6.html" class="atual">Módulo 6 · Avançado e Publicação</a></li>
+                </ul>
+            </aside>
+
+            <!-- =========================================================
+                 CONTAINER: .leitor-conteudo  (coluna da DIREITA)
+                 ========================================================= -->
+            <section class="leitor-conteudo">
+
+                <!-- CONTAINER: .leitor-cabecalho  (etiqueta, título e descrição) -->
+                <div class="leitor-cabecalho">
+                    <span class="etiqueta">Módulo 6 · Avançado básico</span>
+                    <h1>Avançado e Publicação</h1>
+                    <p>details, JavaScript básico, performance e como publicar seu site.</p>
+                </div>
+
+                <!-- CONTAINER: .leitor-acoes  (botões acima do PDF) -->
+                <div class="leitor-acoes">
+                    <!-- O atributo "download" faz o navegador BAIXAR o arquivo em vez de abrir -->
+                    <a class="btn-curso" href="modulo-6.pdf" download>
+                        <i class="fa-solid fa-download"></i> Baixar PDF
+                    </a>
+                    <!-- target="_blank" abre o PDF em uma nova aba -->
+                    <a class="btn-secondary btn-secundario-curso" href="modulo-6.pdf" target="_blank">
+                        <i class="fa-solid fa-up-right-from-square"></i> Abrir em nova aba
+                    </a>
+                </div>
+
+                <!-- =====================================================
+                     CONTAINER: .leitor-pdf  (a moldura onde o PDF aparece)
+                     O <iframe> é uma "janela" dentro da página.
+                     O src dele aponta para o arquivo PDF deste módulo,
+                     que fica na pasta "pdf".
+                     ===================================================== -->
+                <div class="leitor-pdf">
+                    <iframe src="modulo-6.pdf#view=FitH" title="PDF do módulo 6: Avançado e Publicação"></iframe>
+                    <p class="leitor-pdf-aviso">
+                        O PDF não apareceu? Em alguns celulares o navegador não mostra PDF aqui dentro.
+                        Use o botão "Abrir em nova aba" ou "Baixar PDF".
+                    </p>
+                </div>
+
+                <!-- CONTAINER: .leitor-navegacao  (botões Anterior e Próximo) -->
+                <div class="leitor-navegacao">
+                    <a class="btn-secondary btn-secundario-curso" href="modulo-5.html">
+                        <i class="fa-solid fa-arrow-left"></i> Módulo anterior
+                    </a>
+                    <!-- Módulo 6 é o último: o botão volta para a lista de módulos -->
+                    <a class="btn-curso" href="modulos.html">
+                        Concluir curso <i class="fa-solid fa-flag-checkered"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+
+    <!-- CONTAINER: .footer -->
+    <footer class="footer">
+        <p>&copy; DevAcademy. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>

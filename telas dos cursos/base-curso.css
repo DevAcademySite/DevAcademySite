@@ -1,0 +1,104 @@
+/* =====================================================================
+    1. BOTÕES
+    ===================================================================== */
+
+/* CONTAINER: .btn-curso
+    Aqui é o botão azul principal. Eu uso ele tanto em links (<a class="btn-curso">) 
+    quanto em botões normais (<button>). Deixo ele alinhado bonitinho com ícone e texto. */
+.btn-curso {
+    display: inline-flex;        /* texto e ícone lado a lado */
+    align-items: center;         /* alinha ícone e texto no meio */
+    gap: 8px;                    /* espaço entre o texto e o ícone */
+    padding: 12px 24px;          /* espaço interno: 12px em cima/baixo, 24px nos lados */
+    background: #1f6feb;         /* azul principal do site */
+    color: #fff;
+    border: 0;
+    border-radius: 6px;          /* cantos arredondados */
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;       /* tira o sublinhado dos links */
+    cursor: pointer;             /* mãozinha ao passar o mouse */
+    transition: background 0.3s;
+}
+
+.btn-curso:hover {
+    background: #388bfd;         /* azul mais claro quando passo o mouse por cima */
+}
+
+/* CONTAINER: .btn-secundario-curso
+    Esse é o botão que só tem borda. Eu sempre uso ele JUNTO com a classe .btn-secondary 
+    (que já vem do home.css), tipo assim: class="btn-secondary btn-secundario-curso". */
+.btn-secundario-curso {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    font-size: 1rem;
+}
+
+
+/* =====================================================================
+    2. ETIQUETA
+    ===================================================================== */
+
+/* CONTAINER: .etiqueta
+    Minha pílula azul clara para destacar coisas como "Trilha Desenvolvimento Web" 
+    ou "Módulo 1 · Iniciante". */
+.etiqueta {
+    display: inline-block;
+    padding: 5px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #58a6ff;
+    background: rgba(88, 166, 255, 0.15);  /* azul com 15% de transparência */
+    border-radius: 999px;                  /* 999px deixa as pontas totalmente redondas (pílula) */
+}
+
+
+/* =====================================================================
+    3. CAIXA GERAL DAS PÁGINAS INTERNAS
+    ===================================================================== */
+
+/* CONTAINER: .pagina-conteudo
+    Essa é a caixa principal que abraça todo o conteúdo que fica abaixo da navbar 
+    nas páginas "Módulos" e "Módulo". Deixei esse padding de 120px em cima porque 
+    minha navbar é "fixed" (grudada no topo) e se não fosse isso ela ia tampar o texto. */
+.pagina-conteudo {
+    max-width: 1200px;           /* largura máxima pra não esticar demais em monitor grande */
+    margin: 0 auto;              /* "auto" nas laterais centraliza a caixa na tela */
+    padding: 120px 8% 70px;      /* topo | lados | baixo */
+}
+
+
+/* =====================================================================
+    4. MIGALHAS
+    ===================================================================== */
+
+/* CONTAINER: .migalhas
+    Meu caminho de navegação (breadcrumb), tipo: Cursos / Curso de HTML / Módulos. */
+.migalhas {
+    margin-bottom: 22px;
+    font-size: 0.9rem;
+    color: #8b949e;
+}
+
+.migalhas a {
+    color: #58a6ff;
+    text-decoration: none;
+}
+
+.migalhas a:hover {
+    text-decoration: underline;
+}
+
+
+/* =====================================================================
+    5. CELULAR
+    ===================================================================== */
+
+/* Ajustes responsivos: tudo aqui só vale para telas de até 520px de largura. */
+@media (max-width: 520px) {
+    .pagina-conteudo {
+        padding-top: 105px; /* diminuo um pouco a folga no topo pra telas menores */
+    }
+}

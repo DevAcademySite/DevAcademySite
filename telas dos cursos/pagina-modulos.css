@@ -1,0 +1,82 @@
+/* =====================================================================
+   pagina-modulos.css — ESTILOS DA PÁGINA "MÓDULOS" (modulos.html)
+   ---------------------------------------------------------------------
+   Mostra os 6 módulos em cards. Clicar em um card leva para a página
+   daquele módulo (modulo-1.html, modulo-2.html...).
+
+   Usa junto: paginacurso.css + base-curso.css.
+   ===================================================================== */
+
+/* CONTAINER: .modulos-topo
+   Título da página + texto de apresentação. */
+.modulos-topo h1 {
+    margin: 12px 0 10px;
+    font-size: 2.3rem;
+}
+
+.modulos-topo p {
+    max-width: 640px;
+    line-height: 1.6;
+    color: #8b949e;
+}
+
+/* CONTAINER: .modulos-grade
+   A grade que segura os 6 cards. */
+.modulos-grade {
+    display: grid;
+    /* auto-fit + minmax: cria quantas colunas couberem, cada uma com no mínimo 280px.
+       No computador isso vira 3 colunas; no celular, 1. */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+/* CONTAINER: .modulo-card
+   Cada card de módulo. Ele também recebe a classe .card do home.css
+   (fundo escuro, borda, efeito de subir ao passar o mouse).
+   Aqui só ajustamos porque ele é um link <a>. */
+.modulo-card {
+    display: flex;
+    flex-direction: column;      /* empilha: topo, título, texto, ação */
+    color: inherit;              /* herda a cor do texto (links ficariam azuis) */
+    text-decoration: none;
+}
+
+/* CONTAINER: .modulo-topo
+   Linha de cima do card: "MÓDULO 1" à esquerda e o nível à direita. */
+.modulo-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;   /* um item em cada ponta */
+    margin-bottom: 14px;
+}
+
+/* CONTAINER: .modulo-numero  (o texto azul "MÓDULO 1") */
+.modulo-numero {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;      /* afasta um pouco as letras */
+    text-transform: uppercase;   /* deixa tudo em maiúsculas */
+    color: #58a6ff;
+}
+
+/* CONTAINER: .modulo-nivel  (a pílula com "Iniciante", "Intermediário"...) */
+.modulo-nivel {
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    color: #8b949e;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+}
+
+/* CONTAINER: .modulo-acao
+   O texto azul no rodapé do card: "Ler módulo →" */
+.modulo-acao {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;            /* empurra a ação para o fundo do card */
+    padding-top: 18px;
+    font-weight: 600;
+    color: #58a6ff;
+}

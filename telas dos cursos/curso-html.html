@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/png" href="Robô Azul Claro Edição.png"> <!-- ícone da aba do navegador -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de HTML | DevAcademy</title>
+
+    <!-- CSS que você JÁ TEM na home: navbar, hero, cards, footer -->
+    <!-- >>> 1º ARQUIVO CSS: home.css
+         Eu estou ligando 3 arquivos CSS nesta página e a ORDEM importa: se dois arquivos mexerem
+         na mesma coisa, o que vem por último ganha.
+         O home.css é o que eu já tinha na home (navbar, hero, cards, footer). -->
+    <link rel="stylesheet" href="home.css">
+    <!-- CSS novo com as peças comuns do curso: botões, etiqueta, migalhas -->
+    <!-- >>> 2º ARQUIVO CSS: base-curso.css
+         Peças que várias páginas do curso usam: o botão azul (.btn-curso), a etiqueta (.etiqueta)... -->
+    <link rel="stylesheet" href="base-curso.css">
+    <!-- CSS só desta página (apresentação do curso) -->
+    <!-- >>> 3º ARQUIVO CSS: pagina-curso.css
+         Só o que é desta página: janelinha de código, quadradinhos de ícone, círculo dos passos,
+         lista dos 6 módulos e caixa final. -->
+    <link rel="stylesheet" href="pagina-curso.css">
+    <!-- Ícones Font Awesome (os mesmos da sua home) -->
+    <!-- >>> ÍCONES (Font Awesome)
+         Biblioteca de ícones que vem da internet. As tags <i class="fa-..."></i> da página usam
+         isso pra mostrar as setas, o HTML5, o CSS3 e o JS. -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- >>> FIM DO HEAD
+     Daqui pra baixo começa o que realmente aparece na tela. -->
+</head>
+<!-- >>> BODY (corpo da página)
+     Tudo o que o visitante vê está entre esta linha e o fechamento do body, lá no final.
+     O fundo escuro e a cor do texto vêm da regra "body" do home.css. -->
+<body>
+
+
+    <!-- >>> NAVBAR (barra fixa do topo)
+         header é a tag que quer dizer "cabeçalho". A class="navbar" liga ela ao CSS do home.css:
+         flex (logo na esquerda e menu na direita), position: fixed (fica grudada no topo mesmo
+         quando eu rolo a página) e z-index (fica por cima de tudo). -->
+    <header class="navbar">
+        <!-- >>> LOGO CONTAINER (caixa da esquerda da navbar)
+             Segura o robozinho e o nome do site lado a lado (display: flex e gap: 10px no CSS).
+             Dentro dela ficam duas coisas, nesta ordem: 1) a imagem do robô e 2) o texto "DevAcademy". -->
+        <div class="logo-container"> <!-- caixa da esquerda que segura o devacademy (não consigo mais colocar nome vai assim mesmo)-->
+            <img src="Robô Azul Claro Edição.png" alt="DevAcademy Mascot" class="logo-img">
+            <!-- >>> TEXTO DA LOGO
+                 O nome do site. O span de dentro faz só a palavra "Academy" ficar azul
+                 (regra ".logo-text span" do home.css). -->
+            <span class="logo-text">Dev<span>Academy</span></span>
+        </div>
+
+        <!-- >>> MENU DA DIREITA
+             nav é a tag de "navegação". É a caixa que segura os 3 links lado a lado, com 20px entre eles. -->
+        <nav class="nav-links">
+            <!-- >>> LINK "Início"
+                 O href diz pra onde o link leva. O "../" significa "saia da pasta onde eu estou e vá
+                 pra pasta ao lado". Então ele sai de Curso-HTML e entra na pasta Home, na home.html.
+                 (Se a minha home estiver em outro lugar, é só trocar esse caminho.) -->
+            <a href="../Home/home.html">Início</a>
+            <!-- >>> LINK "Cursos" (o ativo)
+                 O "#cursos" faz o navegador rolar até o elemento que tem id="cursos" na home.
+                 A class="active" deixa este link azul, pra mostrar que eu estou na parte de cursos. -->
+            <a href="../Home/home.html#cursos" class="active">Cursos</a>
+            <!-- >>> LINK "Perfil"
+                 Leva pra página de perfil, na pasta Home. -->
+            <a href="../Home/profile.html">Perfil</a>
+        </nav>
+    </header>
+
+
+    <!-- =================================================================
+         CONTAINER: .hero-section  (a área grande do topo; vem do home.css)
+         Dentro dela ficam 2 caixas lado a lado:
+           - .hero-content  -> texto e botões (esquerda)
+           - .hero-codigo   -> janelinha de código (direita)
+         ================================================================= -->
+    <!-- >>> HERO SECTION (a área grande do topo)
+         section é uma "seção" da página. O id="home" é o endereço dela (se alguém usar #home).
+         A class="hero-section" vem do home.css: ela divide o topo em 2 colunas lado a lado.
+         Coluna da esquerda: texto e botões. Coluna da direita: a janelinha de código. -->
+    <section id="home" class="hero-section">
+
+        <!-- CONTAINER: .hero-content  (texto da esquerda) -->
+        <!-- >>> COLUNA DA ESQUERDA (hero-content)
+             Segura a etiqueta, o título, o texto e os botões, um embaixo do outro. -->
+        <div class="hero-content">
+            <!-- >>> ETIQUETA
+             A classe .etiqueta está no base-curso.css. -->
+            <span class="etiqueta">Trilha Desenvolvimento Web</span>
+
+            <!-- >>> TÍTULO PRINCIPAL (h1)
+                 É o título mais importante da página e só deve existir um por página.
+                 O span faz só a palavra "HTML" ficar azul (regra ".hero-content h1 span" do home.css). -->
+            <h1>Curso de <span>HTML</span></h1>
+
+            <!-- >>> TEXTO DE APRESENTAÇÃO (p = parágrafo)
+                 Texto cinza embaixo do título, explicando o curso em uma frase. -->
+            <p>Aprenda a criar a estrutura de qualquer site, do zero até o avançado básico.
+               São 6 módulos em PDF, com exemplos de código e exercícios para praticar.</p>
+
+            <!-- CONTAINER: .hero-actions  (os dois botões lado a lado) -->
+            <!-- >>> CAIXA DOS BOTÕES
+                 Segura os 2 botões lado a lado, com 15px de espaço entre eles (display: flex e gap no home.css). -->
+            <div class="hero-actions">
+                <!-- BOTÃO AZUL: leva para a página com os 6 módulos -->
+                <!-- >>> BOTÃO AZUL "Ver os módulos"
+                     É um link (a) que parece um botão por causa da class="btn-curso" (base-curso.css).
+                     O href="modulos.html" leva pra página com os 6 módulos.
+                     Dentro dele tem o texto e um ícone de seta (a tag i com a classe fa-arrow-right). -->
+                <a href="modulos.html" class="btn-curso">
+                    Ver os módulos <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <!-- Este botão só rola a página até o id="como-funciona" (veja mais abaixo) -->
+                <!-- >>> BOTÃO COM BORDA "Como funciona"
+                     Usa a class="btn-secondary" do home.css (só borda, sem fundo).
+                     O "#como-funciona" não troca de página: só rola até o elemento com id="como-funciona",
+                     que é a seção "Como funciona o curso" mais abaixo. -->
+                <a href="#como-funciona" class="btn-secondary">Como funciona</a>
+            </div>
+        </div>
+
+        <!-- CONTAINER: .hero-codigo  (coluna da direita) -->
+        <!-- >>> COLUNA DA DIREITA (hero-codigo)
+             Segura a janelinha de código. No CSS (pagina-curso.css) ela tem largura máxima de 460px. -->
+        <div class="hero-codigo">
+
+            <!-- CONTAINER: .mini-codigo  (a janelinha de código) -->
+            <!-- >>> JANELINHA DE CÓDIGO (mini-codigo)
+                 Caixa preta com cantos arredondados que imita a janela de um editor de código.
+                 Tem 2 partes: a barra de cima e o corpo com o código. -->
+            <div class="mini-codigo">
+
+                <!-- CONTAINER: .mini-codigo-barra  (faixa de cima: 3 bolinhas + nome do arquivo) -->
+                <!-- >>> BARRA DE CIMA DA JANELINHA
+                     Faixa cinza com as 3 bolinhas coloridas e o nome do arquivo. -->
+                <div class="mini-codigo-barra">
+                    <!-- >>> AS 3 BOLINHAS
+                         Cada span é um círculo de 12px (border-radius: 50%). As cores vêm das classes
+                         .vermelha, .amarela e .verde. É só enfeite, igual aos botões de uma janela de programa. -->
+                    <span class="bolinha vermelha"></span>
+                    <span class="bolinha amarela"></span>
+                    <span class="bolinha verde"></span>
+                    <!-- >>> NOME DO ARQUIVO
+                         Texto cinza no canto direito da barra (margin-left: auto empurra ele pra direita).
+                         Eu posso trocar por qualquer nome, tipo "pagina.html". -->
+                    <span class="mini-codigo-nome">index.html</span>
+                </div>
+
+                <!-- CONTAINER: .mini-codigo-corpo  (o código colorido)
+                     Cada <span class="c-..."> só serve para pintar um pedaço do texto.
+                     Os símbolos &lt; e &gt; aparecem na tela como < e >. -->
+                <!-- >>> CORPO DA JANELINHA (o código colorido)
+                     A tag pre mantém as quebras de linha e os espaços do jeito que eu escrevi.
+                     Cada span com class="c-..." só serve pra pintar um pedaço do texto:
+                     c-tag (vermelho), c-atributo (azul), c-valor (azul claro), c-texto (branco) e c-comentario (cinza).
+                     O &lt; e o &gt; aparecem na tela como os símbolos de menor e maior. Eu uso eles pra
+                     o navegador NÃO achar que aquilo é uma tag de verdade. -->
+                <pre class="mini-codigo-corpo"><span class="c-comentario">&lt;!-- Meu primeiro HTML --&gt;</span>
+<span class="c-tag">&lt;h1&gt;</span><span class="c-texto">Olá, mundo!</span><span class="c-tag">&lt;/h1&gt;</span>
+
+<span class="c-tag">&lt;p</span> <span class="c-atributo">class</span>=<span class="c-valor">"destaque"</span><span class="c-tag">&gt;</span>
+  <span class="c-texto">Esta é a minha primeira página.</span>
+<span class="c-tag">&lt;/p&gt;</span>
+
+<span class="c-tag">&lt;a</span> <span class="c-atributo">href</span>=<span class="c-valor">"sobre.html"</span><span class="c-tag">&gt;</span><span class="c-texto">Sobre mim</span><span class="c-tag">&lt;/a&gt;</span></pre>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =================================================================
+         CONTAINER: .curso-explicacao  (seção "O que é HTML?")
+         ================================================================= -->
+    <!-- >>> SEÇÃO "O que é HTML?"
+         Seção com tudo centralizado (class do pagina-curso.css). O id="o-que-e-html" é o endereço dela.
+         Tem 3 partes: o título, o parágrafo de explicação e os 3 cards (HTML, CSS e JavaScript). -->
+    <section id="o-que-e-html" class="curso-explicacao">
+        <!-- >>> TÍTULO DA SEÇÃO (h2)
+             h2 é um título menor que o h1. A class="section-title" (home.css) deixa ele com 2rem (32px). -->
+        <h2 class="section-title">O que é HTML?</h2>
+
+        <!-- CONTAINER: .curso-explicacao-texto  (os parágrafos de explicação) -->
+        <!-- >>> CAIXA DO PARÁGRAFO
+             Uma caixa estreita (máximo de 760px) e centralizada, pra o texto ser fácil de ler. -->
+        <div class="curso-explicacao-texto">
+            <!-- >>> PARÁGRAFO DE EXPLICAÇÃO
+                 O strong deixa "descreve o conteúdo" em negrito, pra destacar a ideia principal. -->
+            <p>HTML (HyperText Markup Language) é a linguagem que <strong>descreve o conteúdo</strong>
+               de uma página: o que é título, o que é parágrafo, o que é link e o que é imagem.
+               Todo site da internet começa por ele.</p>
+        </div>
+
+        <!-- CONTAINER: .cards-grid  (grade com 3 cards; vem do home.css) -->
+        <!-- >>> CARDS GRID (a grade dos cards)
+             Caixa invisível que organiza os cards em colunas (display: grid no home.css).
+             Cada card tem no mínimo 280px: no computador ficam 3 por linha, no celular 1 por linha. -->
+        <div class="cards-grid">
+
+            <!-- CONTAINER: .card  (card do HTML) -->
+            <!-- >>> CARD DO HTML
+                 Cada card é um cartãozinho escuro (class="card" do home.css) com 3 coisas dentro:
+                 1) o quadradinho com o ícone, 2) o título (h3) e 3) o texto (p).
+                 Quando eu passo o mouse, o card sobe 5px e a borda fica azul. -->
+            <div class="card">
+                <!-- >>> QUADRADINHO COM ÍCONE
+                     A div .explicacao-icone é o quadradinho azul claro (48 x 48px). A tag i dentro é o ícone
+                     do HTML5, que vem do Font Awesome (fa-brands = ícones de marcas). -->
+                <div class="explicacao-icone"><i class="fa-brands fa-html5"></i></div>
+                <h3>HTML: a estrutura</h3>
+                <p>São as paredes e os cômodos da casa. Define o que existe na página.</p>
+            </div>
+
+            <!-- CONTAINER: .card  (card do CSS) -->
+            <!-- >>> CARD DO CSS
+                 Mesmo molde do card de cima, mudando só o ícone, o título e o texto. -->
+            <div class="card">
+                <div class="explicacao-icone"><i class="fa-brands fa-css3-alt"></i></div>
+                <h3>CSS: o visual</h3>
+                <p>É a pintura e a decoração. Define cores, fontes e a posição de cada coisa.</p>
+            </div>
+
+            <!-- CONTAINER: .card  (card do JavaScript) -->
+            <!-- >>> CARD DO JAVASCRIPT
+                 Mesmo molde de novo. -->
+            <div class="card">
+                <div class="explicacao-icone"><i class="fa-brands fa-js"></i></div>
+                <h3>JavaScript: o comportamento</h3>
+                <p>É a parte elétrica. Faz botões, menus e formulários realmente funcionarem.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =================================================================
+         CONTAINER: .features-section  (seção "Como funciona o curso"; vem do home.css)
+         O id="como-funciona" é o "endereço" usado pelo botão "Como funciona" lá em cima.
+         ================================================================= -->
+    <!-- >>> SEÇÃO "Como funciona o curso"
+         A class="features-section" vem do home.css (padding de 80px e texto centralizado).
+         O id="como-funciona" é o endereço que o botão "Como funciona" lá do topo usa pra rolar até aqui. -->
+    <section id="como-funciona" class="features-section">
+        <!-- >>> TÍTULO DA SEÇÃO -->
+        <h2 class="section-title">Como funciona o curso</h2>
+        <!-- >>> SUBTÍTULO
+             Texto cinza embaixo do título (class="section-subtitle" do home.css). -->
+        <p class="section-subtitle">Três passos simples para ir do iniciante ao avançado básico</p>
+
+        <!-- >>> CARDS GRID dos 3 passos
+             A mesma grade de antes: 3 cards por linha no computador. -->
+        <div class="cards-grid">
+
+            <!-- CONTAINER: .card  (passo 1) -->
+            <!-- >>> CARD DO PASSO 1
+                 Em vez do ícone, esse card tem o .passo-numero: o círculo azul com o número do passo. -->
+            <div class="card">
+                <div class="passo-numero">1</div>
+                <h3>Estude os módulos em ordem</h3>
+                <p>São 6 módulos em PDF. Abra cada um aqui no site e leia no seu ritmo.</p>
+            </div>
+
+            <!-- CONTAINER: .card  (passo 2) -->
+            <!-- >>> CARD DO PASSO 2 -->
+            <div class="card">
+                <div class="passo-numero">2</div>
+                <h3>Pratique no seu editor</h3>
+                <p>Cada módulo termina com exercícios. Digite os códigos no VS Code para fixar.</p>
+            </div>
+
+            <!-- CONTAINER: .card  (passo 3)
+                 ATENÇÃO: este texto fala do quiz que outra pessoa está fazendo.
+                 Se a regra do quiz mudar, é só editar esta frase. -->
+            <!-- >>> CARD DO PASSO 3
+                 Este fala do quiz que outra pessoa está fazendo. Se a regra do quiz mudar,
+                 eu só preciso editar o texto do p aqui dentro. -->
+            <div class="card">
+                <div class="passo-numero">3</div>
+                <h3>Confira com o quiz</h3>
+                <p>Depois dos 3 primeiros módulos, um quiz mostra se você entendeu e libera os próximos.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =================================================================
+         CONTAINER: .resumo-modulos  (seção "Os 6 módulos")
+         Cada item é um link que já leva direto para a página do módulo.
+         ================================================================= -->
+    <!-- >>> SEÇÃO "Os 6 módulos"
+         class do pagina-curso.css. Tem o título, o subtítulo e a lista com os 6 módulos. -->
+    <section id="os-modulos" class="resumo-modulos">
+        <!-- >>> TÍTULO DA SEÇÃO -->
+        <h2 class="section-title">Os 6 módulos</h2>
+        <!-- >>> SUBTÍTULO DA SEÇÃO -->
+        <p class="section-subtitle">Do iniciante ao avançado básico</p>
+
+        <!-- CONTAINER: .resumo-lista  (grade com os 6 itens, em 2 colunas) -->
+        <!-- >>> LISTA DOS 6 MÓDULOS (resumo-lista)
+             Uma grade com 2 colunas iguais e 16px entre os itens (display: grid no pagina-curso.css).
+             No celular vira 1 coluna. -->
+        <div class="resumo-lista">
+
+            <!-- CONTAINER: .resumo-item  (módulo 1) -->
+            <!-- >>> ITEM DO MÓDULO 1 (resumo-item)
+                 Cada módulo é um LINK (a): clicar em qualquer parte do retângulo leva pra página do módulo.
+                 Para trocar o destino é só mudar o href.
+                 Dentro dele tem 2 coisas lado a lado:
+                 - o span .resumo-numero (o quadradinho azul com o número);
+                 - uma div sem classe, só pra juntar o título (h3) e a descrição (p) em um bloco. -->
+            <a class="resumo-item" href="modulo-1.html">
+                <span class="resumo-numero">1</span>
+                <div>
+                    <h3>Fundamentos do HTML</h3>
+                    <p>Tags, atributos, listas, links e imagens</p>
+                </div>
+            </a>
+
+            <!-- >>> ITEM DO MÓDULO 2
+                 Mesmo molde do módulo 1. -->
+            <a class="resumo-item" href="modulo-2.html">
+                <span class="resumo-numero">2</span>
+                <div>
+                    <h3>Estrutura e Semântica</h3>
+                    <p>header, nav, main, section e footer</p>
+                </div>
+            </a>
+
+            <!-- >>> ITEM DO MÓDULO 3 -->
+            <a class="resumo-item" href="modulo-3.html">
+                <span class="resumo-numero">3</span>
+                <div>
+                    <h3>Tabelas e Formulários</h3>
+                    <p>Tabelas, campos e validação</p>
+                </div>
+            </a>
+
+            <!-- >>> ITEM DO MÓDULO 4 -->
+            <a class="resumo-item" href="modulo-4.html">
+                <span class="resumo-numero">4</span>
+                <div>
+                    <h3>Mídia e CSS Essencial</h3>
+                    <p>Imagens, vídeo, seletores e Flexbox</p>
+                </div>
+            </a>
+
+            <!-- >>> ITEM DO MÓDULO 5 -->
+            <a class="resumo-item" href="modulo-5.html">
+                <span class="resumo-numero">5</span>
+                <div>
+                    <h3>Responsividade, Acessibilidade e SEO</h3>
+                    <p>Media queries e meta tags</p>
+                </div>
+            </a>
+
+            <!-- >>> ITEM DO MÓDULO 6 -->
+            <a class="resumo-item" href="modulo-6.html">
+                <span class="resumo-numero">6</span>
+                <div>
+                    <h3>Avançado e Publicação</h3>
+                    <p>JavaScript básico e como publicar</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+
+    <!-- =================================================================
+         CONTAINER: .curso-cta  (chamada final para começar o curso)
+         ================================================================= -->
+    <!-- >>> CHAMADA FINAL (curso-cta)
+         CTA quer dizer "chamada para ação": é a parte que convida o visitante a clicar no botão.
+         Esta seção não tem id porque nenhum link rola até ela. -->
+    <section class="curso-cta">
+        <!-- >>> CAIXA COM BORDA AZUL
+             Segura o título, o texto e o botão, tudo centralizado. -->
+        <div class="curso-cta-caixa">
+            <!-- >>> TÍTULO DA CAIXA
+                 Esse h2 não tem class: o tamanho é o padrão do navegador pra h2 (24px). -->
+            <h2>Pronto para começar?</h2>
+            <p>Abra o módulo 1 e escreva seu primeiro código hoje.</p>
+            <!-- >>> BOTÃO AZUL (de novo)
+                 É o mesmo botão azul do topo, reaproveitando a class="btn-curso".
+                 Reaproveitar a classe é a graça do CSS: eu escrevo o estilo uma vez e uso onde quiser. -->
+            <a href="modulos.html" class="btn-curso">
+                Ver os módulos <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+
+    <!-- CONTAINER: .footer  (rodapé, igual ao da home) -->
+    <!-- >>> RODAPÉ
+         footer é a tag de rodapé. A class="footer" é do home.css (texto cinza, pequeno e centralizado).
+         O &copy; mostra o símbolo ©. -->
+    <footer class="footer">
+        <p>&copy; DevAcademy. Todos os direitos reservados.</p>
+    </footer>
+
+<!-- >>> FIM DO BODY E DO ARQUIVO -->
+</body>
+</html>

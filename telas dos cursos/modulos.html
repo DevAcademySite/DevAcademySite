@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/png" href="Robô Azul Claro Edição.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulos | Curso de HTML | DevAcademy</title>
+
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="base-curso.css">
+    <!-- CSS só desta página (lista de módulos) -->
+    <link rel="stylesheet" href="pagina-modulos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- CONTAINER: .navbar  (troque os caminhos pelos reais do seu site) -->
+    <header class="navbar">
+        <div class="logo-container">
+        <img src="Robô Azul Claro Edição.png" alt="DevAcademy Mascot" class="logo-img">
+            <span class="logo-text">Dev<span>Academy</span></span>
+        </div>
+
+        <nav class="nav-links">
+            <a href="../Home/home.html">Início</a>
+            <a href="../Home/home.html#cursos" class="active">Cursos</a>
+            <a href="../Home/profile.html">Perfil</a>
+        </nav>
+    </header>
+
+
+    <!-- =================================================================
+         CONTAINER: .pagina-conteudo  (caixa geral desta página)
+         Tudo o que aparece abaixo da navbar fica dentro dela.
+         ================================================================= -->
+    <main class="pagina-conteudo">
+
+        <!-- CONTAINER: .migalhas  (caminho de navegação) -->
+        <nav class="migalhas">
+            <a href="../Home/home.html#cursos">Cursos</a> /
+            <a href="curso-html.html">Curso de HTML</a> /
+            <span>Módulos</span>
+        </nav>
+
+        <!-- CONTAINER: .modulos-topo  (etiqueta, título e texto da página) -->
+        <section class="modulos-topo">
+            <span class="etiqueta">Trilha Desenvolvimento Web</span>
+            <h1>Curso de HTML</h1>
+            <p>Escolha um módulo para abrir o PDF e começar a estudar. Siga a ordem, do 1 ao 6.</p>
+        </section>
+
+        <!-- =============================================================
+             CONTAINER: .modulos-grade  (a grade com os 6 cards)
+             Cada card é um LINK (<a>) que leva para a página do módulo.
+             Para mudar o destino, é só trocar o href.
+             ============================================================= -->
+        <section class="modulos-grade">
+
+            <!-- CONTAINER: .modulo-card  (MÓDULO 1)
+                 A classe "card" vem do home.css; "modulo-card" é do pagina-modulos.css. -->
+            <a class="card modulo-card" href="modulo-1.html">
+                <!-- CONTAINER: .modulo-topo  (linha de cima: número à esquerda, nível à direita) -->
+                <div class="modulo-topo">
+                    <span class="modulo-numero">Módulo 1</span>
+                    <span class="modulo-nivel">Iniciante</span>
+                </div>
+                <h3>Fundamentos do HTML</h3>
+                <p>Tags, atributos, textos, listas, links e imagens. Sua primeira página.</p>
+                <!-- CONTAINER: .modulo-acao  (texto azul no rodapé do card) -->
+                <span class="modulo-acao">Ler módulo <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+
+            <!-- CONTAINER: .modulo-card  (MÓDULO 2) -->
+            <a class="card modulo-card" href="modulo-2.html">
+                <div class="modulo-topo">
+                    <span class="modulo-numero">Módulo 2</span>
+                    <span class="modulo-nivel">Iniciante</span>
+                </div>
+                <h3>Estrutura e Semântica</h3>
+                <p>header, nav, main, section, footer e a hierarquia certa de títulos.</p>
+                <span class="modulo-acao">Ler módulo <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+
+            <!-- CONTAINER: .modulo-card  (MÓDULO 3) -->
+            <a class="card modulo-card" href="modulo-3.html">
+                <div class="modulo-topo">
+                    <span class="modulo-numero">Módulo 3</span>
+                    <span class="modulo-nivel">Intermediário</span>
+                </div>
+                <h3>Tabelas e Formulários</h3>
+                <p>Tabelas, campos, labels e a validação nativa do navegador.</p>
+                <span class="modulo-acao">Ler módulo <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+
+            <!-- CONTAINER: .modulo-card  (MÓDULO 4) -->
+            <a class="card modulo-card" href="modulo-4.html">
+                <div class="modulo-topo">
+                    <span class="modulo-numero">Módulo 4</span>
+                    <span class="modulo-nivel">Intermediário</span>
+                </div>
+                <h3>Mídia e CSS Essencial</h3>
+                <p>Imagens, vídeo, seletores, box model e layout com Flexbox.</p>
+                <span class="modulo-acao">Ler módulo <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+
+            <!-- CONTAINER: .modulo-card  (MÓDULO 5) -->
+            <a class="card modulo-card" href="modulo-5.html">
+                <div class="modulo-topo">
+                    <span class="modulo-numero">Módulo 5</span>
+                    <span class="modulo-nivel">Avançado básico</span>
+                </div>
+                <h3>Responsividade, Acessibilidade e SEO</h3>
+                <p>Media queries, acessibilidade, meta tags e site no celular.</p>
+                <span class="modulo-acao">Ler módulo <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+
+            <!-- CONTAINER: .modulo-card  (MÓDULO 6) -->
+            <a class="card modulo-card" href="modulo-6.html">
+                <div class="modulo-topo">
+                    <span class="modulo-numero">Módulo 6</span>
+                    <span class="modulo-nivel">Avançado básico</span>
+                </div>
+                <h3>Avançado e Publicação</h3>
+                <p>details, JavaScript básico, performance e como publicar seu site.</p>
+                <span class="modulo-acao">Ler módulo <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+        </section>
+    </main>
+
+
+    <!-- CONTAINER: .footer -->
+    <footer class="footer">
+        <p>&copy; DevAcademy. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>

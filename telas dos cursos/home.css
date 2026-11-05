@@ -1,0 +1,531 @@
+/* >>> FONTE DO SITE
+   Aqui eu estou puxando a fonte Poppins do Google Fonts pela internet.
+   Os números 300;400;600;700 são os pesos que eu liberei pra usar:
+   300 = fininho, 400 = normal, 600 = semi-negrito e 700 = negrito. */
+/* Importação de fontes */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* >>> REGRA GERAL (vale pra TODOS os elementos do site)
+   O "*" quer dizer "tudo". Aqui eu:
+   - zerei o margin e o padding que o navegador coloca sozinho, pra eu controlar os espaços;
+   - coloquei box-sizing: border-box, que faz o width já contar o padding e a borda;
+   - defini que a fonte de tudo é a Poppins. */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* >>> FUNDO DA PÁGINA INTEIRA (tag <body>)
+   background-color: cor de fundo escura (cinza quase preto).
+   color: cor padrão dos textos (branco suave).
+   overflow-x: hidden: esconde a rolagem pros lados, pra página não ficar balançando. */
+body {
+    background-color: #0d1117;
+    color: #e6edf3;
+    overflow-x: hidden;
+}
+
+/* >>> NAVBAR (HTML: <header class="navbar">)
+   É a barra de cima do site. Ela fica fixa mesmo quando eu rolo a página.
+   - display: flex + justify-content: space-between: logo na esquerda e menu na direita;
+   - padding: 1.2rem 8%: espaço de dentro (em cima/embaixo e nos lados);
+   - background: rgba(...): cor escura com um pouco de transparência;
+   - backdrop-filter: blur(10px): borra o que passa por trás dela;
+   - position: fixed + top: 0: grudada no topo da tela;
+   - z-index: 1000: fica por cima de todo o resto;
+   - border-bottom: uma linha fina embaixo da barra. */
+/* Navbar ( Barra fixa do topo) */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 8%;
+    background: rgba(22, 27, 34, 0.8);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+/* >>> LOGO CONTAINER (HTML: <div class="logo-container">)
+   Caixinha da esquerda da navbar. Segura o robozinho e o nome do site lado a lado.
+   gap: 10px é o espaço entre os dois. */
+/* Logo + Nome */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+/* >>> IMAGEM DA LOGO (HTML: <img class="logo-img">)
+   O robozinho pequeno da navbar. 40px de largura; a altura se ajusta sozinha (auto). */
+/* img robo */
+.logo-img {
+    width: 40px;
+    height: auto;
+}
+/* >>> TEXTO DA LOGO (HTML: <span class="logo-text">)
+   O nome "DevAcademy". Tamanho 1.5rem (24px), negrito (700) e cor branca. */
+/* Nome do site */
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+}
+/* >>> PARTE AZUL DO NOME (HTML: o <span> dentro do logo-text)
+   Só a palavra "Academy" fica azul. */
+/* Cor do span do nome do site */
+.logo-text span {
+    color: #58a6ff;
+}
+/* >>> MENU DA DIREITA (HTML: <nav class="nav-links">)
+   Caixa que segura os links Início, Cursos e Perfil lado a lado, com 20px entre eles. */
+/* o menu da direita da barra */
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+/* >>> LINKS DO MENU (HTML: os <a> dentro do nav-links)
+   Cinza, sem sublinhado (text-decoration: none) e peso 500.
+   A transition faz a cor mudar devagarzinho (0,3s) quando eu passo o mouse. */
+/* Links do menu */
+.nav-links a {
+    color: #8b949e;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+/* >>> LINK DO MENU: MOUSE EM CIMA OU PÁGINA ATUAL
+   Fica azul quando eu passo o mouse (:hover) ou quando o link tem class="active",
+   que é o link da página em que eu estou. */
+.nav-links a:hover, .nav-links a.active {
+    color: #58a6ff;
+}
+
+/* >>> BOTÕES DE LOGIN (HTML: class="auth-buttons")
+   Caixa pra colocar botões (tipo entrar/cadastrar) lado a lado, com 15px entre eles.
+   Nas páginas do curso nenhum elemento usa essa classe. */
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+/* >>> HERO SECTION (HTML: <section class="hero-section">)
+   É a área grande do topo da página, logo abaixo da navbar.
+   Ela tem 2 colunas lado a lado: o texto na esquerda e uma imagem (ou código) na direita.
+   - padding-top: 160px: espaço em cima porque a navbar é fixa e cobriria o começo da página;
+   - align-items: center: centraliza as colunas na vertical;
+   - min-height: 90vh: no mínimo 90% da altura da tela. */
+/* Hero Section */
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 160px 8% 80px;
+    min-height: 90vh;
+}
+/* >>> ATENÇÃO: TEM UM "W" SOBRANDO NA LINHA DE BAIXO
+   Logo depois do comentário "Coluna esquerda" ficou uma letra W colada no final da linha.
+   Eu NÃO mexi no código, mas isso faz o navegador ler o seletor como
+   "W .hero-content" (um .hero-content dentro de uma tag <w>). Por isso a regra
+   logo abaixo (max-width: 600px) provavelmente NÃO está funcionando.
+   Quando eu quiser consertar, é só apagar esse W. */
+/* Coluna esquerda */W
+.hero-content {
+    max-width: 600px;
+}
+/* >>> TÍTULO GRANDE DO TOPO (HTML: o <h1> dentro do hero-content)
+   Exemplo: "Curso de HTML". Tamanho 3rem (48px).
+   line-height: 1.2 é o espaço entre as linhas. margin: 20px 0 = 20px em cima e embaixo. */
+/* Título da coluna esquerda */
+.hero-content h1 {
+    font-size: 3rem;
+    line-height: 1.2;
+    margin: 20px 0;
+}
+/* >>> PALAVRA AZUL DO TÍTULO (HTML: o <span> dentro do h1)
+   Só a palavra destacada do título (tipo "HTML") fica azul. */
+/* Cor do span do título da coluna esquerda */
+.hero-content h1 span {
+    color: #58a6ff;
+}
+/* >>> TEXTO DE APRESENTAÇÃO (HTML: o <p> dentro do hero-content)
+   Cinza, 1.1rem (17,6px). margin-bottom: 30px separa o texto dos botões. */
+/* Parágrafo da coluna esquerda */
+.hero-content p {
+    color: #8b949e;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+/* >>> CAIXA DOS BOTÕES (HTML: <div class="hero-actions">)
+   Segura os 2 botões lado a lado, com 15px entre eles. */
+/* Botões da coluna esquerda */
+.hero-actions {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+/* >>> BOTÃO PRIMÁRIO: SÓ O HOVER (HTML: class="btn-primary")
+   Aqui só existe a cor de quando passo o mouse (azul mais claro).
+   O estilo normal do .btn-primary (fundo azul, padding...) não está neste arquivo,
+   deve estar em outro CSS (como o login.css).
+   Nas páginas do curso eu uso o .btn-curso, que já tem tudo. */
+/* Botões */
+.btn-primary:hover {
+    background: #388bfd;
+}
+/* >>> BOTÃO SECUNDÁRIO (HTML: <a class="btn-secondary">)
+   Botão só com borda, tipo o "Como funciona".
+   padding: 12px 24px = espaço de dentro; border-radius: 6px = cantos arredondados. */
+/* Botão secundário */
+.btn-secondary {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e6edf3;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+/* >>> BOTÃO SECUNDÁRIO: MOUSE EM CIMA
+   Quando eu passo o mouse, o fundo fica clarinho (branco bem transparente). */
+/* Botão secundário hover */
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* >>> CAIXA DA IMAGEM DA DIREITA (HTML: <div class="hero-image">)
+   Centraliza a imagem na coluna da direita do topo. */
+/* Robo Imagem */
+.hero-image {
+    display: flex;
+    justify-content: center;
+}
+
+/* >>> ROBÔ GRANDE (HTML: <img class="floating-robo">)
+   320px de largura. A animation: float faz ele ficar subindo e descendo pra sempre
+   (cada volta demora 4s e vai suave, ease-in-out). */
+.floating-robo {
+    width: 320px;
+    animation: float 4s ease-in-out infinite;
+}
+
+/* >>> PASSOS DA ANIMAÇÃO "float"
+   0% e 100%: na posição normal. 50%: sobe 20px (-20px).
+   Por isso parece que ele está flutuando. */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* >>> FEATURES SECTION (HTML: <section class="features-section">)
+   Seção com título e cards. Na home é "O que você vai aprender?";
+   na página do curso é "Como funciona o curso".
+   80px de espaço em cima e embaixo, 8% nos lados, e o texto fica centralizado. */
+/* Features Section */
+.features-section {
+    padding: 80px 8%;
+    text-align: center;
+}
+/* >>> SCROLL-MARGIN (a regra vale pras DUAS seções)
+   O comentário de cima diz "Profile Section", mas esta regra vale pra
+   .features-section E .profile-section (a vírgula junta as duas).
+   scroll-margin-top: 90px: quando um link como #cursos rola até a seção, ela para
+   90px antes do topo, pra navbar fixa não tapar o título. */
+/* Profile Section */
+.features-section,
+.profile-section {
+    scroll-margin-top: 90px;
+}
+/* >>> TÍTULO DA SEÇÃO (HTML: class="section-title")
+   2rem (32px) e 10px de espaço embaixo, separando do subtítulo. */
+/* Título da seção */
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+/* >>> SUBTÍTULO DA SEÇÃO (HTML: class="section-subtitle")
+   Texto cinza embaixo do título. margin-bottom: 50px separa dos cards. */
+/* Subtítulo da seção */
+.section-subtitle {
+    color: #8b949e;
+    margin-bottom: 50px;
+}
+
+/* >>> CARDS GRID (HTML: <div class="cards-grid">)
+   É a GRADE que organiza os cards. Ela não aparece na tela, só decide quantos cards
+   ficam por linha.
+   - display: grid: liga o modo grade;
+   - repeat(auto-fit, minmax(280px, 1fr)): cria quantas colunas couberem, cada uma com
+     no mínimo 280px, dividindo o espaço que sobrar igualmente.
+     (no computador viram 3 colunas; no celular, 1);
+   - gap: 25px: espaço entre os cards. */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* >>> CARD (HTML: <div class="card">)
+   Cada cartãozinho escuro. Fundo cinza um pouco mais claro que a página,
+   30px de espaço de dentro (padding), cantos arredondados (12px) e uma borda fina.
+   text-align: left: o texto volta pra esquerda (a seção estava centralizada).
+   transition: faz o efeito do hover acontecer devagar (0,3s). */
+.card {
+    background: #161b22;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: left;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+/* >>> CARD QUE É UM LINK (HTML: <a class="card course-card">)
+   Usado junto com .card nos cards clicáveis da home.
+   display: block: o link vira uma caixa do tamanho do card.
+   color: inherit e text-decoration: none: tira o azul e o sublinhado padrão de link. */
+.course-card {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* >>> CARD: MOUSE EM CIMA
+   O card sobe 5px (translateY(-5px)) e a borda fica azul. */
+.card:hover {
+    transform: translateY(-5px);
+    border-color: #58a6ff;
+}
+
+/* >>> CARD CLICÁVEL: SELECIONADO PELO TECLADO (tecla Tab)
+   Aparece um contorno azul de 2px, afastado 4px do card. Ajuda quem não usa mouse. */
+.course-card:focus-visible {
+    outline: 2px solid #58a6ff;
+    outline-offset: 4px;
+}
+
+/* >>> TÍTULO DO CARD (HTML: o <h3> dentro do card)
+   Só coloquei 10px de espaço embaixo. O tamanho da letra é o padrão do navegador pra h3. */
+.card h3 {
+    margin-bottom: 10px;
+}
+
+/* >>> TEXTO DO CARD (HTML: o <p> dentro do card)
+   Cinza, 0.95rem (15,2px). line-height: 1.5 deixa as linhas mais espaçadas. */
+.card p {
+    color: #8b949e;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* >>> TEXTO "Ver curso ->" DO CARD (HTML: <span class="course-link">)
+   Azul, negrito (600), com a seta ao lado (inline-flex + gap: 8px).
+   margin-top: 18px separa do texto do card. */
+.course-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    color: #58a6ff;
+    font-weight: 600;
+}
+
+/* >>> PROFILE SECTION (PÁGINA DE PERFIL)
+   Daqui até o Footer é tudo da tela de Perfil. Não é usado nas páginas do curso.
+   .profile-section é a seção inteira: 140px em cima (por causa da navbar fixa)
+   e texto centralizado. */
+/* Profile */
+.profile-section {
+    padding: 140px 8% 80px;
+    text-align: center;
+}
+
+/* >>> FORMULÁRIO DO PERFIL (HTML: <form class="profile-form">)
+   Caixa escura do formulário. max-width: 720px (não passa disso), margin: 0 auto centraliza.
+   Mesmo visual de um card: fundo, borda fina e cantos de 12px. */
+.profile-form {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 30px;
+    background: #161b22;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    text-align: left;
+}
+
+/* >>> GRADE DOS CAMPOS (HTML: <div class="profile-fields">)
+   Organiza os campos em 2 colunas iguais com 20px entre eles. */
+.profile-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+/* >>> UM CAMPO (HTML: <div class="profile-field">)
+   Cada campo (texto + caixa de digitar). flex + flex-direction: column coloca um embaixo
+   do outro, com 8px de espaço. */
+.profile-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* >>> NOME DO CAMPO (HTML: o <label> dentro do profile-field)
+   O texto que explica o campo, em semi-negrito (600). */
+.profile-field label {
+    font-weight: 600;
+}
+
+/* >>> CAIXAS DE DIGITAR (HTML: <input>, <select> e <textarea> do perfil)
+   As 3 linhas com vírgula juntam 3 tipos de campo na mesma regra.
+   Ocupam 100% da largura, fundo igual ao da página, borda clarinha e cantos de 6px.
+   font: inherit: usa a mesma fonte do resto do site. */
+.profile-field input,
+.profile-field select,
+.profile-field textarea {
+    width: 100%;
+    padding: 12px;
+    color: #e6edf3;
+    background: #0d1117;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    font: inherit;
+}
+
+/* >>> CAIXA DE TEXTO GRANDE (HTML: <textarea>)
+   resize: vertical: só dá pra aumentar a caixa pra baixo, não pros lados. */
+.profile-field textarea {
+    resize: vertical;
+}
+
+/* >>> CAMPO SELECIONADO (quando eu clico dentro pra digitar)
+   Aparece um contorno azul de 2px, afastado 2px da caixa. */
+.profile-field input:focus,
+.profile-field select:focus,
+.profile-field textarea:focus {
+    outline: 2px solid #58a6ff;
+    outline-offset: 2px;
+}
+
+/* >>> BOTÃO SALVAR (HTML: <button class="profile-save">)
+   Azul (#1f6feb), letras brancas, sem borda, cantos de 6px e mãozinha ao passar o mouse
+   (cursor: pointer). margin-top: 20px separa dos campos. */
+.profile-save {
+    margin-top: 20px;
+    padding: 12px 24px;
+    color: #fff;
+    background: #1f6feb;
+    border: 0;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* >>> BOTÃO SALVAR: MOUSE EM CIMA
+   Fica azul mais claro. */
+.profile-save:hover {
+    background: #388bfd;
+}
+
+/* >>> MENSAGEM DE STATUS (HTML: class="profile-status")
+   Texto verde que mostra o resultado (ex.: "Perfil salvo").
+   min-height: 1.5em reserva espaço pra página não "pular" quando a mensagem aparece. */
+.profile-status {
+    min-height: 1.5em;
+    margin-top: 12px;
+    color: #3fb950;
+}
+
+/* >>> RODAPÉ (HTML: <footer class="footer">)
+   Faixa de baixo do site. Texto centralizado, cinza e pequeno (0.9rem = 14,4px),
+   com uma linha fina em cima (border-top). */
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: #8b949e;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* >>> RESPONSIVIDADE (como o site se adapta ao celular)
+   Os blocos @media só valem quando a tela é MENOR que o tamanho indicado.
+   Eles repetem alguns seletores de cima, mas só com o que muda. */
+/* Responsividade */
+/* >>> TELAS ATÉ 900px (tablet e celular) */
+@media (max-width: 900px) {
+    /* >>> HERO NO TABLET
+       As 2 colunas viram 1 coluna (uma embaixo da outra), o texto fica centralizado
+       e o espaço de cima diminui de 160px pra 120px. */
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 120px;
+    }
+
+    /* >>> BOTÕES DO TOPO NO TABLET
+       Os botões ficam centralizados.
+       (Obs.: .hero-stats não existe no HTML do curso, essa classe ficou sem uso.) */
+    .hero-actions, .hero-stats {
+        justify-content: center;
+    }
+
+    /* >>> ROBÔ NO TABLET
+       Menor (220px) e com 40px de espaço em cima, já que agora ele fica embaixo do texto. */
+    .floating-robo {
+        margin-top: 40px;
+        width: 220px;
+    }
+
+    /* >>> MENU NO TABLET
+       O espaço entre os links diminui de 20px pra 12px. */
+    .nav-links {
+        display: flex;
+        gap: 12px;
+    }
+}
+
+/* >>> TELAS ATÉ 520px (celular) */
+@media (max-width: 520px) {
+    /* >>> NAVBAR NO CELULAR
+       Menos espaço dentro da barra (1rem em cima/embaixo e 5% nos lados). */
+    .navbar {
+        padding: 1rem 5%;
+    }
+
+    /* >>> NOME DA LOGO NO CELULAR
+       Letra menor: 1.2rem (19,2px). */
+    .logo-text {
+        font-size: 1.2rem;
+    }
+
+    /* >>> MENU NO CELULAR
+       O espaço entre os links diminui pra 8px. */
+    .nav-links {
+        gap: 8px;
+    }
+
+    /* >>> LINKS DO MENU NO CELULAR
+       Letra menor: 0.85rem (13,6px). */
+    .nav-links a {
+        font-size: 0.85rem;
+    }
+
+    /* >>> CAMPOS DO PERFIL NO CELULAR
+       De 2 colunas pra 1 coluna. */
+    .profile-fields {
+        grid-template-columns: 1fr;
+    }
+
+    /* >>> FORMULÁRIO DO PERFIL NO CELULAR
+       Menos espaço de dentro (20px em vez de 30px). */
+    .profile-form {
+        padding: 20px;
+    }
+}
