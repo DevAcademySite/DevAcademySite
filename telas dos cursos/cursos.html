@@ -1,0 +1,90 @@
+<!--começa aqui o conjunto de paginas-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/png" href="Robô Azul Claro Edição.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossos Cursos | DevAcademy</title>
+
+    <!-- Arquivos CSS da página -->
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="base-curso.css">
+    <link rel="stylesheet" href="cursos-catalogo.css">
+    <!-- Ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Topo do site (menu de navegação fixo) -->
+    <header class="navbar">
+        <div class="logo-container">
+        <img src="Robô Azul Claro Edição.png" alt="DevAcademy Mascot" class="logo-img">    
+            <span class="logo-text">Dev<span>Academy</span></span>
+        </div>
+
+        <nav class="nav-links">
+            <a href="../Home/home.html">Início</a>
+            <a href="cursos.html" class="active">Cursos</a>
+            <a href="../Home/profile.html">Perfil</a>
+        </nav>
+    </header>
+
+
+    <!-- Caixa principal que abraça todo o conteúdo da página -->
+    <main class="pagina-conteudo">
+
+        <!-- Meu caminho de navegação (breadcrumb) -->
+        <nav class="migalhas">
+            <a href="../Home/home.html">Início</a> /
+            <span>Cursos</span>
+        </nav>
+
+        <!-- Cabeçalho da página de catálogo -->
+        <div class="catalogo-cabecalho">
+            <span class="etiqueta">Trilhas de Aprendizado</span>
+            <h1>Escolha seu próximo curso</h1>
+            <p>Evolua suas habilidades na programação do zero ao profissional com trilhas práticas.</p>
+        </div>
+
+        <!-- Grade de cards de cursos disponíveis -->
+        <div class="cards-grid">
+
+            <!-- CURSO 1: HTML (O único clicável que leva pra jornada) -->
+            <div class="card card-ativo">
+                <div class="explicacao-icone"><i class="fa-brands fa-html5"></i></div>
+                <h3>Curso de HTML</h3>
+                <p>Aprenda a estruturação de sites do zero ao avançado básico com módulos práticos e PDFs.</p>
+                <!-- O botão leva direto pra página principal do curso de HTML que você já fez -->
+                <a href="curso-html.html" class="btn-curso card-botao">
+                    Acessar curso <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- CURSO 2: CSS (Em breve / Bloqueado) -->
+            <div class="card card-bloqueado">
+                <div class="explicacao-icone icone-cinza"><i class="fa-brands fa-css3-alt"></i></div>
+                <h3>Curso de CSS</h3>
+                <p>Domine estilização avançada, Flexbox, Grid e animações para deixar seus sites incríveis.</p>
+                <span class="etiqueta-breve">Em breve</span>
+            </div>
+
+            <!-- CURSO 3: JavaScript (Em breve / Bloqueado) -->
+            <div class="card card-bloqueado">
+                <div class="explicacao-icone icone-cinza"><i class="fa-brands fa-js"></i></div>
+                <h3>Curso de JavaScript</h3>
+                <p>Dê vida às páginas criando lógica, interatividade, manipulação de DOM e muito mais.</p>
+                <span class="etiqueta-breve">Em breve</span>
+            </div>
+
+        </div>
+    </main>
+
+
+    <!-- Rodapé simples no final da página -->
+    <footer class="footer">
+        <p>&copy; DevAcademy. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
