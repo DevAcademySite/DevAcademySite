@@ -1,0 +1,163 @@
+<!--
+Projeto: Dev Academy
+Desenvolvedora: Camila
+Início: 03/09/2026
+Fim: xx/xx/xxxx
+
+Descrição:
+Tela inicial da plataforma Dev Academy.
+
+Funcionalidades atuais:
+- Botão de acesso para a tela de Login, no canto superior direito.
+
+Características visuais:
+- Fundo animado com o símbolo Python em SVG.
+- Paleta de cores: ciano e azul.
+- Tipografias Orbitron e Rajdhani.
+- Exibição de três cards com elementos visuais interativos.
+
+Tecnologias:
+- HTML5
+- CSS3
+
+Status: Em desenvolvimento.
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela inicial</title>
+
+    <link rel="stylesheet" href="tela-inicial.css">
+    
+    <!-- fontes de letras diferentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    
+
+    <!-- <link rel="icon" type="image/png" href="../dev.img/mascote.png"> -->
+</head>
+<body>
+    
+<!-- TODOS os símbolos Python -->
+<div class="snakePai">
+    <span class="snake-ciano" style="--i: 88;"></span>
+    <span class="snake-azul" style="--i: 22;"></span>
+    <span class="snake-ciano" style="--i: 98;"></span>
+    <span class="snake-azul" style="--i: 30;"></span>
+    <span class="snake-ciano" style="--i: 59;"></span>
+    <span class="snake-azul" style="--i: 199;"></span>
+    <span class="snake-ciano" style="--i: 30;"></span>
+    <span class="snake-azul" style="--i: 120;"></span>
+    <span class="snake-ciano" style="--i: 55;"></span>
+    <span class="snake-azul" style="--i: 89;"></span>
+    <span class="snake-ciano" style="--i: 99;"></span>
+    <span class="snake-azul" style="--i: 56;"></span>
+    <span class="snake-ciano" style="--i: 108;"></span>
+    <span class="snake-azul" style="--i: 81;"></span>
+    <span class="snake-ciano" style="--i: 67;"></span>
+    <span class="snake-azul" style="--i: 91;"></span>
+
+    <span class="snake-ciano" style="--i: 51;"></span>
+    <span class="snake-azul" style="--i: 32;"></span>
+    <span class="snake-ciano" style="--i: 101;"></span>
+    <span class="snake-azul" style="--i: 67;"></span>
+    <span class="snake-ciano" style="--i: 90;"></span>
+    <span class="snake-azul" style="--i: 44;"></span>
+    <span class="snake-ciano" style="--i: 99;"></span>
+    <span class="snake-azul" style="--i: 120;"></span>
+    <span class="snake-ciano" style="--i: 55;"></span>
+    <span class="snake-azul" style="--i: 88;"></span>
+    <span class="snake-ciano" style="--i: 69;"></span>
+    <span class="snake-azul" style="--i: 60;"></span>
+    <span class="snake-ciano" style="--i: 18;"></span>
+    <span class="snake-azul" style="--i: 42;"></span>
+    <span class="snake-ciano" style="--i: 67;"></span>
+    <span class="snake-azul" style="--i: 22;"></span>
+
+    <span class="snake-azul" style="--i: 120;"></span>
+    <span class="snake-ciano" style="--i: 55;"></span>
+    <span class="snake-azul" style="--i: 89;"></span>
+    <span class="snake-ciano" style="--i: 99;"></span>
+    <span class="snake-azul" style="--i: 56;"></span>
+    <span class="snake-ciano" style="--i: 108;"></span>
+
+    <span class="snake-ciano" style="--i: 55;"></span>
+    <span class="snake-azul" style="--i: 89;"></span>
+    <span class="snake-ciano" style="--i: 99;"></span>
+    <span class="snake-azul" style="--i: 56;"></span>
+    <span class="snake-ciano" style="--i: 108;"></span>
+    <span class="snake-azul" style="--i: 81;"></span>
+    <span class="snake-ciano" style="--i: 67;"></span>
+    <span class="snake-azul" style="--i: 91;"></span>
+    <span class="snake-ciano" style="--i: 51;"></span>
+    <span class="snake-azul" style="--i: 32;"></span>
+    <span class="snake-ciano" style="--i: 101;"></span>
+    <span class="snake-azul" style="--i: 67;"></span>
+</div>
+<!-- __ -->
+
+    <!-- engloba toda a página/vw -->
+    <div class="pagina">
+         
+        <div class="painelDvidro">
+
+        <div class="h1uns-devEacad">
+         <h1 class="h1one">DEV</h1>
+         <h1 class="h1two">ACADEMY</h1>
+        </div>
+
+        <p class="sobreNos">
+            Aprenda Python, HTML, corrija erros de código e 
+            desafie seus conhecimentos, tudo de um jeito divertido e descontraído com a Dev Academy! 🚀
+        </p>
+        
+        </div>
+
+
+        <!-- <button type="button" class="botao-login">Login</button> -->
+        <a href="../dev.login/login.html" class="botao-login">Login</a>
+
+
+        <div class="oScards">
+            
+            <!-- <a href="../dev.in-cards/cards-Telas.html" class="TDS-cards">
+                <h2 class="code-error">Code Error</h2>
+                <p class="p1 pLinha">Encontre e corrija erros no seu código.</p>
+            </a> -->
+            <button class="cards">
+                <h2 class="code-error">Code Error</h2>
+                <p class="p1 pLinha">Encontre e corrija erros no seu código.</p>
+            </button>
+
+
+            <!-- <a href="../dev.in-cards/cards-Telas.html" class="TDS-cards">
+                <h2 class="python">Python</h2>
+                <p class="p2 pLinha">Aprenda a linguagem de programação Python.</p>
+            </a> -->
+            <button class="cards">
+                <h2 class="python">Python</h2>
+                <p class="p2 pLinha">Aprenda a linguagem de programação Python.</p>
+            </button>
+
+
+            <!-- <a href="../dev.in-cards/cards-Telas.html" class="TDS-cards">
+                <h2 class="quiz">Quiz</h2>
+                <p class="p3 pLinha">Teste seus conhecimentos.</p>
+            </a> -->
+            <button class="cards">
+                <h2 class="quiz">Quiz</h2>
+                <p class="p3 pLinha">Teste seus conhecimentos.</p>
+            </button>
+
+        </div>
+
+    </div>    
+    
+    <script src="tela-inicial.js"></script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+/*
+Projeto: Dev Academy
+Desenvolvedora: Camila
+Descrição: Estilização da tela de Criar conta
+ ● PALETA DA INTERFACE: CIANO E VERDE ●
+Tecnologias: CSS3
+*/
+
+
+
+* {
+    margin: 0; /*remove a margem padrão dos elementos*/
+    padding: 0; /*remove o espaço interno padrão*/
+    box-sizing: border-box; /*inclui padding e borda no tamanho do elemento*/
+}
+
+body {
+    font-family: Arial, sans-serif; /*fonte dos textos*/
+    background-color: rgb(0, 23, 27); /*cor de fundo da página*/
+}
+
+
+.pagina {
+    width: 100%;  /*ocupa toda a largura da tela*/
+    min-height: 100vh;  /*altura mínima de 100% da tela*/
+    display: flex;  /*centraliza os elementos em linha*/
+    
+    justify-content: center; /* "centraliza" horizontalmente*/
+    /* center  → centro
+       flex-start → começo
+       flex-end → final
+    */
+
+    align-items: center; /*centraliza verticalmente*/
+    position: relative;
+    
+    /*padding-right: 60px; /*quanto MAIOR o padding, MAIS distante vai estar da direita (nesse caso que é RIGHT)*/
+}
+
+.vidro {
+    background-color: rgba(0, 0, 0, 0.1); /*COR de fundo do VIDRO e sua TRANSPARÊNCIA*/
+    backdrop-filter: blur(10px); /*opacidade do vidro*/
+    /*border: 1px solid rgba(34, 3, 206, 0.8); /*borda do vidro*/
+    border-radius: 60px; /*arredodamento do formato do vidro*/
+    box-shadow: 0 0 50px; /*rgb(3, 3, 173); luz do vidro*/
+
+    position: relative;
+
+    width: 400px; /*LARGURA do vidro*/
+    height: 515px; /*ALTURA do vidro*/
+    /*se o seu código tiver configurações de RESPONSIVIDADE*/
+    /*após fazer QUALQUER ALTERAÇÃO nos seletores, seja de largura, altura, etc*/
+    /*ALTERAR AS CONFIGURAÇÕES DE RESPONSIVIDADE*/
+
+    padding: 40px 20px; /*espaçamento entre a borda do vidro e o formulário*/
+    /*o padding recebe dois valores --> vertical(Y) e horizontal(X)*/
+    /*vertical(Y) = espaçamento de cima e baixo*/
+    /*horizontal(X) = espaçamento da esquerda e direita*/
+
+    opacity: 0;
+    animation: introVidro 2s linear /*1.3s*/ forwards;
+    /*1.5s é a DURAÇÃO da animação em si*/
+    /*1.3S é o tempo que a animação ESPERA para começar*/
+
+    /* VELOCIDADES
+    ease → começa devagar, acelera, desacelera.
+    ease-in → começa devagar, termina rápido.
+    ease-out → começa rápido, termina devagar.
+    ease-in-out → começa devagar, acelera, desacelera.
+    linear → velocidade constante.
+    */
+
+    z-index: 1;
+}
+
+@keyframes introVidro {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+h1 { /*titulo*/
+    margin-bottom: 35px; /*distância DEBAIXO do elemento*/
+    /*quanto MAIOR o margin BOTTOM, mais EMBAIXO fica*/
+
+    margin-top: -10px; /*quanto MAIOR e POSITIVO o margin TOP, mais EMBAIXO fica*/
+    /*quanto MAIOR e NEGATIVO o margin TOP, mais  EM CIMA fica*/
+
+    text-align: center; /*centraliza o texto*/
+    font-family:"Orbitron"; /*fonte do texto*/
+    font-weight: 400;
+    color: aqua;
+
+    /*background: linear-gradient(to right, rgba(34, 3, 206, 0.8) 30%, rgb(0, 255, 255) 65%); /*degrade de cor*/
+    /*to right → _ to bottom ↓ _ to top ↑*/ /*as porcentagens definem em que posição daquela largura a cor está*
+
+    background-clip: text; /*contorna o texto, assim especificando onde o degrade deve aparecer*
+    -webkit-text-fill-color: transparent; /*deixa a cor do texto transparente, assim o degrade aparece dentro do desenho das chaves feito pelo background-clip*
+    
+    text-shadow:0 0 30px ;
+    /*-webkit-text-stroke: 1px rgb(43, 13, 177); cria um contorno no próprio caractere (LOGIN) de 1px=1 pixel, white=cor branca*/
+}
+
+
+.campo { /*campos de ---> senha e email*/
+    position: relative; /*cria uma referência para posicionar elementos dentro*/
+    margin-bottom: 15px; /*distância DEBAIXO do elemento*/
+    /*distância entre o CAMPOS/CAIXAS DE TEXTO*/
+}
+
+.campo label { /*pega os labels que estão dentro de .campo*/
+    position: absolute; /*permite posicionar o label livremente/dentro do input*/
+    left: 10px; /*coloca o label 10px afastado da esquerda. quanto maior o left, mais o elemento vai para a DIREITA*/
+    
+    top: 50%; /*distância A PARTIR do topo, ou seja, para BAIXO, no MEIO do input*/
+    /*exemplo: "top: 0;" significaria: "fique lá em cima" */
+    /*o que foi colocado no meio foi o TOPO do label. quem deixa o label NO MEIO é o tranform: translate*/
+    
+    transform: translateY(-50%); /*ajusta VERTICALMENTE o label*/
+    /*ele pega o label e sobe 50% da altura dele, ou seja, a metade*/
+    /*juntando o top e o transform = ele fica NO MEIO do INPUT horizontalmente(top) e CENTRALIZADO VERTICALMENTE(transform), com base na SUA PROPRIA ALTURA*/
+    
+    color: aqua; /*cor do LABEL*/
+    font-size: 20px; /*tamanho da letra*/
+    font-family: "Rajdhani"; /*fonte do nome do campo*/
+    
+    transition: 0.3s; /*duração da animação do label, sem isso, o label se teleptransporta*/
+}
+
+
+input {
+    width: 320px; /*LARGURA da caixa*/
+    height: 52px; /*ALTURA da caixa*/
+    border-radius: 15px; /*arredondamento da caixa*/
+    color: white; /*cor do texto digitado*/
+    background-color: transparent; /*deixa o fundo da caixa transparente*/
+    color: white; /*define a cor do TEXTO DIGITADO PELO USUÁRIO*/
+    border: 1px solid aqua; /*define a espessura da borda, ela é contínua e X cor*/
+    padding: 0 10px; /*espaçamento interno da caixa. 0=sem espaçamento, 10px=10 pixels de espaçamento*/
+
+    font-family: "Rajdhani"; /*fonte do texto (inserido pelo usuario) */
+    font-size: 20px; /*tamanho da letra (inserida pelo usuario) */
+}
+
+input:focus + label, /*quando o input estiver em foco, pegue o label que vem IMEDIATAMENTE DEPOIS dele*/
+input:not(:placeholder-shown) + label { /*enquanto o input estiver com conteúdo, PEGUE o label que está depois dele*/
+    /*PEGUE = selecione esse elemento (label) para que as propriedades que estão dentro das { } sejam aplicadas nele*/
+   /*assim, o label fica na borda superior do input SEM DESCER de volta enquanto tem conteudo*/
+
+    top: 0; /*move o label para cima da caixa*/
+    background-color: rgb(0, 23, 27); /*deixa o fundo do label preto para cobrir a borda/linha do input atrás dele*/
+    padding: 0 5px; /*espaçamento interno do label, 0=sem espaçamento, 5px=5 pixels de espaçamento*/
+}
+
+input:focus { /*quando o input estiver em foco*/
+    outline: none; /*remove o contorno automático do navegador*/
+    /*border-color:rgb(3, 3, 173); /*quando o campo é selecionado, a cor altera*/
+
+    box-shadow: aqua 0 0 10px;
+} 
+
+input:-webkit-autofill { /*inset = coloque essa sombra para DENTRO do input*/
+    
+    -webkit-text-fill-color: white; /*quando o navegador preenche automaticamente, ele pode alterar a aparência do texto*/
+    /*então, essa linha diz: o texto que foi preenchido automaticamente deve CONTINUAR branco*/
+    
+    -webkit-box-shadow: 0 0 0 1000px rgb(0, 23, 27) inset; /*preenche o input com a cor PRETA*/
+    /*se quiser trocar a cor, só mudar o nome dela*/
+}
+
+input {
+    caret-color: aqua; /*cor do CURSOR DE TEXTO*/
+    /*caret = cursor de texto*/
+    /*é a linhazinha que fica piscando esperando vc escrever*/
+}
+
+form {
+    display: flex; /*centraliza os elementos em linha*/
+    flex-direction: column; /*alinha os elementos em coluna*/
+    align-items: center; /*centraliza os elementos horizontalmente*/
+
+    padding: 10px 0px;
+}
+
+
+button { /*configs de TODOS os botões JUNTOS*/
+    width: 250px; /*largura do botão*/
+    height: 50px; /*altura do botão, define a altura da caixa do elemento*/
+    border-radius: 25px; /*arredondamento do botão*/
+    margin-top: 10px; /*distância de cima do botão*/
+    padding: 10px; /*espaçamento interno do botão*/
+    cursor: pointer; /*muda o cursor para uma mãozinha quando passa em cima do botão*/
+    /* transition: background-color 2s ease-out; animação da cor de fundo do botão, 1s=1 segundo, ease=suaviza a animação */
+
+    font-family: "Rajdhani"; /*fonte do texto*/
+    font-weight: 500;
+    font-size: 18px; /*tamanho da letra do texto*/
+}
+
+.criar { /*configurações do botão CRIAR*/
+    color: black; /*cor do texto do botão*/
+    background-color: aqua; /*cor de FUNDO do botão*/
+    border: 1px solid transparent; /*cria a borda fina, contínua e transparent. ou qualquer cor q voce definir*/
+
+    width: 220px;
+}
+
+.criar:hover {
+    box-shadow: 0 0 10px aqua, 0 0 20px aqua;
+}
+
+.jatenho {
+    color: white; /*cor do texto do botão*/
+    background-color: rgba(0, 255, 255, 0.301); /*cor de FUNDO do botão*/
+    border: 1px solid rgba(0, 255, 255, 0.432); /*cria a borda fina, contínua e azul*/
+
+    margin-top: 60px; /*distância de cima do botão*/
+    height: 40px; /*altura do botão, define a altura da caixa do elemento*/
+    width: 300px; /*largura do botão*/
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+
+    border-radius: 25px;
+    font-family: "Rajdhani";
+    font-size: 18px;
+}
+
+.jatenho:hover {
+    background: rgba(0, 255, 255, 0.548);
+}
+
+
+
+/* TODAS as configurações do fundo animado das cores */
+
+.fundo-cores {
+    position: fixed; /*fixa a animação na tela do navegador*/
+    inset: 0; /*faz com que ele ocupe os quatro lados disponíveis: topo, direita, baixo e esquerda*/
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/*aparência geral das cores*/
+.cor { 
+    position: absolute;
+
+    width: 30vw;
+    height: 30vw;
+
+    min-width: 220px;
+    min-height: 220px;
+
+    border-radius: 50%;
+
+    filter: blur(65px);
+    opacity: 0.65;
+}
+
+/*configs INDIVIDUAIS de cada cor*/
+.cor-1 {
+    background: radial-gradient(
+    circle,
+    rgba(0, 221, 255, 0.863), 40%,
+    transparent 10%);
+
+    left: -3%;
+    top: -5%;
+
+    animation: mover-cor-1 18s ease-in-out infinite alternate;
+}
+
+.cor-2 {
+    background: radial-gradient(
+    rgba(0, 221, 255, 0.863), 40%,
+    transparent 10%);
+
+    right: 5%;
+    top: 35%;
+
+    animation: mover-cor-2 23s ease-in-out infinite alternate;
+}
+
+.cor-3 {
+    background: radial-gradient(
+    /*rgb(251, 255, 0) /*cor amarelinha linda*/
+    rgb(0, 255, 64), 40%,
+    transparent 10%);
+
+    left: 30%;
+    bottom: -10%;
+
+    animation: mover-cor-3 20s ease-in-out infinite alternate;
+}
+
+
+/*MOVIMENTAÇÕES INDIVIDUAIS DE CADA COR*/
+@keyframes mover-cor-1 { /*CIANO 1*/
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    20% {
+        transform: translate(5vw, 45vh) scale(1);
+    }
+
+    40% {
+        transform: translate(70vw, 45vh) scale(1.2);
+    }
+
+    60% {
+        transform: translate(30vw, 50vh) scale(0.9);
+    }
+
+    80% {
+        transform: translate(-5vw, 20vh) scale(1.2);
+    }
+
+    100% {
+        transform: translate(15vw, 10vh) scale(1);
+    }
+}
+
+
+@keyframes mover-cor-2 { /*CIANO 2*/
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    25% {
+        transform: translate(20vw, -50vh) scale(1);
+    }
+
+    50% {
+        transform: translate(-5vw, 50vh) scale(1.25);
+    }
+
+    100% {
+        transform: translate(-80vw, -80vh) scale(0.9);
+    }
+}
+
+
+@keyframes mover-cor-3 { /*VERDE*/
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    25% {
+        transform: translate(30vw, -70vh) scale(0.9);
+    }
+
+    50% {
+        transform: translate(50vw, -70vh) scale(1.2);
+    }
+
+    100% {
+        transform: translate(-45vw, -85vh) scale(1);
+    }
+}

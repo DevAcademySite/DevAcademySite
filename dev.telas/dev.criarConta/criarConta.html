@@ -1,0 +1,101 @@
+<!--
+Projeto: Dev Academy
+Desenvolvedora: Camila
+Início: 03/09/2026
+Fim: xx/xx/xxxx
+
+Descrição:
+Tela de Criar conta da plataforma Dev Academy.
+
+Funcionalidades atuais:
+- Campo para inserção de Usuário.
+- Campo para inserção de E-mail.
+- Campo para inserção de Senha.
+- Botão de acesso à Tela inicial (CRIAR)..
+- Botão de retorno para à tela de Login (Já tenho conta).
+
+Características visuais:
+- Paleta de cores de cada tela:
+ ↳ criarConta-Tela1 = AZUL e ROXO.
+ ↳ criarConta-Tela2 = CIANO e VERDE.
+ ↳ criarConta-Tela3 = AZUL e CIANO.
+
+- Fundo com efeitos animados de iluminação.
+- Tipografias Orbitron e Rajdhani.
+- Campo de inserção de dados com efeito Glassmorphism.
+
+Tecnologias:
+- HTML5
+- CSS3
+
+Status: Em desenvolvimento.
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta</title>
+
+    <link rel="stylesheet" href="criarConta-Tela3.css">
+    <!-- criarConta-Tela1 = paleta AZUL e ROXO -->
+    <!-- criarConta-Tela2 = paleta CIANO e VERDE -->
+    <!-- criarConta-Tela3 = paleta AZUL e CIANO -->
+
+    <!--
+    ● COMO MUDAR A PALETA DE COR:
+    0. Cada número corresponde a uma paleta de cores distinta.
+    1. Têm o criarConta-Tela UM, DOIS e TRÊS.
+    2. Troque apenas o número (X) do nome "criarConta-TelaX.css".
+    3. Veja as cores mudarem instantaneamente.
+    -->
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- link da família das fontes Rajdhani e Orbitron -->
+</head>
+<body>
+
+
+<div class="pagina">
+
+    <div class="fundo-cores">
+        <span class="cor cor-1"></span>
+        <span class="cor cor-2"></span>
+        <span class="cor cor-3"></span>
+    </div>
+        
+        <div class="vidro">
+
+        <h1>Criar conta</h1>
+
+        <form> <!--FORMULÁRIO-->
+         <div class="campo">
+          <input type="text" id="nome" name="nome" placeholder=" ">
+          <label for="nome">Usuário:</label>
+         </div>
+
+         <div class="campo">
+          <input type="text" id="email" name="email" placeholder=" ">
+          <label for="email">E-mail:</label>
+         </div>
+
+         <div class="campo">
+          <input type="password" id="senha" name="senha" placeholder=" ">
+          <label for="senha">Senha:</label>
+         </div>
+
+
+         <button type="submit" class="criar">CRIAR</button>
+         
+         <a href="../dev.login/login.html" class="jatenho">Já tenho conta</a>
+         <!-- <button type="button" class="jatenho">Já tenho conta</button> -->
+
+    </form>
+
+    </div>
+    </div>
+</body>

@@ -1,0 +1,276 @@
+/*
+Projeto: Dev Academy
+Desenvolvedora: Camila
+Descrição: Estilização da Tela inicial
+Tecnologias: CSS3
+*/
+
+
+
+*{  margin: 0; 
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "Orbitron";
+    
+    background: radial-gradient(
+            ellipse at 50% 50%,
+            rgba(15, 0, 230, 0.5),
+            transparent 65%), #05080d;
+}
+
+.pagina {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: top;
+}
+
+
+.h1uns-devEacad {
+    color: cyan;
+    text-shadow: 0 0 20px blue;
+    
+    font-family: "Orbitron";
+    font-size: 55px;
+    
+    /* font-family: "Press Start 2P";
+    font-size:clamp(22px,5vw,46px);
+    line-height: 1.4; */
+    
+    
+
+    position: absolute;
+    margin-top: 20px;
+    /* margin-left: -620px; */
+}
+
+.sobreNos {
+    font-family: "Orbitron";
+    font-weight: 600;
+    color: white;
+    font-size: 20px;
+    line-height: 1.6;
+    margin-top: 400px;
+}
+
+.painelDvidro {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 50%;
+    height: 100vh;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    background-color: rgba(15, 0, 230, 0.082); /*cor do vidro embaçado*/
+    border-right: 1px solid rgba(25, 0, 255, 0.295);
+
+    padding: 80px 35px;
+    z-index: 1;
+    
+    
+    /* background: linear-gradient(
+        at 30% 70%,
+        rgba(15, 0, 230, 0.082),
+        transparent 30%
+    ); */
+
+}
+
+
+.botao-login {
+    width: 120px;
+    height: 50px;
+
+    background-color: rgb(4, 4, 160);
+    color: white;
+    
+    font-size: 16px;
+    font-family: "Orbitron";
+    font-weight: 600;
+
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    
+    margin-top: 15px;
+    margin-left: 1150px;
+    position: absolute; /*permite posisionar o botão de forma independente*/
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    
+    transition: background-color 0.3s ease;
+}
+
+.botao-login:hover {
+    background-color: rgb(33, 3, 209); 
+    /*rgba(0, 255, 255, 0.486)*/
+}
+
+
+.oScards { /*alinha TODOS os cards igualmente. mds pq eu n botei essa porra antes*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 50px;
+    margin-left: 1200px;
+}
+
+.cards {
+    width: 350px;
+    height: 150px;
+    
+    font-size: 20px;
+    font-family: "Orbitron";
+    
+    color: cyan;/*cor do texto*/
+    background-color: rgb(93, 116, 119); /*cor do fundo do botão*/
+    
+    border: 1px solid cyan;
+    border-radius: 25px;
+    cursor: pointer;
+
+    margin-top: 32%;
+    margin-left: -280px; /*espaçamento entre os cards*/
+
+    transition: background-color 10s ease-in-out;
+    transition: box-shadow 5s ease-in-out;
+    transition: transform 0.3s ease-out;
+
+    z-index: 0; /*é como o posionamento da camada*/
+}
+
+.cards:hover {
+    background-color: rgb(33, 3, 209);
+    box-shadow: 0 0 10px rgb(0, 255, 255);
+    transform: translateY(-5px);
+}
+
+
+h2 { /*configurações gerais de todos os títulos dos cards*/
+    text-align: flex-start;
+    position: absolute;
+
+    margin-top: -60px;
+    margin-left: 15px;
+
+    font-family: "Orbitron";
+    /* font-family: "Press Start 2P"; */
+    
+}
+
+/* .pLinha {
+    font-family: "Orbitron";
+    font-weight: 800;
+} */
+
+/*títulos e seus repectivos parágrafos*/
+.code-error {
+    margin-top: -52px;
+}
+
+.p1 {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+
+    margin-top: 5px;
+}
+
+
+.python {
+    margin-top: -35px;
+}
+
+.p2 {
+    color: white;
+    margin-left: 1px;
+    font-size: 15px;
+
+    margin-top: 20px;
+}
+
+
+.quiz {
+    margin-top: -53px;
+}
+
+.p3 {
+    color: white;
+    margin-left: -85.5px;
+    font-size: 15px;
+}
+/*-------------------------*/
+
+
+
+
+
+
+.snakePai {
+    width: 100%;
+    height: 100vh;
+    
+    overflow: hidden;
+    position: fixed;
+
+    opacity: 0.5;
+
+    display: flex;
+    flex-direction: row;
+
+    pointer-events: none; /*ptqpr. faz com que o fundo animado não interfira nos elementos funcionais do site*/
+}
+
+.snake-ciano,
+.snake-azul {
+
+    width: 30px;
+    height: 30px;
+
+    /* Usa o desenho do SVG como máscara */
+    -webkit-mask-image: url("snakePai.svg");
+    mask-image: url("snakePai.svg");
+
+    -webkit-mask-size: contain;
+    mask-size: contain;
+
+    -webkit-mask-position: center;
+    mask-position: center;
+
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+
+    animation: animaSubir linear infinite;
+    animation-duration: calc(300s / var(--i));
+}
+
+
+.snake-ciano {
+    background-color: cyan;
+}
+.snake-azul {
+    background-color: blue;
+}
+
+
+@keyframes animaSubir {
+    0% {
+        transform: translateY(100vh) scale(1) /*rotate(0deg)*/ ;
+    }
+
+    100% {
+        transform: translateY(-10vh) scale(1.5) /*rotate(360deg)*/;
+    }
+}
