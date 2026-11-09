@@ -105,20 +105,16 @@
             <!-- >>> CAIXA DOS BOTÕES
                  Segura os 2 botões lado a lado, com 15px de espaço entre eles (display: flex e gap no home.css). -->
             <div class="hero-actions">
-                <!-- BOTÃO AZUL: leva para a página com os 6 módulos -->
+                <!-- BOTÃO AZUL: leva à lista de módulos nesta página -->
                 <!-- >>> BOTÃO AZUL "Ver os módulos"
                      É um link (a) que parece um botão por causa da class="btn-curso" (base-curso.css).
-                     O href="modulos.html" leva pra página com os 6 módulos.
+                     O href="#os-modulos" rola até a lista de módulos desta página.
                      Dentro dele tem o texto e um ícone de seta (a tag i com a classe fa-arrow-right). -->
-                <a href="modulos.html" class="btn-curso">
+                <a href="#os-modulos" class="btn-curso">
                     Ver os módulos <i class="fa-solid fa-arrow-right"></i>
                 </a>
-                <!-- Este botão só rola a página até o id="como-funciona" (veja mais abaixo) -->
-                <!-- >>> BOTÃO COM BORDA "Como funciona"
-                     Usa a class="btn-secondary" do home.css (só borda, sem fundo).
-                     O "#como-funciona" não troca de página: só rola até o elemento com id="como-funciona",
-                     que é a seção "Como funciona o curso" mais abaixo. -->
-                <a href="#como-funciona" class="btn-secondary">Como funciona</a>
+                <a href="#quiz" class="btn-secondary">Ir para o Quiz</a>
+                <a href="#editor-codigo" class="btn-secondary">Abrir editor</a>
             </div>
         </div>
 
@@ -159,126 +155,13 @@
                      O &lt; e o &gt; aparecem na tela como os símbolos de menor e maior. Eu uso eles pra
                      o navegador NÃO achar que aquilo é uma tag de verdade. -->
                 <pre class="mini-codigo-corpo"><span class="c-comentario">&lt;!-- Meu primeiro HTML --&gt;</span>
-<span class="c-tag">&lt;h1&gt;</span><span class="c-texto">Olá, mundo!</span><span class="c-tag">&lt;/h1&gt;</span>
+        <span class="c-tag">&lt;h1&gt;</span><span class="c-texto">Olá, mundo!</span><span class="c-tag">&lt;/h1&gt;</span>
 
-<span class="c-tag">&lt;p</span> <span class="c-atributo">class</span>=<span class="c-valor">"destaque"</span><span class="c-tag">&gt;</span>
-  <span class="c-texto">Esta é a minha primeira página.</span>
-<span class="c-tag">&lt;/p&gt;</span>
+        <span class="c-tag">&lt;p</span> <span class="c-atributo">class</span>=<span class="c-valor">"destaque"</span><span class="c-tag">&gt;</span>
+       <span class="c-texto">Esta é a minha primeira página.</span>
+       <span class="c-tag">&lt;/p&gt;</span>
 
-<span class="c-tag">&lt;a</span> <span class="c-atributo">href</span>=<span class="c-valor">"sobre.html"</span><span class="c-tag">&gt;</span><span class="c-texto">Sobre mim</span><span class="c-tag">&lt;/a&gt;</span></pre>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- =================================================================
-         CONTAINER: .curso-explicacao  (seção "O que é HTML?")
-         ================================================================= -->
-    <!-- >>> SEÇÃO "O que é HTML?"
-         Seção com tudo centralizado (class do pagina-curso.css). O id="o-que-e-html" é o endereço dela.
-         Tem 3 partes: o título, o parágrafo de explicação e os 3 cards (HTML, CSS e JavaScript). -->
-    <section id="o-que-e-html" class="curso-explicacao">
-        <!-- >>> TÍTULO DA SEÇÃO (h2)
-             h2 é um título menor que o h1. A class="section-title" (home.css) deixa ele com 2rem (32px). -->
-        <h2 class="section-title">O que é HTML?</h2>
-
-        <!-- CONTAINER: .curso-explicacao-texto  (os parágrafos de explicação) -->
-        <!-- >>> CAIXA DO PARÁGRAFO
-             Uma caixa estreita (máximo de 760px) e centralizada, pra o texto ser fácil de ler. -->
-        <div class="curso-explicacao-texto">
-            <!-- >>> PARÁGRAFO DE EXPLICAÇÃO
-                 O strong deixa "descreve o conteúdo" em negrito, pra destacar a ideia principal. -->
-            <p>HTML (HyperText Markup Language) é a linguagem que <strong>descreve o conteúdo</strong>
-               de uma página: o que é título, o que é parágrafo, o que é link e o que é imagem.
-               Todo site da internet começa por ele.</p>
-        </div>
-
-        <!-- CONTAINER: .cards-grid  (grade com 3 cards; vem do home.css) -->
-        <!-- >>> CARDS GRID (a grade dos cards)
-             Caixa invisível que organiza os cards em colunas (display: grid no home.css).
-             Cada card tem no mínimo 280px: no computador ficam 3 por linha, no celular 1 por linha. -->
-        <div class="cards-grid">
-
-            <!-- CONTAINER: .card  (card do HTML) -->
-            <!-- >>> CARD DO HTML
-                 Cada card é um cartãozinho escuro (class="card" do home.css) com 3 coisas dentro:
-                 1) o quadradinho com o ícone, 2) o título (h3) e 3) o texto (p).
-                 Quando eu passo o mouse, o card sobe 5px e a borda fica azul. -->
-            <div class="card">
-                <!-- >>> QUADRADINHO COM ÍCONE
-                     A div .explicacao-icone é o quadradinho azul claro (48 x 48px). A tag i dentro é o ícone
-                     do HTML5, que vem do Font Awesome (fa-brands = ícones de marcas). -->
-                <div class="explicacao-icone"><i class="fa-brands fa-html5"></i></div>
-                <h3>HTML: a estrutura</h3>
-                <p>São as paredes e os cômodos da casa. Define o que existe na página.</p>
-            </div>
-
-            <!-- CONTAINER: .card  (card do CSS) -->
-            <!-- >>> CARD DO CSS
-                 Mesmo molde do card de cima, mudando só o ícone, o título e o texto. -->
-            <div class="card">
-                <div class="explicacao-icone"><i class="fa-brands fa-css3-alt"></i></div>
-                <h3>CSS: o visual</h3>
-                <p>É a pintura e a decoração. Define cores, fontes e a posição de cada coisa.</p>
-            </div>
-
-            <!-- CONTAINER: .card  (card do JavaScript) -->
-            <!-- >>> CARD DO JAVASCRIPT
-                 Mesmo molde de novo. -->
-            <div class="card">
-                <div class="explicacao-icone"><i class="fa-brands fa-js"></i></div>
-                <h3>JavaScript: o comportamento</h3>
-                <p>É a parte elétrica. Faz botões, menus e formulários realmente funcionarem.</p>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- =================================================================
-         CONTAINER: .features-section  (seção "Como funciona o curso"; vem do home.css)
-         O id="como-funciona" é o "endereço" usado pelo botão "Como funciona" lá em cima.
-         ================================================================= -->
-    <!-- >>> SEÇÃO "Como funciona o curso"
-         A class="features-section" vem do home.css (padding de 80px e texto centralizado).
-         O id="como-funciona" é o endereço que o botão "Como funciona" lá do topo usa pra rolar até aqui. -->
-    <section id="como-funciona" class="features-section">
-        <!-- >>> TÍTULO DA SEÇÃO -->
-        <h2 class="section-title">Como funciona o curso</h2>
-        <!-- >>> SUBTÍTULO
-             Texto cinza embaixo do título (class="section-subtitle" do home.css). -->
-        <p class="section-subtitle">Três passos simples para ir do iniciante ao avançado básico</p>
-
-        <!-- >>> CARDS GRID dos 3 passos
-             A mesma grade de antes: 3 cards por linha no computador. -->
-        <div class="cards-grid">
-
-            <!-- CONTAINER: .card  (passo 1) -->
-            <!-- >>> CARD DO PASSO 1
-                 Em vez do ícone, esse card tem o .passo-numero: o círculo azul com o número do passo. -->
-            <div class="card">
-                <div class="passo-numero">1</div>
-                <h3>Estude os módulos em ordem</h3>
-                <p>São 6 módulos em PDF. Abra cada um aqui no site e leia no seu ritmo.</p>
-            </div>
-
-            <!-- CONTAINER: .card  (passo 2) -->
-            <!-- >>> CARD DO PASSO 2 -->
-            <div class="card">
-                <div class="passo-numero">2</div>
-                <h3>Pratique no seu editor</h3>
-                <p>Cada módulo termina com exercícios. Digite os códigos no VS Code para fixar.</p>
-            </div>
-
-            <!-- CONTAINER: .card  (passo 3)
-                 ATENÇÃO: este texto fala do quiz que outra pessoa está fazendo.
-                 Se a regra do quiz mudar, é só editar esta frase. -->
-            <!-- >>> CARD DO PASSO 3
-                 Este fala do quiz que outra pessoa está fazendo. Se a regra do quiz mudar,
-                 eu só preciso editar o texto do p aqui dentro. -->
-            <div class="card">
-                <div class="passo-numero">3</div>
-                <h3>Confira com o quiz</h3>
-                <p>Depois dos 3 primeiros módulos, um quiz mostra se você entendeu e libera os próximos.</p>
+       <span class="c-tag">&lt;a</span> <span class="c-atributo">href</span>=<span class="c-valor">"sobre.html"</span><span class="c-tag">&gt;</span><span class="c-texto">Sobre mim</span><span class="c-tag">&lt;/a&gt;</span></pre>
             </div>
         </div>
     </section>
@@ -286,7 +169,7 @@
 
     <!-- =================================================================
          CONTAINER: .resumo-modulos  (seção "Os 6 módulos")
-         Cada item é um link que já leva direto para a página do módulo.
+         Cada item rola até o PDF do módulo correspondente nesta página.
          ================================================================= -->
     <!-- >>> SEÇÃO "Os 6 módulos"
          class do pagina-curso.css. Tem o título, o subtítulo e a lista com os 6 módulos. -->
@@ -296,97 +179,100 @@
         <!-- >>> SUBTÍTULO DA SEÇÃO -->
         <p class="section-subtitle">Do iniciante ao avançado básico</p>
 
-        <!-- CONTAINER: .resumo-lista  (grade com os 6 itens, em 2 colunas) -->
-        <!-- >>> LISTA DOS 6 MÓDULOS (resumo-lista)
-             Uma grade com 2 colunas iguais e 16px entre os itens (display: grid no pagina-curso.css).
-             No celular vira 1 coluna. -->
+        <!-- Seletor horizontal: escolha um módulo para abrir seu PDF abaixo. -->
         <div class="resumo-lista">
-
-            <!-- CONTAINER: .resumo-item  (módulo 1) -->
-            <!-- >>> ITEM DO MÓDULO 1 (resumo-item)
-                 Cada módulo é um LINK (a): clicar em qualquer parte do retângulo leva pra página do módulo.
-                 Para trocar o destino é só mudar o href.
-                 Dentro dele tem 2 coisas lado a lado:
-                 - o span .resumo-numero (o quadradinho azul com o número);
-                 - uma div sem classe, só pra juntar o título (h3) e a descrição (p) em um bloco. -->
-            <a class="resumo-item" href="modulo-1.html">
+            <button class="resumo-item" type="button" data-module-select="1" aria-pressed="true">
                 <span class="resumo-numero">1</span>
                 <div>
                     <h3>Fundamentos do HTML</h3>
                     <p>Tags, atributos, listas, links e imagens</p>
+                    <span class="module-progress-status" data-module-progress-status="1">PDF não aberto</span>
                 </div>
-            </a>
+            </button>
 
-            <!-- >>> ITEM DO MÓDULO 2
-                 Mesmo molde do módulo 1. -->
-            <a class="resumo-item" href="modulo-2.html">
+            <button class="resumo-item" type="button" data-module-select="2" aria-pressed="false">
                 <span class="resumo-numero">2</span>
                 <div>
                     <h3>Estrutura e Semântica</h3>
                     <p>header, nav, main, section e footer</p>
+                    <span class="module-progress-status" data-module-progress-status="2">PDF não aberto</span>
                 </div>
-            </a>
+            </button>
 
-            <!-- >>> ITEM DO MÓDULO 3 -->
-            <a class="resumo-item" href="modulo-3.html">
+            <button class="resumo-item" type="button" data-module-select="3" aria-pressed="false">
                 <span class="resumo-numero">3</span>
                 <div>
                     <h3>Tabelas e Formulários</h3>
                     <p>Tabelas, campos e validação</p>
+                    <span class="module-progress-status" data-module-progress-status="3">PDF não aberto</span>
                 </div>
-            </a>
+            </button>
 
-            <!-- >>> ITEM DO MÓDULO 4 -->
-            <a class="resumo-item" href="modulo-4.html">
+            <button class="resumo-item" type="button" data-module-select="4" aria-pressed="false">
                 <span class="resumo-numero">4</span>
                 <div>
                     <h3>Mídia e CSS Essencial</h3>
                     <p>Imagens, vídeo, seletores e Flexbox</p>
+                    <span class="module-progress-status" data-module-progress-status="4">PDF não aberto</span>
                 </div>
-            </a>
+            </button>
 
-            <!-- >>> ITEM DO MÓDULO 5 -->
-            <a class="resumo-item" href="modulo-5.html">
+            <button class="resumo-item" type="button" data-module-select="5" aria-pressed="false">
                 <span class="resumo-numero">5</span>
                 <div>
                     <h3>Responsividade, Acessibilidade e SEO</h3>
                     <p>Media queries e meta tags</p>
+                    <span class="module-progress-status" data-module-progress-status="5">PDF não aberto</span>
                 </div>
-            </a>
+            </button>
 
-            <!-- >>> ITEM DO MÓDULO 6 -->
-            <a class="resumo-item" href="modulo-6.html">
+            <button class="resumo-item" type="button" data-module-select="6" aria-pressed="false">
                 <span class="resumo-numero">6</span>
                 <div>
                     <h3>Avançado e Publicação</h3>
                     <p>JavaScript básico e como publicar</p>
+                    <span class="module-progress-status" data-module-progress-status="6">PDF não aberto</span>
                 </div>
-            </a>
+            </button>
         </div>
     </section>
 
-
-    <!-- =================================================================
-         CONTAINER: .curso-cta  (chamada final para começar o curso)
-         ================================================================= -->
-    <!-- >>> CHAMADA FINAL (curso-cta)
-         CTA quer dizer "chamada para ação": é a parte que convida o visitante a clicar no botão.
-         Esta seção não tem id porque nenhum link rola até ela. -->
-    <section class="curso-cta">
-        <!-- >>> CAIXA COM BORDA AZUL
-             Segura o título, o texto e o botão, tudo centralizado. -->
-        <div class="curso-cta-caixa">
-            <!-- >>> TÍTULO DA CAIXA
-                 Esse h2 não tem class: o tamanho é o padrão do navegador pra h2 (24px). -->
-            <h2>Pronto para começar?</h2>
-            <p>Abra o módulo 1 e escreva seu primeiro código hoje.</p>
-            <!-- >>> BOTÃO AZUL (de novo)
-                 É o mesmo botão azul do topo, reaproveitando a class="btn-curso".
-                 Reaproveitar a classe é a graça do CSS: eu escrevo o estilo uma vez e uso onde quiser. -->
-            <a href="modulos.html" class="btn-curso">
-                Ver os módulos <i class="fa-solid fa-arrow-right"></i>
-            </a>
+    <section class="modulo-material">
+        <div class="pdf-toolbar">
+            <h2 class="section-title" id="pdf-title">Módulo 1 · Fundamentos do HTML</h2>
+            <div class="pdf-controls">
+                <button class="btn-secondary btn-secundario-curso" id="pdf-previous" type="button" disabled>Anterior</button>
+                <a class="btn-curso" id="pdf-download" href="modulo-1.pdf" download>Baixar PDF</a>
+                <button class="btn-secondary btn-secundario-curso" id="pdf-next" type="button">Próximo</button>
+            </div>
         </div>
+        <section class="course-progress" aria-labelledby="course-progress-title">
+            <h3 id="course-progress-title">Seu progresso no curso</h3>
+            <p id="course-progress-summary" role="status" aria-live="polite">Carregando progresso...</p>
+            <progress id="course-progress-bar" max="8" value="0" aria-label="Progresso geral do curso"></progress>
+            <div class="course-progress-details">
+                <span>Quiz: <strong id="quiz-progress-status">Não iniciado</strong></span>
+                <span>Editor: <strong id="editor-progress-status">Não iniciado</strong></span>
+            </div>
+            <p id="course-progress-error" class="course-progress-error" role="alert" hidden></p>
+        </section>
+        <iframe class="pdf-iframe" id="module-pdf" src="modulo-1.pdf#view=FitH" title="Módulo 1: Fundamentos do HTML"></iframe>
+    </section>
+
+    <section id="quiz" class="curso-ferramenta">
+        <h2 class="section-title">Quiz de HTML</h2>
+        <p class="section-subtitle">Responda às questões para praticar o conteúdo dos módulos.</p>
+        <iframe class="ferramenta-iframe"
+            src="../Quiz/quiz.teste.html?track=web&amp;module=html&amp;step=quiz&amp;embed=1"
+            title="Quiz do módulo de HTML" loading="lazy"></iframe>
+    </section>
+
+    <section id="editor-codigo" class="curso-ferramenta">
+        <h2 class="section-title">Editor de códigos</h2>
+        <p class="section-subtitle">Pratique HTML no editor interativo e teste seu código.</p>
+        <iframe class="ferramenta-iframe"
+            src="../Quiz/quiz.teste.html?track=web&amp;module=html&amp;step=code&amp;embed=1"
+            title="Editor de código HTML" loading="lazy"></iframe>
     </section>
 
 
@@ -398,6 +284,8 @@
         <p>&copy; DevAcademy. Todos os direitos reservados.</p>
     </footer>
 
+    <script src="../home/auth.js" defer></script>
+    <script src="curso-html.js" defer></script>
 <!-- >>> FIM DO BODY E DO ARQUIVO -->
 </body>
 </html>

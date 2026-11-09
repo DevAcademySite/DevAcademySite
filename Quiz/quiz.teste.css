@@ -258,6 +258,66 @@ progress::-moz-progress-bar {
     color: #b4c0ff;
 }
 
+body.quiz-embedded {
+    min-height: 0;
+    padding: 0;
+    background: transparent;
+    color: #e6edf3;
+}
+
+.quiz-embedded .pagina {
+    max-width: none;
+}
+
+.quiz-embedded .site-nav,
+.quiz-embedded .painel-status,
+.quiz-embedded .robo,
+.quiz-embedded .rodape {
+    display: none;
+}
+
+.quiz-embedded .lesson-steps {
+    display: none !important;
+}
+
+.quiz-embedded .vidro {
+    padding: 24px;
+    background: #161b22;
+    border-color: #30363d;
+    border-radius: 12px;
+    box-shadow: none;
+}
+
+.quiz-embedded .etiqueta,
+.quiz-embedded .lesson-steps button[aria-pressed="true"] {
+    color: #58a6ff;
+}
+
+.quiz-embedded .lesson-steps button[aria-pressed="true"] {
+    background: rgba(88, 166, 255, 0.15);
+    border-color: #58a6ff;
+}
+
+.quiz-embedded .btn-alternativa {
+    background: #1f6feb;
+    border-color: #388bfd;
+}
+
+.quiz-embedded .btn-alternativa:hover:not(:disabled) {
+    background: #388bfd;
+}
+
+.quiz-embedded #code-editor {
+    background: #0d1117;
+    border-color: #484f58;
+    color: #e6edf3;
+}
+
+.quiz-embedded button:focus-visible,
+.quiz-embedded #code-editor:focus-visible {
+    outline-color: #58a6ff;
+}
+
 /* Aula curta e progresso dos módulos. */
 .pagina {
     max-width: 880px;

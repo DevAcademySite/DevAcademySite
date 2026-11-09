@@ -75,9 +75,10 @@ const CODING_CHALLENGES = {
 
 
 (async function initQuiz() {
+  const params = new URLSearchParams(location.search);
+  document.body.classList.toggle('quiz-embedded', params.get('embed') === '1');
   const user = window.DevAcademy ? await DevAcademy.ready.catch(() => null) : null;
   const $ = id => document.getElementById(id);
-  const params = new URLSearchParams(location.search);
   const track = params.get('track');
   const box = $('caixa-alternativas'), question = $('texto-pergunta'), next = $('proxima-pergunta');
   let module = null, questions = [], attempt = [], index = 0, points = 0, locked = false;
@@ -85,6 +86,15 @@ const CODING_CHALLENGES = {
   const reviewAnswers = new Map();
 
   const statusName = p => (p && p.status === 'completed') ? '✓ Concluído' : (p && p.status === 'in_progress') ? 'Em andamento' : 'Não iniciado';
+  const localProgressKey = () => `devAcademyQuizProgress:${user?.email || 'guest'}:${track}:${module?.id || params.get('module') || ''}`;
+  function publishCourseProgress(activity, details) {
+    if (params.get('embed') === '1' && window.parent !== window) {
+      window.parent.postMessage({ type: 'devacademy:course-progress', activity, ...details }, location.origin);
+    }
+  }
+  function saveLocalQuizProgress() {
+    localStorage.setItem(localProgressKey(), JSON.stringify([...completed]));
+  }
   function node(tag, text, className) {
     const n = document.createElement(tag);
     if (text !== undefined) n.textContent = text;
@@ -140,7 +150,9 @@ const CODING_CHALLENGES = {
         updateProgress(state.module_progress);
         $('track-title').textContent = result.name + ' · ' + module.title;
         document.title = module.title + ' — DevAcademy';
-        if (state.module_progress.lesson_read && state.module_progress.status !== 'completed') startQuiz(false);
+        if (params.get('step') === 'code') showCoding();
+        else if (params.get('step') === 'quiz' && (params.get('embed') === '1' || state.module_progress.lesson_read)) startQuiz(false);
+        else if (state.module_progress.lesson_read && state.module_progress.status !== 'completed') startQuiz(false);
         else showLesson();
         return;
       }
@@ -151,11 +163,18 @@ const CODING_CHALLENGES = {
     const found = trackData.modules.find(m => m.id === id) || trackData.modules[0];
     module = found;
     questions = found.questions;
+    const savedProgress = localStorage.getItem(localProgressKey());
+    if (savedProgress) completed = new Set(JSON.parse(savedProgress));
     const localProgress = { completed: 0, total: questions.length, percent: 0, status: 'in_progress', lesson_read: true };
+    localProgress.completed = completed.size;
+    localProgress.percent = Math.round(completed.size / questions.length * 100);
+    localProgress.status = completed.size === questions.length ? 'completed' : completed.size ? 'in_progress' : 'not_started';
     updateProgress(localProgress);
     $('track-title').textContent = trackData.name + ' · ' + module.title;
     document.title = module.title + ' — DevAcademy';
-    showLesson();
+    if (params.get('step') === 'code') showCoding();
+    else if (params.get('step') === 'quiz') startQuiz(false);
+    else showLesson();
   }
 
   function showLesson() {
@@ -276,13 +295,31 @@ const CODING_CHALLENGES = {
   $('review-wrong').addEventListener('click', () => renderAnswerReview(true));
   $('review-all').addEventListener('click', () => renderAnswerReview(false));
 
-  $('test-code').addEventListener('click', () => {
+  $('test-code').addEventListener('click', async () => {
     const challenge = module && CODING_CHALLENGES[module.id];
     if (!challenge) return;
 
     const code = $('code-editor').value;
     const checks = challenge.validate(code);
     showCodeResult(checks);
+    if (checks.every(check => check.passed)) {
+      try {
+        if (user && window.DevAcademy) {
+          const result = await DevAcademy.api('/api/course-progress', {
+            track: 'web',
+            module: '1',
+            phase: 'editor_completed'
+          });
+          if (result.module_progress) updateProgress(result.module_progress);
+        } else {
+          localStorage.setItem(`devAcademyEditorProgress:${user?.email || 'guest'}:web:1`, 'completed');
+        }
+        publishCourseProgress('editor', { completed: true });
+      } catch (error) {
+        const result = $('code-result');
+        result.append(node('p', 'O código passou nos testes, mas o progresso não foi salvo: ' + error.message));
+      }
+    }
 
     const previewContainer = $('code-preview-container');
     if (module.id === 'html') {
@@ -373,6 +410,8 @@ const CODING_CHALLENGES = {
         buttons[selected].classList.add('errada');
         robot('Leia a explicação para entender o conceito.');
       }
+      if (!user || !window.DevAcademy) saveLocalQuizProgress();
+      publishCourseProgress('quiz', { completed: completed.size, total: questions.length });
 
       $('pontuacao').textContent = `Pontos nesta tentativa: ${points}`;
       $('question-state').textContent = completed.has(current.id) ? '✓ Pergunta concluída' : 'Pergunta pendente';
@@ -402,6 +441,11 @@ const CODING_CHALLENGES = {
       robot(`Você fez ${points} pontos nesta tentativa. Faltam ${pending.length} pergunta(s) para concluir o módulo.`);
     }
     if (progress) $('progresso').textContent = statusName(progress);
+    action('Refazer quiz', () => {
+      reviewAnswers.clear();
+      startQuiz(true);
+      question.focus();
+    });
   }
 
   next.addEventListener('click', () => {

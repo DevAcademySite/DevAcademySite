@@ -157,7 +157,14 @@ def initialize():
         PRIMARY KEY(user_id, track, question_id));
         CREATE TABLE IF NOT EXISTS module_learning (user_id INTEGER, track TEXT, module_id TEXT,
         started_at REAL NOT NULL, lesson_read INTEGER NOT NULL DEFAULT 0,
-        PRIMARY KEY(user_id, track, module_id));''')
+        editor_completed INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY(user_id, track, module_id));
+        CREATE TABLE IF NOT EXISTS course_modules (user_id INTEGER, track TEXT,
+        module_number INTEGER, pdf_opened INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY(user_id, track, module_number));''')
+        columns = {row['name'] for row in db.execute('PRAGMA table_info(module_learning)')}
+        if 'editor_completed' not in columns:
+            db.execute('ALTER TABLE module_learning ADD COLUMN editor_completed INTEGER NOT NULL DEFAULT 0')
 
 def digest(value):
     return hashlib.sha256(value.encode()).hexdigest()
@@ -185,15 +192,43 @@ def completion(completed, total, started=False):
 def module_progress(db, user_id, track, module_id):
     ids = {q['id'] for q in module_questions(track,module_id)}
     saved = {row[0] for row in db.execute('SELECT question_id FROM progress WHERE user_id=? AND track=?',(user_id,track))}
-    state = db.execute('SELECT lesson_read FROM module_learning WHERE user_id=? AND track=? AND module_id=?',(user_id,track,module_id)).fetchone()
+    state = db.execute('SELECT lesson_read, editor_completed FROM module_learning WHERE user_id=? AND track=? AND module_id=?',(user_id,track,module_id)).fetchone()
     result = completion(len(ids & saved),len(ids),state is not None)
     result['lesson_read'] = bool(state and state['lesson_read'])
+    result['quiz_completed'] = result['status'] == 'completed'
+    result['editor_completed'] = bool(state and state['editor_completed'])
     return result
+
+def course_progress(db, user_id, track):
+    modules = []
+    for number in range(1, 7):
+        state = db.execute(
+            'SELECT pdf_opened FROM course_modules WHERE user_id=? AND track=? AND module_number=?',
+            (user_id, track, number)
+        ).fetchone()
+        modules.append({'number': number, 'pdf_opened': bool(state and state['pdf_opened'])})
+    html_progress = module_progress(db, user_id, 'web', 'html') if track == 'web' else None
+    pdfs_opened = sum(module['pdf_opened'] for module in modules)
+    quiz_completed = bool(html_progress and html_progress['quiz_completed'])
+    editor_completed = bool(html_progress and html_progress['editor_completed'])
+    completed = pdfs_opened + int(quiz_completed) + int(editor_completed)
+    return {
+        'completed': completed,
+        'total': 8,
+        'percent': round(completed * 100 / 8),
+        'modules': modules,
+        'quiz_completed': quiz_completed,
+        'quiz_completed_count': html_progress['completed'] if html_progress else 0,
+        'quiz_total': html_progress['total'] if html_progress else 0,
+        'editor_completed': editor_completed
+    }
 
 def track_progress(db, user_id, track):
     modules = [{k:m[k] for k in ('id','title','description','duration')} | {'progress':module_progress(db,user_id,track,m['id'])} for m in MODULES[track]]
     result = completion(sum(m['progress']['completed'] for m in modules),sum(m['progress']['total'] for m in modules),any(m['progress']['status']!='not_started' for m in modules))
     result['modules']=modules
+    if track == 'web':
+        result['course_progress'] = course_progress(db, user_id, track)
     return result
 
 class Handler(BaseHTTPRequestHandler):
@@ -227,6 +262,19 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if not self.allowed_host(): return self.reply(403, {'error':'Endereço não permitido.'})
         path = unquote(urlsplit(self.path).path)
+        if path == '/api/course-progress':
+            user = self.user()
+            track = parse_qs(urlsplit(self.path).query).get('track', ['web'])[0]
+            if track != 'web': return self.reply(400, {'error':'Trilha inválida.'})
+            if not user:
+                return self.reply(200, {'course_progress': {
+                    'completed': 0, 'total': 8, 'percent': 0,
+                    'modules': [{'number': number, 'pdf_opened': False} for number in range(1, 7)],
+                    'quiz_completed': False, 'quiz_completed_count': 0, 'quiz_total': 5,
+                    'editor_completed': False
+                }})
+            with connect() as db:
+                return self.reply(200, {'course_progress': course_progress(db, user['id'], track)})
         if path in ('/api/progress', '/api/quiz'):
             user = self.user()
             if path == '/api/progress' and not user:
@@ -243,7 +291,7 @@ class Handler(BaseHTTPRequestHandler):
                 selected = module_questions(track,module_id) if module else item['questions']
                 questions = [{k:q[k] for k in ('id','pergunta','alternativas','module')} for q in selected]
                 saved = {row[0] for row in db.execute('SELECT question_id FROM progress WHERE user_id=? AND track=?',(user['id'],track))} if user else set()
-                return self.reply(200, {'name':item['name'], 'questions':questions, 'completed_ids':[q['id'] for q in selected if q['id'] in saved], 'module':module, 'module_progress':module_progress(db,user['id'],track,module_id) if (module and user) else None, 'progress':track_progress(db,user['id'],track) if user else None})
+                return self.reply(200, {'name':item['name'], 'questions':questions, 'completed_ids':[q['id'] for q in selected if q['id'] in saved], 'module':module, 'module_progress':module_progress(db,user['id'],track,module_id) if (module and user) else None, 'progress':track_progress(db,user['id'],track) if user else None, 'course_progress':course_progress(db,user['id'],track) if (user and track=='web') else None})
         if path == '/api/session':
             user = self.user()
             return self.reply(200, {'user': public(user) if user else None})
@@ -252,8 +300,13 @@ class Handler(BaseHTTPRequestHandler):
         # Somente estes arquivos são publicados; dados, código Python e Git ficam privados.
         allowed = {'/home/home.html','/home/home.css','/home/home.js','/home/auth.js',
                    '/home/profile.html','/home/profile.js','/Quiz/quiz.teste.html',
-                   '/Quiz/quiz.teste.js','/Quiz/quiz.teste.css'}
-        image = path.startswith('/img/') and Path(path).suffix.lower() in ('.png','.jpg','.jpeg','.webp','.gif','.svg')
+                   '/Quiz/quiz.teste.js','/Quiz/quiz.teste.css',
+                   '/telas dos cursos/curso-html.html','/telas dos cursos/curso-html.js',
+                   '/telas dos cursos/home.css','/telas dos cursos/base-curso.css',
+                   '/telas dos cursos/pagina-curso.css',
+                   '/telas dos cursos/Robô Azul Claro Edição.png'}
+        allowed.update(f'/telas dos cursos/modulo-{number}.pdf' for number in range(1, 7))
+        image = (path.startswith('/img/') or path.startswith('/telas dos cursos/')) and Path(path).suffix.lower() in ('.png','.jpg','.jpeg','.webp','.gif','.svg')
         if path not in allowed and not image: return self.reply(404, {'error':'Página não encontrada.'})
         if path in ('/home/profile.html','/home/profile.js') and not self.user():
             target = 'profile' if 'profile' in path else 'quiz'
@@ -291,6 +344,30 @@ class Handler(BaseHTTPRequestHandler):
             if not 8 <= len(password) <= 128:
                 return self.reply(400, {'error':'A senha deve ter entre 8 e 128 caracteres.'})
         with connect() as db:
+            if path == '/api/course-progress':
+                user = self.user()
+                if not user: return self.reply(401, {'error':'Entre para sincronizar seu progresso.'})
+                track, module = data.get('track', ''), data.get('module', '')
+                phase = data.get('phase', '')
+                if track != 'web': return self.reply(400, {'error':'Trilha inválida.'})
+                if phase == 'pdf_opened':
+                    if module not in [str(number) for number in range(1, 7)]:
+                        return self.reply(400, {'error':'Módulo inválido.'})
+                    db.execute('INSERT INTO course_modules (user_id,track,module_number,pdf_opened) VALUES (?,?,?,1) ON CONFLICT(user_id,track,module_number) DO UPDATE SET pdf_opened=1',
+                               (user['id'], track, int(module)))
+                elif phase == 'editor_completed':
+                    if module != '1': return self.reply(400, {'error':'Módulo inválido.'})
+                    db.execute('INSERT OR IGNORE INTO module_learning (user_id,track,module_id,started_at) VALUES (?,?,?,?)',
+                               (user['id'], track, 'html', time.time()))
+                    db.execute('UPDATE module_learning SET editor_completed=1 WHERE user_id=? AND track=? AND module_id=?',
+                               (user['id'], track, 'html'))
+                else:
+                    return self.reply(400, {'error':'Etapa inválida.'})
+                db.commit()
+                return self.reply(200, {
+                    'course_progress': course_progress(db, user['id'], track),
+                    'module_progress': module_progress(db, user['id'], track, 'html')
+                })
             if path == '/api/module':
                 user = self.user()
                 if not user: return self.reply(401, {'error':'Entre novamente para continuar.'})
@@ -316,7 +393,7 @@ class Handler(BaseHTTPRequestHandler):
                 if correct:
                     db.execute('INSERT OR IGNORE INTO progress VALUES (?,?,?)', (user['id'],track,question['id']))
                 db.commit()
-                return self.reply(200, {'correct':correct, 'correctIndex':question['respostaCorreta'], 'explanation':question['explicacao'], 'progress':track_progress(db,user['id'],track), 'module_progress':module_progress(db,user['id'],track,question['module'])})
+                return self.reply(200, {'correct':correct, 'correctIndex':question['respostaCorreta'], 'explanation':question['explicacao'], 'progress':track_progress(db,user['id'],track), 'module_progress':module_progress(db,user['id'],track,question['module']), 'course_progress':course_progress(db,user['id'],track) if track=='web' else None})
             if path == '/api/register':
                 name = data.get('name','').strip()
                 if not 2 <= len(name) <= 80: return self.reply(400, {'error':'Informe um nome de 2 a 80 caracteres.'})
