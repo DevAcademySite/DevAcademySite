@@ -150,7 +150,7 @@ const CODING_CHALLENGES = {
         updateProgress(state.module_progress);
         $('track-title').textContent = result.name + ' · ' + module.title;
         document.title = module.title + ' — DevAcademy';
-        if (params.get('step') === 'code') showCoding();
+        if (params.get('step') === 'code') showCoding(params.get('embed') !== '1');
         else if (params.get('step') === 'quiz' && (params.get('embed') === '1' || state.module_progress.lesson_read)) startQuiz(false);
         else if (state.module_progress.lesson_read && state.module_progress.status !== 'completed') startQuiz(false);
         else showLesson();
@@ -172,7 +172,7 @@ const CODING_CHALLENGES = {
     updateProgress(localProgress);
     $('track-title').textContent = trackData.name + ' · ' + module.title;
     document.title = module.title + ' — DevAcademy';
-    if (params.get('step') === 'code') showCoding();
+    if (params.get('step') === 'code') showCoding(params.get('embed') !== '1');
     else if (params.get('step') === 'quiz') startQuiz(false);
     else showLesson();
   }
@@ -212,7 +212,7 @@ const CODING_CHALLENGES = {
     robot('Leia no seu ritmo. Quando estiver pronto, comece a prática.');
   }
 
-  function showCoding() {
+  function showCoding(focusEditor = true) {
     clean();
     stage('code');
     question.textContent = 'Codar: ' + module.title;
@@ -232,7 +232,7 @@ const CODING_CHALLENGES = {
     $('test-code').disabled = !challenge;
     $('code-content').hidden = false;
     robot('Agora é sua vez! Experimente modificar o código e criar sua própria solução.');
-    editor.focus();
+    if (focusEditor) editor.focus();
   }
 
   /* --- Checar o resultado do código --- */
@@ -306,13 +306,13 @@ const CODING_CHALLENGES = {
       try {
         if (user && window.DevAcademy) {
           const result = await DevAcademy.api('/api/course-progress', {
-            track: 'web',
+            track,
             module: '1',
             phase: 'editor_completed'
           });
           if (result.module_progress) updateProgress(result.module_progress);
         } else {
-          localStorage.setItem(`devAcademyEditorProgress:${user?.email || 'guest'}:web:1`, 'completed');
+          localStorage.setItem(`devAcademyEditorProgress:${user?.email || 'guest'}:${track}:${module.id}`, 'completed');
         }
         publishCourseProgress('editor', { completed: true });
       } catch (error) {

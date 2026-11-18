@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de SQL | DevAcademy</title>
+    <link rel="icon" type="image/png" href="Robô Azul Claro Edição.png">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="base-curso.css">
+    <link rel="stylesheet" href="pagina-curso.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar" id="topo">
+        <div class="logo-container">
+            <img src="Robô Azul Claro Edição.png" alt="" class="logo-img">
+            <span class="logo-text">Dev<span>Academy</span></span>
+        </div>
+        <nav class="nav-links" aria-label="Navegação principal">
+            <a href="../home/home.html">Início</a>
+            <a href="../home/home.html#cursos" class="active">Trilhas</a>
+        </nav>
+    </header>
+
+    <section id="home" class="hero-section">
+        <div class="hero-content">
+            <span class="etiqueta">Trilha Desenvolvimento Backend</span>
+            <h1>Curso de <span>SQL</span></h1>
+            <p>Aprenda a consultar dados com SQL. Estude pelo PDF, responda ao quiz e pratique com o corretor de consultas.</p>
+            <div class="hero-actions">
+                <a href="#os-modulos" class="btn-curso">Ver o módulo <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="#quiz" class="btn-secondary">Ir para o Quiz</a>
+                <a href="#editor-codigo" class="btn-secondary">Abrir corretor</a>
+            </div>
+        </div>
+        <div class="hero-codigo">
+            <div class="mini-codigo">
+                <div class="mini-codigo-barra">
+                    <span class="bolinha vermelha"></span>
+                    <span class="bolinha amarela"></span>
+                    <span class="bolinha verde"></span>
+                    <span class="mini-codigo-nome">consulta.sql</span>
+                </div>
+                <pre class="mini-codigo-corpo"><span class="c-comentario">-- Sua primeira consulta</span>
+<span class="c-tag">SELECT</span> <span class="c-atributo">nome, email</span>
+<span class="c-tag">FROM</span> <span class="c-valor">usuarios</span>;</pre>
+            </div>
+        </div>
+    </section>
+
+    <section id="os-modulos" class="resumo-modulos">
+        <h2 class="section-title">Módulo disponível</h2>
+        <p class="section-subtitle">Do conceito à prática com SQL</p>
+        <div class="resumo-lista">
+            <button class="resumo-item" type="button" data-module-select="1" aria-pressed="true">
+                <span class="resumo-numero">1</span>
+                <div>
+                    <h3>SQL: primeira consulta</h3>
+                    <p>SELECT, colunas e tabelas</p>
+                    <span class="module-progress-status" id="pdf-module-status">PDF não aberto</span>
+                </div>
+            </button>
+        </div>
+    </section>
+
+    <section class="modulo-material">
+        <div class="pdf-toolbar">
+            <h2 class="section-title" id="pdf-title">Módulo 1 · SQL: primeira consulta</h2>
+            <div class="pdf-controls">
+                <a class="btn-curso" id="pdf-download" href="modulo-sql.pdf" download>Baixar PDF</a>
+            </div>
+        </div>
+        <section class="course-progress" aria-labelledby="course-progress-title">
+            <h3 id="course-progress-title">Seu progresso no curso</h3>
+            <p id="course-progress-summary" role="status" aria-live="polite">Carregando progresso...</p>
+            <progress id="course-progress-bar" max="3" value="0" aria-label="Progresso geral do curso"></progress>
+            <div class="course-progress-details">
+                <span>PDF: <strong id="pdf-progress-status">Não aberto</strong></span>
+                <span>Quiz: <strong id="quiz-progress-status">0 de 1 acertos</strong></span>
+                <span>Corretor: <strong id="editor-progress-status">Não concluído</strong></span>
+            </div>
+            <p id="course-progress-error" class="course-progress-error" role="alert" hidden></p>
+        </section>
+        <iframe class="pdf-iframe" id="module-pdf" src="modulo-sql.pdf#view=FitH" title="Módulo 1: SQL: primeira consulta"></iframe>
+    </section>
+
+    <section id="quiz" class="curso-ferramenta">
+        <h2 class="section-title">Quiz de SQL</h2>
+        <p class="section-subtitle">Confira o que aprendeu sobre consultas e tabelas.</p>
+        <iframe class="ferramenta-iframe"
+            src="../Quiz/quiz.teste.html?track=backend&amp;module=sql&amp;step=quiz&amp;embed=1"
+            title="Quiz de SQL" loading="lazy"></iframe>
+    </section>
+
+    <section id="editor-codigo" class="curso-ferramenta">
+        <h2 class="section-title">Corretor de consultas SQL</h2>
+        <p class="section-subtitle">Escreva sua consulta e confira se ela atende ao desafio.</p>
+        <iframe class="ferramenta-iframe"
+            src="../Quiz/quiz.teste.html?track=backend&amp;module=sql&amp;step=code&amp;embed=1"
+            title="Corretor de consultas SQL" loading="lazy"></iframe>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; DevAcademy. Todos os direitos reservados.</p>
+    </footer>
+    <script src="../home/auth.js" defer></script>
+    <script src="curso-backend.js" defer></script>
+</body>
+</html>

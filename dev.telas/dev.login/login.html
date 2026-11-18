@@ -56,6 +56,8 @@ Status: Em desenvolvimento.
     <!-- link da família das fontes Rajdhani e Orbitron -->
 
     <link rel="icon" type="image/png" href="../dev.img/mascote.png">
+    <script src="../../home/auth.js" defer></script>
+    <script src="login.js" defer></script>
 
 </head>
 <body>
@@ -73,17 +75,18 @@ Status: Em desenvolvimento.
 
         <h1>Login</h1>
 
-        <form> <!--FORMULÁRIO-->
+        <form id="form-login"> <!--FORMULÁRIO-->
          <div class="campo">
-          <input type="email" id="email" name="email" placeholder=" ">
+          <input type="email" id="email" name="email" placeholder=" " autocomplete="email" maxlength="254" required>
           <label for="email">E-mail:</label>
          </div>
 
          <div class="campo">
-          <input type="password" id="senha" name="senha" placeholder=" ">
+          <input type="password" id="senha" name="senha" placeholder=" " autocomplete="current-password" minlength="8" maxlength="128" required>
           <label for="senha">Senha:</label>
          </div>
 
+         <p id="mensagem-login" role="alert" aria-live="polite" hidden></p>
 
          <button type="submit" class="entrar">ENTRAR</button>
          

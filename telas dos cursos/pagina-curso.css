@@ -154,7 +154,9 @@
 /* CONTAINER: .resumo-modulos
    A seção inteira com a lista dos 6 módulos. */
 .resumo-modulos {
-    padding: 32px 8% 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 4% 24px;
     text-align: center;
     scroll-margin-top: 90px;
 }
@@ -176,7 +178,7 @@
     appearance: none;
     display: flex;
     align-items: center;
-    flex: 0 0 min(280px, 82vw);
+    flex: 0 0 min(340px, 86vw);
     gap: 12px;
     min-height: 82px;
     padding: 12px 14px;
@@ -238,9 +240,9 @@
 }
 
 .modulo-material {
-    max-width: 1100px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 8% 42px;
+    padding: 0 4% 42px;
     scroll-margin-top: 100px;
 }
 
@@ -328,9 +330,9 @@
 }
 
 .curso-ferramenta {
-    max-width: 1100px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 45px 8% 20px;
+    padding: 45px 4% 20px;
     scroll-margin-top: 100px;
 }
 
@@ -366,11 +368,15 @@
 
 @media (max-width: 520px) {
     .resumo-modulos {
-        padding: 24px 5% 18px;
+        padding: 24px 4% 18px;
     }
 
     .modulo-material {
-        padding: 0 5% 32px;
+        padding: 0 4% 32px;
+    }
+
+    .curso-ferramenta {
+        padding: 36px 4% 18px;
     }
 
     .pdf-controls {

@@ -40,7 +40,7 @@ Status: Em desenvolvimento.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Conta</title>
 
-    <link rel="stylesheet" href="criarConta-Tela3.css">
+    <link rel="stylesheet" href="criarConta-Tela1.css">
     <!-- criarConta-Tela1 = paleta AZUL e ROXO -->
     <!-- criarConta-Tela2 = paleta CIANO e VERDE -->
     <!-- criarConta-Tela3 = paleta AZUL e CIANO -->
@@ -56,6 +56,8 @@ Status: Em desenvolvimento.
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- link da família das fontes Rajdhani e Orbitron -->
+    <script src="../../home/auth.js" defer></script>
+    <script src="criarConta.js" defer></script>
 </head>
 <body>
 
@@ -72,22 +74,23 @@ Status: Em desenvolvimento.
 
         <h1>Criar conta</h1>
 
-        <form> <!--FORMULÁRIO-->
+        <form id="form-criar-conta"> <!--FORMULÁRIO-->
          <div class="campo">
-          <input type="text" id="nome" name="nome" placeholder=" ">
+          <input type="text" id="nome" name="nome" placeholder=" " autocomplete="name" minlength="2" maxlength="80" required>
           <label for="nome">Usuário:</label>
          </div>
 
          <div class="campo">
-          <input type="text" id="email" name="email" placeholder=" ">
+          <input type="email" id="email" name="email" placeholder=" " autocomplete="email" maxlength="254" required>
           <label for="email">E-mail:</label>
          </div>
 
          <div class="campo">
-          <input type="password" id="senha" name="senha" placeholder=" ">
+          <input type="password" id="senha" name="senha" placeholder=" " autocomplete="new-password" minlength="8" maxlength="128" required>
           <label for="senha">Senha:</label>
          </div>
 
+         <p id="mensagem-cadastro" role="status" aria-live="polite" hidden></p>
 
          <button type="submit" class="criar">CRIAR</button>
          

@@ -1,9 +1,10 @@
 """Servidor local DevAcademy. Python 3.10+, sem pacotes externos."""
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from http.cookies import SimpleCookie
+from email.message import EmailMessage
 from pathlib import Path
 from urllib.parse import urlsplit, unquote, parse_qs
-import hashlib, hmac, json, mimetypes, secrets, sqlite3, time, re
+import hashlib, hmac, json, mimetypes, secrets, sqlite3, time, re, os, smtplib
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / 'dados'
@@ -180,6 +181,42 @@ def valid_password(value, saved):
 def public(user):
     return {k: user[k] for k in ('name', 'email', 'track')}
 
+def recovery_email_settings():
+    host = os.environ.get('DEVACADEMY_SMTP_HOST', '').strip()
+    sender = os.environ.get('DEVACADEMY_SMTP_FROM', '').strip()
+    username = os.environ.get('DEVACADEMY_SMTP_USERNAME', '').strip()
+    password = os.environ.get('DEVACADEMY_SMTP_PASSWORD', '')
+    try:
+        port = int(os.environ.get('DEVACADEMY_SMTP_PORT', '587'))
+    except ValueError as error:
+        raise ValueError('Porta SMTP inválida.') from error
+    if not host or not sender or not 1 <= port <= 65535:
+        raise ValueError('Configuração SMTP incompleta.')
+    if bool(username) != bool(password):
+        raise ValueError('Credenciais SMTP incompletas.')
+    return {'host': host, 'port': port, 'sender': sender, 'username': username, 'password': password}
+
+def send_recovery_code(email, code, settings):
+    message = EmailMessage()
+    message['From'] = settings['sender']
+    message['To'] = email
+    message['Subject'] = 'Código para recuperar sua senha - DevAcademy'
+    message.set_content(
+        'Use este código na página de recuperação de senha da DevAcademy:\n\n'
+        f'{code}\n\n'
+        'Se você não solicitou esta mensagem, ignore-a.'
+    )
+    if settings['port'] == 465:
+        smtp_class = smtplib.SMTP_SSL
+    else:
+        smtp_class = smtplib.SMTP
+    with smtp_class(settings['host'], settings['port'], timeout=10) as smtp:
+        if settings['port'] != 465:
+            smtp.starttls()
+        if settings['username']:
+            smtp.login(settings['username'], settings['password'])
+        smtp.send_message(message)
+
 
 def module_questions(track, module_id):
     return [q for q in TRACKS[track]['questions'] if q['module']==module_id]
@@ -223,6 +260,26 @@ def course_progress(db, user_id, track):
         'editor_completed': editor_completed
     }
 
+def backend_course_progress(db, user_id):
+    pdf = db.execute(
+        'SELECT pdf_opened FROM course_modules WHERE user_id=? AND track=? AND module_number=1',
+        (user_id, 'backend')
+    ).fetchone()
+    learning = module_progress(db, user_id, 'backend', 'sql')
+    pdf_opened = bool(pdf and pdf['pdf_opened'])
+    completed = int(pdf_opened) + int(learning['quiz_completed']) + int(learning['editor_completed'])
+    return {
+        'completed': completed,
+        'total': 3,
+        'percent': round(completed * 100 / 3),
+        'pdf_opened': pdf_opened,
+        'modules': [{'number': 1, 'pdf_opened': pdf_opened}],
+        'quiz_completed': learning['quiz_completed'],
+        'quiz_completed_count': learning['completed'],
+        'quiz_total': learning['total'],
+        'editor_completed': learning['editor_completed']
+    }
+
 def track_progress(db, user_id, track):
     modules = [{k:m[k] for k in ('id','title','description','duration')} | {'progress':module_progress(db,user_id,track,m['id'])} for m in MODULES[track]]
     result = completion(sum(m['progress']['completed'] for m in modules),sum(m['progress']['total'] for m in modules),any(m['progress']['status']!='not_started' for m in modules))
@@ -240,7 +297,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Length', str(len(body)))
         self.send_header('Cache-Control', 'no-store')
         self.send_header('X-Content-Type-Options', 'nosniff')
-        self.send_header('X-Frame-Options', 'DENY')
+        self.send_header('X-Frame-Options', 'SAMEORIGIN')
         self.send_header('Referrer-Policy', 'same-origin')
         if cookie: self.send_header('Set-Cookie', cookie)
         if location: self.send_header('Location', location)
@@ -262,11 +319,22 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if not self.allowed_host(): return self.reply(403, {'error':'Endereço não permitido.'})
         path = unquote(urlsplit(self.path).path)
+        canonical_path = path.lower()
+        if path != canonical_path and canonical_path in ('/home/home.html', '/home/profile.html', '/home/profile.js'):
+            return self.reply(302, b'', location=canonical_path)
         if path == '/api/course-progress':
             user = self.user()
             track = parse_qs(urlsplit(self.path).query).get('track', ['web'])[0]
-            if track != 'web': return self.reply(400, {'error':'Trilha inválida.'})
+            if track not in ('web', 'backend'): return self.reply(400, {'error':'Trilha inválida.'})
             if not user:
+                if track == 'backend':
+                    return self.reply(200, {'course_progress': {
+                        'completed': 0, 'total': 3, 'percent': 0,
+                        'pdf_opened': False,
+                        'modules': [{'number': 1, 'pdf_opened': False}],
+                        'quiz_completed': False, 'quiz_completed_count': 0,
+                        'quiz_total': 1, 'editor_completed': False
+                    }})
                 return self.reply(200, {'course_progress': {
                     'completed': 0, 'total': 8, 'percent': 0,
                     'modules': [{'number': number, 'pdf_opened': False} for number in range(1, 7)],
@@ -274,7 +342,8 @@ class Handler(BaseHTTPRequestHandler):
                     'editor_completed': False
                 }})
             with connect() as db:
-                return self.reply(200, {'course_progress': course_progress(db, user['id'], track)})
+                progress = backend_course_progress(db, user['id']) if track == 'backend' else course_progress(db, user['id'], track)
+                return self.reply(200, {'course_progress': progress})
         if path in ('/api/progress', '/api/quiz'):
             user = self.user()
             if path == '/api/progress' and not user:
@@ -295,12 +364,26 @@ class Handler(BaseHTTPRequestHandler):
         if path == '/api/session':
             user = self.user()
             return self.reply(200, {'user': public(user) if user else None})
-        if path in ('/', '/index.html') or path.lower().endswith('/login.html'):
-            return self.reply(302, b'', location='/home/home.html')
+        if path in ('/', '/index.html'):
+            return self.reply(302, b'', location='/dev.telas/dev.login/login.html')
         # Somente estes arquivos são publicados; dados, código Python e Git ficam privados.
         allowed = {'/home/home.html','/home/home.css','/home/home.js','/home/auth.js',
                    '/home/profile.html','/home/profile.js','/Quiz/quiz.teste.html',
                    '/Quiz/quiz.teste.js','/Quiz/quiz.teste.css',
+                   '/dev.telas/dev.criarConta/criarConta.html',
+                   '/dev.telas/dev.criarConta/criarConta.js',
+                   '/dev.telas/dev.criarConta/criarConta-Tela1.css',
+                   '/dev.telas/dev.login/login.html',
+                   '/dev.telas/dev.login/login.js',
+                   '/dev.telas/dev.login/recuperar-senha.html',
+                   '/dev.telas/dev.login/recuperar-senha.js',
+                   '/dev.telas/dev.login/login-Tela2.css',
+                   '/dev.telas/dev.img/mascote.png',
+                   '/telas dos cursos/cursos.html',
+                   '/telas dos cursos/cursos-catalogo.css',
+                   '/telas dos cursos/curso-backend.html',
+                   '/telas dos cursos/curso-backend.js',
+                   '/telas dos cursos/modulo-sql.pdf',
                    '/telas dos cursos/curso-html.html','/telas dos cursos/curso-html.js',
                    '/telas dos cursos/home.css','/telas dos cursos/base-curso.css',
                    '/telas dos cursos/pagina-curso.css',
@@ -333,7 +416,8 @@ class Handler(BaseHTTPRequestHandler):
         path = urlsplit(self.path).path
         email = data.get('email','').strip().lower()
         password = data.get('password','')
-        if path in ('/api/login','/api/register','/api/recover'):
+        send_recovery_path = '/api/send-recovery-code'
+        if path in ('/api/login','/api/register','/api/recover',send_recovery_path):
             with connect() as db:
                 db.execute('DELETE FROM attempts WHERE stamp<?', (time.time()-300,))
                 count = db.execute('SELECT count(*) FROM attempts WHERE ip=?',(self.client_address[0],)).fetchone()[0]
@@ -341,32 +425,53 @@ class Handler(BaseHTTPRequestHandler):
                 db.execute('INSERT INTO attempts VALUES (?,?)',(self.client_address[0],time.time()))
             if not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+',email) or len(email)>254:
                 return self.reply(400, {'error':'Informe um e-mail válido.'})
-            if not 8 <= len(password) <= 128:
+            if path != send_recovery_path and not 8 <= len(password) <= 128:
                 return self.reply(400, {'error':'A senha deve ter entre 8 e 128 caracteres.'})
         with connect() as db:
+            if path == send_recovery_path:
+                try:
+                    mail_settings = recovery_email_settings()
+                except ValueError as error:
+                    print(f'Envio de recuperação indisponível: {error}', flush=True)
+                    return self.reply(503, {'error':'O envio de e-mail não está configurado no servidor.'})
+                user = db.execute('SELECT id FROM users WHERE email=?',(email,)).fetchone()
+                if user:
+                    recovery = secrets.token_hex(16)
+                    db.execute('UPDATE users SET recovery=? WHERE id=?',(digest(recovery),user['id']))
+                    try:
+                        send_recovery_code(email, recovery, mail_settings)
+                    except (smtplib.SMTPException, OSError, ValueError) as error:
+                        db.rollback()
+                        print(f'Falha no envio do código de recuperação: {type(error).__name__}', flush=True)
+                        return self.reply(503, {'error':'Não foi possível enviar o código. Tente novamente mais tarde.'})
+                    db.commit()
+                return self.reply(200, {'message':'Se o e-mail estiver cadastrado, enviaremos um código de recuperação.'})
             if path == '/api/course-progress':
                 user = self.user()
                 if not user: return self.reply(401, {'error':'Entre para sincronizar seu progresso.'})
                 track, module = data.get('track', ''), data.get('module', '')
                 phase = data.get('phase', '')
-                if track != 'web': return self.reply(400, {'error':'Trilha inválida.'})
+                if track not in ('web', 'backend'): return self.reply(400, {'error':'Trilha inválida.'})
+                module_id = 'html' if track == 'web' else 'sql'
                 if phase == 'pdf_opened':
-                    if module not in [str(number) for number in range(1, 7)]:
+                    allowed_modules = [str(number) for number in range(1, 7)] if track == 'web' else ['1']
+                    if module not in allowed_modules:
                         return self.reply(400, {'error':'Módulo inválido.'})
                     db.execute('INSERT INTO course_modules (user_id,track,module_number,pdf_opened) VALUES (?,?,?,1) ON CONFLICT(user_id,track,module_number) DO UPDATE SET pdf_opened=1',
                                (user['id'], track, int(module)))
                 elif phase == 'editor_completed':
                     if module != '1': return self.reply(400, {'error':'Módulo inválido.'})
                     db.execute('INSERT OR IGNORE INTO module_learning (user_id,track,module_id,started_at) VALUES (?,?,?,?)',
-                               (user['id'], track, 'html', time.time()))
+                               (user['id'], track, module_id, time.time()))
                     db.execute('UPDATE module_learning SET editor_completed=1 WHERE user_id=? AND track=? AND module_id=?',
-                               (user['id'], track, 'html'))
+                               (user['id'], track, module_id))
                 else:
                     return self.reply(400, {'error':'Etapa inválida.'})
                 db.commit()
+                progress = backend_course_progress(db, user['id']) if track == 'backend' else course_progress(db, user['id'], track)
                 return self.reply(200, {
-                    'course_progress': course_progress(db, user['id'], track),
-                    'module_progress': module_progress(db, user['id'], track, 'html')
+                    'course_progress': progress,
+                    'module_progress': module_progress(db, user['id'], track, module_id)
                 })
             if path == '/api/module':
                 user = self.user()
@@ -433,7 +538,7 @@ class Handler(BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     initialize()
-    print('DevAcademy: '+ORIGIN+'/home/home.html', flush=True)
+    print('DevAcademy: '+ORIGIN+'/dev.telas/dev.login/login.html', flush=True)
     print('Deixe este terminal aberto. Para encerrar: Ctrl+C.', flush=True)
     try: ThreadingHTTPServer(('127.0.0.1',8000),Handler).serve_forever()
     except KeyboardInterrupt: print('\nServidor encerrado.')

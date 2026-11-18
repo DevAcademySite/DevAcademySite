@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar senha | DevAcademy</title>
+    <link rel="stylesheet" href="login-Tela2.css">
+    <link rel="icon" type="image/png" href="../dev.img/mascote.png">
+    <script src="../../home/auth.js" defer></script>
+    <script src="recuperar-senha.js" defer></script>
+    <style>
+        .recuperar .esqueci {
+            margin: 16px 0 0;
+            width: auto;
+        }
+
+        .recuperar .enviar-codigo {
+            width: min(300px, 100%);
+            height: auto;
+            min-height: 44px;
+            margin-top: 12px;
+            padding: 8px 14px;
+            border: 1px solid aqua;
+            border-radius: 22px;
+            background: rgba(0, 255, 255, 0.12);
+            color: #b7ffff;
+        }
+
+        #mensagem-recuperacao {
+            max-width: 320px;
+            margin-top: 14px;
+            color: #b7ffe3;
+            text-align: center;
+            overflow-wrap: anywhere;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="pagina recuperar">
+        <div class="fundo-cores" aria-hidden="true">
+            <span class="cor cor-1"></span>
+            <span class="cor cor-2"></span>
+            <span class="cor cor-3"></span>
+        </div>
+
+        <section class="vidro" aria-labelledby="titulo-recuperacao">
+            <h1 id="titulo-recuperacao">Recuperar senha</h1>
+            <p>Informe o e-mail cadastrado, solicite um código e use-o para criar uma nova senha.</p>
+
+            <form id="form-recuperar">
+                <div class="campo">
+                    <input type="email" id="email" name="email" placeholder=" " autocomplete="email" maxlength="254" required>
+                    <label for="email">E-mail:</label>
+                </div>
+                <button type="button" id="enviar-codigo" class="enviar-codigo">ENVIAR CÓDIGO POR E-MAIL</button>
+                <div class="campo">
+                    <input type="text" id="codigo" name="code" placeholder=" " autocomplete="one-time-code" maxlength="128" required>
+                    <label for="codigo">Código de recuperação:</label>
+                </div>
+                <div class="campo">
+                    <input type="password" id="senha" name="password" placeholder=" " autocomplete="new-password" minlength="8" maxlength="128" required>
+                    <label for="senha">Nova senha:</label>
+                </div>
+
+                <p id="mensagem-recuperacao" role="status" aria-live="polite" hidden></p>
+                <button type="submit" class="entrar">ALTERAR SENHA</button>
+                <a href="login.html" class="esqueci">Voltar ao login</a>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html>

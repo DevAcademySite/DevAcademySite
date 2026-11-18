@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-protected>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Consulte e atualize seus dados da conta DevAcademy.">
+    <title>Meu perfil | DevAcademy</title>
+    <link rel="icon" type="image/png" href="../telas%20dos%20cursos/Rob%C3%B4%20Azul%20Claro%20Edi%C3%A7%C3%A3o.png">
+    <link rel="stylesheet" href="home.css">
+    <style>
+        html[data-protected] body {
+            visibility: hidden;
+        }
+    </style>
+    <script src="auth.js" defer></script>
+    <script src="profile.js" defer></script>
+</head>
+
+<body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="navbar">
+        <a class="logo-container" href="home.html" aria-label="DevAcademy — início">
+            <img src="../telas%20dos%20cursos/Rob%C3%B4%20Azul%20Claro%20Edi%C3%A7%C3%A3o.png" alt="" class="logo-img">
+            <span class="logo-text">Dev<span>Academy</span></span>
+        </a>
+        <nav class="nav-links" aria-label="Navegação principal">
+            <a href="home.html#home">Início</a>
+            <a href="home.html#cursos">Trilhas</a>
+            <a href="profile.html" class="active" aria-current="page">Meu perfil</a>
+            <button type="button" data-logout>Sair</button>
+        </nav>
+    </header>
+
+    <main id="conteudo">
+        <section id="perfil" class="profile-section" aria-labelledby="profile-title">
+            <p class="eyebrow">SUA CONTA</p>
+            <h1 id="profile-title" class="section-title">Meu perfil</h1>
+            <p class="section-subtitle">Confira e atualize seus dados da DevAcademy.</p>
+
+            <form id="profile-form" class="profile-form">
+                <div class="profile-fields">
+                    <div class="profile-field">
+                        <label for="profile-name">Nome</label>
+                        <input type="text" id="profile-name" name="name" autocomplete="name" minlength="2" maxlength="80" required>
+                    </div>
+                    <div class="profile-field">
+                        <label for="profile-email">E-mail</label>
+                        <input type="email" id="profile-email" name="email" autocomplete="email" readonly aria-describedby="email-info">
+                    </div>
+                    <div class="profile-field">
+                        <label for="profile-track">Trilha de interesse</label>
+                        <select id="profile-track" name="track">
+                            <option value="">Selecione uma trilha</option>
+                            <option value="Desenvolvimento Web">Desenvolvimento Web</option>
+                            <option value="Desenvolvimento Backend">Desenvolvimento Backend</option>
+                            <option value="Full Stack">Full Stack</option>
+                        </select>
+                    </div>
+                </div>
+                <p id="email-info">O e-mail identifica sua conta e não pode ser alterado nesta tela.</p>
+                <button class="profile-save" type="submit">Salvar alterações</button>
+                <p id="profile-status" class="profile-status" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="section-shell footer-inner">
+            <p><strong>DevAcademy</strong><span>Aprenda. Pratique. Evolua.</span></p>
+            <p>Um passo de cada vez, no seu ritmo.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
