@@ -26,12 +26,21 @@ const LOCAL_TRACKS = {
       id: 'sql',
       title: 'Consultas com SQL',
       description: 'Aprenda os conceitos básicos para consultar bancos de dados relacionais.',
-      duration: '4 min de leitura · 1 exercício',
+      duration: '4 min de leitura · 10 exercícios',
       lesson: [
         { title: 'Introdução ao SQL', text: 'SQL é a linguagem padrão para interagir com bancos de dados relacionais. Com ela podemos buscar, inserir, alterar e excluir informações de tabelas.', code: 'SELECT nome, email FROM usuarios;' }
       ],
       questions: [
-        { id: 'sql-1', pergunta: 'Qual estrutura SQL é usada para selecionar dados de uma tabela?', alternativas: ['UPDATE', 'INSERT INTO', 'SELECT', 'DELETE'], respostaCorreta: 2, explicacao: 'SELECT é o comando SQL usado para consultar e selecionar dados em tabelas de um banco de dados.' }
+        { id: 'sql-1', pergunta: 'Qual estrutura SQL é usada para selecionar dados de uma tabela?', alternativas: ['UPDATE', 'INSERT INTO', 'SELECT', 'DELETE'], respostaCorreta: 2, explicacao: 'SELECT é o comando SQL usado para consultar e selecionar dados em tabelas de um banco de dados.' },
+        { id: 'sql-2', pergunta: 'Qual cláusula indica a tabela usada em uma consulta?', alternativas: ['WHERE', 'FROM', 'ORDER BY', 'GROUP BY'], respostaCorreta: 1, explicacao: 'FROM informa a tabela que contém os dados consultados. Exemplo: SELECT nome FROM usuarios.' },
+        { id: 'sql-3', pergunta: 'Qual cláusula filtra os registros de uma consulta?', alternativas: ['WHERE', 'FROM', 'SELECT', 'LIMIT'], respostaCorreta: 0, explicacao: 'WHERE define uma condição para incluir apenas os registros que atendem ao filtro.' },
+        { id: 'sql-4', pergunta: 'Como excluir apenas o registro do funcionário com id = 15 da tabela funcionários sem apagar a tabela nem outros funcionários ?', alternativas: ['DROP TABLE aluno WHERE id = 15;', 'DELETE FROM aluno WHERE id = 15;', 'TRUNCATE TABLE aluno;', 'ALTER TABLE aluno DROP COLUMN id;'], respostaCorreta: 1, explicacao: 'O termo DELETE FROM deleta da tabela selecionada e Where seleciona o campo ' },
+        { id: 'sql-5', pergunta: 'Qual cláusula organiza o resultado em uma ordem crescente ou decrescente?', alternativas: ['WHERE', 'ORDER BY', 'HAVING', 'JOIN'], respostaCorreta: 1, explicacao: 'ORDER BY ordena o resultado por uma ou mais colunas. Use ASC para crescente ou DESC para decrescente.' },
+        { id: 'sql-6', pergunta: 'Qual palavra-chave remove linhas duplicadas do resultado?', alternativas: ['UNIQUE', 'DISTINCT', 'GROUP', 'FILTER'], respostaCorreta: 1, explicacao: 'DISTINCT elimina valores repetidos no conjunto de resultados. Exemplo: SELECT DISTINCT cidade FROM usuarios.' },
+        { id: 'sql-7', pergunta: 'Como adicionar o atributo data_nascimento na tabela aluno já criada ?', alternativas: ['INSERT INTO aluno (data_nascimento) VALUES (NULL)()', 'CREATE TABLE aluno (data_nascimento DATE)()', 'UPDATE aluno SET data_nascimento = NULL()', 'ALTER TABLE aluno ADD data_nascimento DATE()'], respostaCorreta: 3, explicacao: 'ALTER TABLE= altera a tabela aluno e ADD= adiciona o termo data_nascimento ' },
+        { id: 'sql-8', pergunta: 'Qual comando insere um novo registro em uma tabela?', alternativas: ['INSERT INTO', 'UPDATE', 'DELETE', 'ALTER TABLE'], respostaCorreta: 0, explicacao: 'INSERT INTO adiciona um novo registro em uma tabela com os valores informados.' },
+        { id: 'sql-9', pergunta: 'Qual comando altera dados já existentes em uma tabela?', alternativas: ['SELECT', 'INSERT INTO', 'UPDATE', 'CREATE TABLE'], respostaCorreta: 2, explicacao: 'UPDATE modifica valores de registros existentes. É importante usar WHERE para limitar quais registros serão alterados.' },
+        { id: 'sql-10', pergunta: 'Qual comando remove registros de uma tabela?', alternativas: ['DELETE', 'DROP', 'TRUNCATE', 'REMOVE'], respostaCorreta: 0, explicacao: 'DELETE remove registros selecionados por uma condição. Exemplo: DELETE FROM usuarios WHERE id = 10.' }
       ]
     }]
   }
@@ -42,30 +51,30 @@ const LOCAL_TRACKS = {
 const CODING_CHALLENGES = {
   html: {
     prompt: 'Crie um título principal com o texto "Minha primeira página" e um parágrafo com o texto "Estou aprendendo HTML!".',
-    example: '<h1>Minha primeira página</h1>\n<p>Estou aprendendo HTML!</p>',
+    example: ';',
     validate(code) {
       const parsed = new DOMParser().parseFromString(code, 'text/html');
       const normalize = text => text.replace(/\s+/g, ' ').trim();
       return [
         {
           passed: Array.from(parsed.querySelectorAll('h1')).some(element => normalize(element.textContent) === 'Minha primeira página'),
-          message: 'Adicione um <h1> com o texto "Minha primeira página".'
+          message: ' Tente usar o <h1> </h1>".'
         },
         {
           passed: Array.from(parsed.querySelectorAll('p')).some(element => normalize(element.textContent) === 'Estou aprendendo HTML!'),
-          message: 'Adicione um <p> com o texto "Estou aprendendo HTML!".'
+          message: 'Tente usar o <p> </p>".'
         }
       ];
     }
   },
   sql: {
     prompt: 'Escreva uma consulta que selecione as colunas nome e email da tabela usuarios.',
-    example: 'SELECT nome, email FROM usuarios;',
+    example: ';',
     validate(code) {
-      const passed = /^\s*SELECT\s+nome\s*,\s*email\s+FROM\s+usuarios\s*;?\s*$/i.test(code);
+      const passed = /^\s*SELECT\s+nome\s*,\s*email\s+FROM\s+usuarios;\s*;?\s*$/i.test(code);
       return [{
         passed,
-        message: 'Use SELECT nome, email FROM usuarios; para concluir o desafio.'
+        message: 'tente usar o SELECT e o FROM para concluir o desafio.'
       }];
     }
   }
