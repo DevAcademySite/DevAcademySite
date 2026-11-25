@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
   "redirects": [
     {
       "source": "/",
@@ -8,10 +9,18 @@
     }
   ],
   "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api?__path=/api/:path*"
-    }
+    { "source": "/api/course-progress", "destination": "/api?__path=/api/course-progress" },
+    { "source": "/api/progress", "destination": "/api?__path=/api/progress" },
+    { "source": "/api/quiz", "destination": "/api?__path=/api/quiz" },
+    { "source": "/api/session", "destination": "/api?__path=/api/session" },
+    { "source": "/api/send-recovery-code", "destination": "/api?__path=/api/send-recovery-code" },
+    { "source": "/api/recover", "destination": "/api?__path=/api/recover" },
+    { "source": "/api/module", "destination": "/api?__path=/api/module" },
+    { "source": "/api/answer", "destination": "/api?__path=/api/answer" },
+    { "source": "/api/register", "destination": "/api?__path=/api/register" },
+    { "source": "/api/login", "destination": "/api?__path=/api/login" },
+    { "source": "/api/logout", "destination": "/api?__path=/api/logout" },
+    { "source": "/api/profile", "destination": "/api?__path=/api/profile" }
   ],
   "functions": {
     "api/index.py": {

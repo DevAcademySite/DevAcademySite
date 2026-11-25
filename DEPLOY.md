@@ -33,7 +33,9 @@ O arquivo `.env` é ignorado pelo Git. Não use uma URI real no `.env.example`.
 1. Envie o repositório para uma conta GitHub privada ou pública, conforme sua
    preferência.
 2. Na [Vercel](https://vercel.com), importe esse repositório como um novo projeto.
-   Mantenha o diretório raiz apontando para a raiz do projeto.
+   Mantenha o diretório raiz apontando para a raiz do projeto. A configuração
+   define o preset como **Other** para que a Vercel publique a função Python
+   em `api/` junto com os arquivos estáticos.
 3. Nas configurações do projeto, abra **Environment Variables** e adicione:
    - Nome: `DATABASE_URL`
    - Valor: URI de conexão do Transaction pooler do Supabase.
