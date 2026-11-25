@@ -1,105 +1,79 @@
-<!--
-Projeto: Dev Academy
-Desenvolvedora: Camila
-Início: 03/09/2026
-Fim: xx/xx/xxxx
-
-Descrição:
-Tela de login da plataforma Dev Academy.
-
-Funcionalidades atuais:
-- Campo para inserção de e-mail.
-- Campo para inserção de senha.
-- Link para recuperação de senha.
-- Botão de acesso à Tela inicial (ENTRAR)..
-- Botão de acesso à tela de Criar conta.
-
-Características visuais:
-- Paleta de cores de cada tela:
- ↳ login-Tela1 = CIANO e VERDE.
- ↳ login-Tela2 = CIANO e AZUL.
-
-- Fundo com efeitos animados de iluminação.
-- Tipografias Orbitron e Rajdhani.
-- Campo de inserção de dados com efeito Glassmorphism.
-
-Tecnologias:
-- HTML5
-- CSS3
-
-Status: Em desenvolvimento.
--->
-
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-
+    <meta name="theme-color" content="#080d1b">
+    <meta name="description" content="Acesse sua conta DevAcademy e continue aprendendo programação.">
+    <title>Entrar | DevAcademy</title>
     <link rel="stylesheet" href="login-Tela2.css">
-    <!-- login-Tela1 = paleta CIANO e VERDE -->
-    <!-- login-Tela2 = paleta AZUL e CIANO -->
-
-    <!--
-    ● COMO MUDAR A PALETA DE COR:
-    0. Cada número corresponde a uma paleta de cores distinta.
-    1. Têm login-Tela UM e DOIS.
-    2. Troque apenas o número (X) do nome "login-TelaX.css".
-    3. Veja as cores mudarem instantaneamente.
-    -->
-
-
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- link da família das fontes Rajdhani e Orbitron -->
-
-    <link rel="icon" type="image/png" href="../dev.img/mascote.png">
+    <link rel="icon" type="image/png" href="../../telas%20dos%20cursos/Rob%C3%B4%20Azul%20Claro%20Edi%C3%A7%C3%A3o.png">
     <script src="../../home/auth.js" defer></script>
     <script src="login.js" defer></script>
-
 </head>
 <body>
-     
-<div class="pagina">
+    <main class="pagina login-layout">
+        <section class="login-brand" aria-labelledby="brand-title">
+            <a class="brand-logo" href="../../home/home.html" aria-label="DevAcademy — página inicial">
+                <img src="../../telas%20dos%20cursos/Rob%C3%B4%20Azul%20Claro%20Edi%C3%A7%C3%A3o.png" alt="">
+                <span>Dev<span>Academy</span></span>
+            </a>
+            <div class="brand-copy">
+                <h1 id="brand-title"><span>DEV</span><strong>ACADEMY</strong></h1>
+                <p>Aprenda Python, HTML, corrija erros de código e desafie seus conhecimentos, tudo de um jeito divertido e descontraído com a Dev Academy! <span aria-hidden="true">🚀</span></p>
+            </div>
+        </section>
 
-    <div class="fundo-cores">
-        <span class="cor cor-1"></span>
-        <span class="cor cor-2"></span>
-        <span class="cor cor-3"></span>
-    </div>
-    
+        <section class="login-panel" aria-labelledby="login-title">
+            <div class="vidro">
+                <h2 id="login-title">Acesse sua conta</h2>
+                <form id="form-login">
+                    <div class="campo">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="exemplo@email.com" autocomplete="email" maxlength="254" required>
+                    </div>
 
-  <div class="vidro">
+                    <div class="campo">
+                        <label for="senha">Senha</label>
+                        <div class="input-wrap">
+                            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" autocomplete="current-password" minlength="8" maxlength="128" required>
+                            <button class="password-toggle" type="button" aria-label="Mostrar senha" aria-pressed="false" aria-controls="senha">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M2.5 12s3.2-6 9.5-6 9.5 6 9.5 6-3.2 6-9.5 6-9.5-6-9.5-6Z"></path>
+                                    <circle cx="12" cy="12" r="2.7"></circle>
+                                    <path class="eye-slash" d="m4 4 16 16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
 
-        <h1>Login</h1>
-
-        <form id="form-login"> <!--FORMULÁRIO-->
-         <div class="campo">
-          <input type="email" id="email" name="email" placeholder=" " autocomplete="email" maxlength="254" required>
-          <label for="email">E-mail:</label>
-         </div>
-
-         <div class="campo">
-          <input type="password" id="senha" name="senha" placeholder=" " autocomplete="current-password" minlength="8" maxlength="128" required>
-          <label for="senha">Senha:</label>
-         </div>
-
-         <p id="mensagem-login" role="alert" aria-live="polite" hidden></p>
-
-         <button type="submit" class="entrar">ENTRAR</button>
-         
-         <!-- <button type="button" class="esqueci">Esqueceu a senha?</button> -->
-         <a href="recuperar-senha.html" class="esqueci">Esqueceu a senha?</a>
-         
-         <!-- <button type="button" class="novaconta">Criar nova conta</button> -->
-         <a href="../dev.criarConta/criarConta.html" class="novaconta">Criar nova conta</a>
-
-        </form>
-    </div>
-
-</div>
-
+                    <a href="recuperar-senha.html" class="esqueci">Esqueceu sua senha?</a>
+                    <p id="mensagem-login" role="alert" aria-live="polite" hidden></p>
+                    <button type="submit" class="entrar">Entrar <span aria-hidden="true">↗</span></button>
+                    <p class="register-prompt">Não tem uma conta? <a href="../dev.criarConta/criarConta.html">Cadastre-se</a></p>
+                </form>
+            </div>
+        </section>
+        <div class="python-rain" aria-hidden="true">
+            <svg class="icon-library" focusable="false">
+                <symbol id="python-symbol" viewBox="0 0 64 64">
+                    <path fill="#168ce2" d="M31.8 4C21 4 14 6 14 17v10h26v5H14C6 32 4 37 4 45v3c0 8 5 12 14 12h8V48c0-7 4-11 11-11h13V18C50 8 44 4 31.8 4z"></path>
+                    <circle cx="23" cy="14" r="3" fill="#fff"></circle>
+                    <path fill="#58a6ff" d="M32.2 60C43 60 50 58 50 47V37H24v-5h26c8 0 10-5 10-13v-3c0-8-5-12-14-12h-8v12c0 7-4 11-11 11H14v19c0 10 6 14 18.2 14z"></path>
+                    <circle cx="41" cy="50" r="3" fill="#fff"></circle>
+                </symbol>
+            </svg>
+            <span class="python-decor"><svg><use href="#python-symbol"></use></svg></span>
+            <span class="python-decor"><svg><use href="#python-symbol"></use></svg></span>
+            <span class="python-decor"><svg><use href="#python-symbol"></use></svg></span>
+            <span class="python-decor"><svg><use href="#python-symbol"></use></svg></span>
+            <span class="python-decor"><svg><use href="#python-symbol"></use></svg></span>
+            <span class="python-decor"><svg><use href="#python-symbol"></use></svg></span>
+            <span class="python-decor"><svg><use href="#python-symbol"></use></svg></span>
+            <span class="python-decor"><svg><use href="#python-symbol"></use></svg></span>
+            <span class="python-decor"><svg><use href="#python-symbol"></use></svg></span>
+            <span class="python-decor"><svg><use href="#python-symbol"></use></svg></span>
+        </div>
+    </main>
 </body>
 </html>

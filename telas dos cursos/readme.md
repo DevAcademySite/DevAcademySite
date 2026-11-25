@@ -21,16 +21,17 @@ Este arquivo documenta **todo o visual** das páginas do Curso de HTML: cores, t
 ## 2. Estrutura de arquivos
 
 ```text
-Curso-HTML/
-├── home.css              -> estilos da home (navbar, hero, cards, footer)
-├── base-curso.css        -> peças comuns: botões, etiqueta, migalhas, caixa geral
-├── pagina-curso.css      -> só da página de apresentação (curso-html.html)
-├── pagina-modulos.css    -> só da lista de módulos (modulos.html)
-├── pagina-modulo.css     -> só das 6 páginas de módulo (modulo-1.html ... modulo-6.html)
-├── curso-html.html
-├── modulos.html
-├── modulo-1.html ... modulo-6.html
-└── pdf/                  -> os 6 PDFs dos módulos
+Curso/
+├── home.css              -> estilos compartilhados da home e dos cursos
+├── base-curso.css        -> peças comuns: botões, etiqueta, migalhas, caixas
+├── pagina-curso.css      -> páginas de apresentação dos cursos
+├── cursos-catalogo.css   -> catálogo de cursos
+├── curso-html.html       -> curso web
+├── curso-html.js         -> progresso e seleção dos PDFs web
+├── curso-backend.html    -> curso backend
+├── curso-backend.js      -> progresso do curso SQL
+├── modulo-1.pdf ... modulo-6.pdf -> PDFs do curso web
+└── modulo-sql.pdf        -> PDF do curso backend
 ```
 
 Ordem de carregamento do CSS em cada página: `home.css` → `base-curso.css` → CSS da própria página.

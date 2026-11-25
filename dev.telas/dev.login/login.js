@@ -1,5 +1,14 @@
 const formLogin = document.getElementById('form-login');
 const mensagemLogin = document.getElementById('mensagem-login');
+const senha = document.getElementById('senha');
+const alternarSenha = document.querySelector('.password-toggle');
+
+alternarSenha.addEventListener('click', () => {
+  const mostrar = senha.type === 'password';
+  senha.type = mostrar ? 'text' : 'password';
+  alternarSenha.setAttribute('aria-pressed', String(mostrar));
+  alternarSenha.setAttribute('aria-label', mostrar ? 'Ocultar senha' : 'Mostrar senha');
+});
 
 formLogin.addEventListener('submit', async event => {
   event.preventDefault();

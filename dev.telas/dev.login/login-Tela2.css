@@ -1,394 +1,608 @@
-/*
-Projeto: Dev Academy
-Desenvolvedora: Camila
-Descrição: Estilização da tela de Login.
- ● PALETA DE INTERFACE: CINAO E AZUL ●
-Tecnologias: CSS3
-*/
-
-
+:root {
+    color-scheme: dark;
+    font-family: Arial, sans-serif;
+    background: #080d1b;
+    color: #f3f5fa;
+}
 
 * {
-    margin: 0; /*remove a margem padrão dos elementos*/
-    padding: 0; /*remove o espaço interno padrão*/
-    box-sizing: border-box; /*inclui padding e borda no tamanho do elemento*/
+    box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif; /* fonte dos textos*/
-    background-color: rgb(3, 0, 29); /*rgb(5, 0, 48)*/ /*cor de fundo da página*/
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background:
+        radial-gradient(ellipse at 18% 18%, rgba(12, 72, 152, 0.16), transparent 34rem),
+        #080d1b;
 }
 
+a {
+    color: #63a8ff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #9bc8ff;
+    text-decoration: underline;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid #86bbff;
+    outline-offset: 3px;
+}
 
 .pagina {
-    width: 100%;  /*ocupa toda a largura da tela*/
-    height: 100vh;  /*altura mínima de 100% da tela*/
-    overflow: hidden;
-    display: flex;  /*centraliza os elementos em linha*/
-    
-    justify-content: center; /* "centraliza" horizontalmente*/
-    /* center  → centro
-       flex-start → começo
-       flex-end → final
-    */
-
-    align-items: center; /*centraliza verticalmente*/
     position: relative;
-    
-    /*padding-right: 60px; /*quanto MAIOR o padding, MAIS distante vai estar da direita (nesse caso que é RIGHT)*/
-}
-
-
-.vidro {
-    background-color: rgba(0, 0, 0, 0.1); /*COR de fundo do VIDRO e sua TRANSPARÊNCIA*/
-    backdrop-filter: blur(10px); /*opacidade do vidro*/
-    /*border: 1px solid rgba(34, 3, 206, 0.8); /*borda do vidro*/
-    border-radius: 60px; /*arredodamento do formato do vidro*/
-    box-shadow: 0 0 25px /*rgb(0, 247, 255)*/; /*luz do vidro*/
-
-    position: relative;
-
-    width: 400px; /*LARGURA do vidro*/
-    height: 515px; /*ALTURA do vidro*/
-    /*se o seu código tiver configurações de RESPONSIVIDADE*/
-    /*após fazer QUALQUER ALTERAÇÃO nos seletores, seja de largura, altura, etc*/
-    /*ALTERAR AS CONFIGURAÇÕES DE RESPONSIVIDADE*/
-
-    padding: 40px 20px; /*espaçamento entre a borda do vidro e o formulário*/
-    /*o padding recebe dois valores --> vertical(Y) e horizontal(X)*/
-    /*vertical(Y) = espaçamento de cima e baixo*/
-    /*horizontal(X) = espaçamento da esquerda e direita*/
-
-    opacity: 0;
-    animation: introVidro 2s linear /*1.3s*/ forwards;
-    /*1.5s é a DURAÇÃO da animação em si*/
-    /*1.3S é o tempo que a animação ESPERA para começar*/
-
-    /* VELOCIDADES
-    ease → começa devagar, acelera, desacelera.
-    ease-in → começa devagar, termina rápido.
-    ease-out → começa rápido, termina devagar.
-    ease-in-out → começa devagar, acelera, desacelera.
-    linear → velocidade constante.
-    */
-}
-
-@keyframes introVidro {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-
-h1 { /*titulo*/
-    margin-bottom: 35px; /*distância DEBAIXO do elemento*/
-    /*quanto MAIOR o margin BOTTOM, mais EMBAIXO fica*/
-
-    margin-top: -10px; /*quanto MAIOR e POSITIVO o margin TOP, mais EMBAIXO fica*/
-    /*quanto MAIOR e NEGATIVO o margin TOP, mais  EM CIMA fica*/
-
-
-    text-align: center; /*centraliza o texto*/
-    font-family:"Orbitron"; /*fonte do texto*/
-    font-weight: 400;
-    letter-spacing: 2px;
-    color: aqua;
-
-    /*background: linear-gradient(to right, rgba(34, 3, 206, 0.8) 40%, rgb(0, 255, 255) 65%); /*degrade de cor*/
-    /*to right → _ to bottom ↓ _ to top ↑*/ /*as porcentagens definem em que posição daquela largura a cor está*
-
-    background-clip: text; /*contorna o texto, assim especificando onde o degrade deve aparecer*
-    -webkit-text-fill-color: transparent; /*deixa a cor do texto transparente, assim o degrade aparece dentro do desenho das chaves feito pelo background-clip*/
-    
-    /* text-shadow:0 0 45px #c903fa; */
-    /*-webkit-text-stroke: 1px rgb(43, 13, 177); cria um contorno no próprio caractere (LOGIN) de 1px=1 pixel, white=cor branca*/
-}
-
-
-.campo { /*campos de ---> senha e email*/
-    position: relative; /*cria uma referência para posicionar elementos dentro*/
-    margin-bottom: 13px; /*distância DEBAIXO do elemento*/
-    /*distância entre o campos/caixas de texto*/
-}
-
-.campo label { /*pega os labels que estão dentro de .campo*/
-    position: absolute; /*permite posicionar o label livremente/dentro do input*/
-    left: 10px; /*coloca o label 10px afastado da esquerda. quanto maior o left, mais o elemento vai para a DIREITA*/
-    
-    top: 50%; /*distância A PARTIR do topo, ou seja, para BAIXO, no MEIO do input*/
-    /*exemplo: "top: 0;" significaria: "fique lá em cima" */
-    /*o que foi colocado no meio foi o TOPO do label. quem deixa o label NO MEIO é o tranform: translate*/
-    
-    transform: translateY(-50%); /*ajusta VERTICALMENTE o label*/
-    /*ele pega o label e sobe 50% da altura dele, ou seja, a metade*/
-    /*juntando o top e o transform = ele fica NO MEIO do INPUT horizontalmente(top) e CENTRALIZADO VERTICALMENTE(transform), com base na SUA PROPRIA ALTURA*/
-    
-    color: aqua; /*define a cor do LABEL*/
-    font-size: 20px; /*tamanho da letra*/
-    font-family: "Rajdhani"; /*fonte do nome do campo*/
-    font-weight: 400;
-    /* "monospace thin font" */
-    
-    transition: 0.3s; /*duração da animação do label, sem isso, o label se teleptransporta*/
-}
-
-
-input {
-    width: 320px; /*LARGURA da caixa*/
-    height: 52px; /*ALTURA da caixa*/
-    border-radius: 15px; /*arredondamento da caixa*/
-    color: white; /*cor do texto digitado*/
-    background-color: transparent; /*deixa o fundo da caixa transparente*/
-    border: 1px solid aqua; /*cria a borda fina, contínua e branca*/
-    padding: 0 10px; /*espaçamento interno da caixa. 0=sem espaçamento, 10px=10 pixels de espaçamento*/
-
-
-    /*CONFIGS DOS TEXTOS QUE SERAM INSERIDOS PELOS USUÁRIOS*/
-    font-family: "Rajdhani"; /*fonte do texto (inserido pelo usuario) */
-    font-size: 20px; /*tamanho da letra (inserida pelo usuario) */
-}
-
-input:focus + label, /*quando o input estiver em foco, pegue o label que vem IMEDIATAMENTE DEPOIS dele*/
-input:not(:placeholder-shown) + label { /*enquanto o input estiver com conteúdo, PEGUE o label que está depois dele*/
-    /*PEGUE = selecione esse elemento (label) para que as propriedades que estão dentro das { } sejam aplicadas nele*/
-   /*assim, o label fica na borda superior do input SEM DESCER de volta enquanto tem conteudo*/
-
-    top: 0; /*move o label para cima da caixa*/
-    background-color: rgb(3, 0, 29); /*deixa o fundo do label preto para cobrir a borda/linha do input atrás dele*/
-    padding: 0 5px; /*espaçamento interno do label, 0=sem espaçamento, 5px=5 pixels de espaçamento*/
-}
-
-input:focus { /*quando o input estiver em FOCO*/
-    outline: none; /*remove o contorno automático do navegador*/
-    border-color: aqua; /*quando o campo é selecionado, a cor altera*/
-
-    box-shadow: 0 0 7px aqua;
-} 
-
-input:-webkit-autofill { /*inset = coloque essa sombra para DENTRO do input*/
-    
-    -webkit-text-fill-color: white; /*quando o navegador preenche automaticamente, ele pode alterar a aparência do texto*/
-    /*então, essa linha diz: o texto que foi preenchido automaticamente deve CONTINUAR branco*/
-    
-    -webkit-box-shadow: 0 0 0 1000px rgb(3, 0, 29) inset; /*preenche o input com a cor PRETA*/
-    /*se quiser trocar a cor, só mudar o nome dela*/
-}
-
-input { /*COR DO CURSOR, LINHAZINHA QUE FICA PISCANDO ESPERANDO VC ESCREVER*/
-    caret-color: aqua; /*cor do CURSOR DE TEXTO*/
-    /*caret = cursor de texto*/
-    /*é a linhazinha que fica piscando esperando vc escrever*/
-}
-
-form {
-    display: flex; /*centraliza os elementos em linha*/
-    flex-direction: column; /*alinha os elementos em coluna*/
-    align-items: center; /*centraliza os elementos horizontalmente*/
-
-    padding: 10px 0px;
-}
-
-
-button { /*configs de TODOS os botões JUNTOS*/
-    width: 250px; /*largura do botão*/
-    height: 50px; /*altura do botão, define a altura da caixa do elemento*/
-    border-radius: 25px; /*arredondamento do botão*/
-    margin-top: 10px; /*distância de cima do botão*/
-    padding: 10px; /*espaçamento interno do botão*/
-    cursor: pointer; /*muda o cursor para uma mãozinha quando passa em cima do botão*/
-    /* transition: background-color 2s ease-out; animação da cor de fundo do botão, 1s=1 segundo, ease=suaviza a animação */
-
-    font-family: "Rajdhani"; /*fonte do texto*/
-    font-weight: 500;
-    font-size: 18px; /*tamanho da letra do texto*/
-}
-
-.entrar {
-    color: black; /*cor do texto do botão*/
-    background-color: aqua; /*cor de FUNDO do botão*/
-    border: 1px solid transparent; /*cria a borda fina, contínua e transparent. ou qualquer cor q voce definir*/
-
-    width: 200px;
-    margin-top: 25px;
-}
-
-.entrar:hover {
-    box-shadow: 0 0 10px aqua, aqua 0 0 20px;
-}
-
-
-.esqueci {
-    color: rgb(87, 255, 255); /*cor do TEXTO do botão*/
-    font-size: 16px;
-    font-family: "Rajdhani";
-    
-    margin-top: -85px; /*quanto MAIOR e POSITIVO o margin TOP, mais EMBAIXO*/
-    /*quanto MAIOR e NEGATIVO o margin TOP, mais EM CIMA*/
-    margin-right: -190px;
-
     display: flex;
-    justify-content: center;
+    min-height: 100vh;
     align-items: center;
-    text-decoration: none;
-}
-
-
-
-.novaconta {
-    width: 300px;
-    height: 42px;
-    color: rgb(255, 255, 255); /*cor do texto do botão*/
-    background-color: rgba(0, 255, 255, 0.301); /*cor de FUNDO do botão*/
-    border: 1px solid rgba(0, 255, 255, 0.432); /*cria a borda fina, contínua e transparent. ou qualquer cor q voce definir*/
-
-    border-radius: 25px;
-    font-family: "Rajdhani";
-    font-size: 18px;
-
-    margin-top: 175px; /*quanto MAIOR e POSITIVO o margin TOP, mais EMBAIXO*/
-    /*quanto MAIOR e NEGATIVO o margin TOP, mais EM CIMA*/
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-}
-
-.novaconta:hover {
-    background-color: rgba(0, 255, 255, 0.548);
-}
-
-
-
-/* TODAS as configurações do fundo animado das cores */
-
-.fundo-cores {
-    position: fixed; /*fixa a animação na tela do navegador*/
-    inset: 0; /*faz com que ele ocupe os quatro lados disponíveis: topo, direita, baixo e esquerda*/
+    justify-content: stretch;
     overflow: hidden;
-    z-index: -1;
+    padding: 0;
+}
+
+.login-layout {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    min-height: 100vh;
+    min-height: 100svh;
+    align-items: stretch;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 74% 14%, rgba(0, 198, 255, 0.25), transparent 10rem),
+        radial-gradient(circle at 28% 42%, rgba(0, 102, 255, 0.18), transparent 14rem),
+        linear-gradient(145deg, rgba(10, 23, 49, 0.96), rgba(7, 13, 30, 0.96));
+}
+
+.login-brand {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    padding: clamp(36px, 6vw, 88px);
+    background: transparent;
+}
+
+.login-brand::before {
+    position: absolute;
+    inset: auto 0 0;
+    height: 32%;
+    background-image:
+        linear-gradient(rgba(48, 119, 222, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(48, 119, 222, 0.12) 1px, transparent 1px);
+    background-size: 24px 24px;
+    content: "";
+    mask-image: linear-gradient(transparent, #000);
     pointer-events: none;
 }
 
-/*aparência geral das cores*/
-.cor { 
+.brand-logo,
+.brand-copy {
+    position: relative;
+    z-index: 3;
+}
+
+.brand-logo {
     position: absolute;
-
-    width: 30vw;
-    height: 30vw;
-
-    min-width: 220px;
-    min-height: 220px;
-
-    border-radius: 50%;
-
-    filter: blur(65px);
-    opacity: 0.65;
+    top: clamp(32px, 4vw, 76px);
+    left: clamp(32px, 4vw, 76px);
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: #f3f5fa;
+    font-size: clamp(20px, 2.2vw, 42px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
 }
 
-/*configs INDIVIDUAIS de cada cor*/
-.cor-1 {
-    background: radial-gradient(
-    circle,
-    rgba(0, 221, 255, 0.863), 40%,
-    transparent 10%);
-
-    left: -3%;
-    top: -5%;
-
-    animation: mover-cor-1 18s ease-in-out infinite alternate;
+.brand-logo img {
+    width: clamp(48px, 4vw, 72px);
+    height: clamp(48px, 4vw, 72px);
+    object-fit: contain;
 }
 
-.cor-2 {
-    background: radial-gradient(
-    /*rgb(0, 255 cor verde linda */
-    rgba(0, 221, 255, 0.863), 40%,
-    transparent 10%);
-
-    right: 5%;
-    top: 35%;
-
-    animation: mover-cor-2 23s ease-in-out infinite alternate;
+.brand-logo span span {
+    color: #58a6ff;
 }
 
-.cor-3 {
-    background: radial-gradient(
-    /*rgb(251, 255, 0) cor amarelinha linda*/
-    /*rgb(0, 255, 64) cor verdinha linda*/
-    blue, 40%,
-    transparent 10%);
-
-    left: 30%;
-    bottom: -10%;
-
-    animation: mover-cor-3 20s ease-in-out infinite alternate;
+.brand-copy h1 {
+    margin: 0 0 28px;
+    font-size: clamp(56px, 7.5vw, 190px);
+    font-weight: 800;
+    letter-spacing: -0.075em;
+    line-height: 0.92;
 }
 
+.brand-copy h1 span {
+    display: block;
+    color: #2397ff;
+}
 
-/*MOVIMENTAÇÕES INDIVIDUAIS DE CADA COR*/
-@keyframes mover-cor-1 { /*CIANO 1*/
-    0% {
-        transform: translate(0, 0) scale(1);
+.brand-copy h1 strong {
+    display: block;
+    font-size: 0.74em;
+    letter-spacing: -0.06em;
+}
+
+.brand-copy p {
+    max-width: 620px;
+    margin: 0;
+    color: #d7dce8;
+    font-size: clamp(17px, 1.55vw, 34px);
+    line-height: 1.55;
+}
+
+.brand-copy p span {
+    white-space: nowrap;
+}
+
+.login-panel {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: clamp(28px, 5vw, 72px);
+    background: transparent;
+}
+
+.login-panel::before {
+    display: none;
+}
+
+.python-rain {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.python-decor {
+    position: absolute;
+    top: -72px;
+    display: grid;
+    width: clamp(30px, 2.8vw, 54px);
+    height: clamp(30px, 2.8vw, 54px);
+    place-items: center;
+    opacity: 0.5;
+    animation: python-fall 14s linear infinite;
+}
+
+.python-decor svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 10px rgba(41, 126, 238, 0.55));
+}
+
+.icon-library {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.python-decor:nth-of-type(2) { left: 7%; animation-delay: -8s; animation-duration: 13s; }
+.python-decor:nth-of-type(3) { left: 18%; animation-delay: -3s; animation-duration: 16s; }
+.python-decor:nth-of-type(4) { left: 31%; animation-delay: -11s; animation-duration: 12s; }
+.python-decor:nth-of-type(5) { left: 46%; animation-delay: -5s; animation-duration: 15s; }
+.python-decor:nth-of-type(6) { left: 62%; animation-delay: -13s; animation-duration: 18s; }
+.python-decor:nth-of-type(7) { left: 75%; animation-delay: -1s; animation-duration: 14s; }
+.python-decor:nth-of-type(8) { left: 87%; animation-delay: -6s; animation-duration: 17s; }
+.python-decor:nth-of-type(9) { left: 96%; animation-delay: -10s; animation-duration: 13s; }
+.python-decor:nth-of-type(10) { left: 54%; animation-delay: -2s; animation-duration: 19s; }
+
+@keyframes python-fall {
+    from {
+        transform: translate3d(0, -72px, 0) rotate(-18deg);
     }
 
-    20% {
-        transform: translate(5vw, 45vh) scale(1);
-    }
-
-    40% {
-        transform: translate(70vw, 45vh) scale(1.2);
-    }
-
-    60% {
-        transform: translate(30vw, 50vh) scale(0.9);
-    }
-
-    80% {
-        transform: translate(-5vw, 20vh) scale(1.2);
-    }
-
-    100% {
-        transform: translate(15vw, 10vh) scale(1);
+    to {
+        transform: translate3d(30px, calc(100vh + 160px), 0) rotate(342deg);
     }
 }
 
+.vidro {
+    position: relative;
+    z-index: 3;
+    width: min(100%, 760px);
+    padding: clamp(28px, 3.2vw, 76px);
+    border: 1.5px solid #579aff;
+    border-radius: 20px;
+    background: linear-gradient(145deg, rgba(39, 45, 61, 0.94), rgba(24, 29, 42, 0.96));
+    box-shadow:
+        0 0 0 1px rgba(88, 166, 255, 0.13),
+        0 0 42px rgba(42, 117, 255, 0.23),
+        0 24px 65px rgba(0, 0, 0, 0.35);
+}
 
-@keyframes mover-cor-2 { /*CIANO 2*/
-    0% {
-        transform: translate(0, 0) scale(1);
+.vidro h2 {
+    margin: 0 0 34px;
+    color: #f7f8fb;
+    font-size: clamp(28px, 2.5vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    text-align: center;
+}
+
+#form-login {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.campo label {
+    color: #f0f2f7;
+    font-size: 17px;
+    line-height: 1.3;
+}
+
+.input-wrap {
+    position: relative;
+}
+
+.campo input {
+    width: 100%;
+    min-height: clamp(58px, 4.5vh, 84px);
+    padding: 12px 16px;
+    border: 1px solid rgba(199, 207, 225, 0.42);
+    border-radius: 13px;
+    background: rgba(125, 137, 163, 0.27);
+    color: #fff;
+    font: inherit;
+    font-size: clamp(17px, 1vw, 24px);
+    transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.campo input::placeholder {
+    color: #aab1c1;
+    opacity: 1;
+}
+
+.campo input:focus {
+    border-color: #69a8ff;
+    background: rgba(125, 137, 163, 0.34);
+    box-shadow: 0 0 0 3px rgba(75, 145, 255, 0.2);
+    outline: none;
+}
+
+.input-wrap input {
+    padding-right: 58px;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    display: grid;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: #c3cada;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.password-toggle:hover {
+    background: rgba(255, 255, 255, 0.09);
+    color: #fff;
+}
+
+.password-toggle svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+}
+
+.password-toggle[aria-pressed="true"] .eye-slash {
+    display: none;
+}
+
+.esqueci {
+    align-self: flex-end;
+    margin: -5px 0 24px;
+    font-size: 15px;
+}
+
+#mensagem-login {
+    margin: 0 0 16px;
+    color: #ffc2c2;
+    font-size: 15px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.entrar {
+    display: inline-flex;
+    min-height: clamp(64px, 6vh, 88px);
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 20px;
+    border: 1px solid rgba(168, 205, 255, 0.6);
+    border-radius: 13px;
+    background: linear-gradient(110deg, #1d6ee8, #438fff);
+    box-shadow: 0 10px 24px rgba(33, 113, 238, 0.28);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: clamp(21px, 1.3vw, 30px);
+    font-weight: 700;
+    transition: filter 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+.entrar:hover {
+    box-shadow: 0 12px 30px rgba(33, 113, 238, 0.42);
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+.entrar:disabled {
+    cursor: wait;
+    filter: saturate(0.65);
+    transform: none;
+}
+
+.entrar span {
+    font-size: 25px;
+    line-height: 1;
+}
+
+.register-prompt {
+    margin: 24px 0 0;
+    color: #f0f2f7;
+    font-size: 15px;
+    text-align: center;
+}
+
+.register-prompt a {
+    margin-left: 4px;
+}
+
+.fundo-cores {
+    display: none;
+}
+
+.recuperar {
+    width: min(100%, 600px);
+    min-height: 100vh;
+    margin-inline: auto;
+}
+
+.recuperar .vidro {
+    width: 100%;
+}
+
+.recuperar .vidro > p {
+    margin: -16px 0 24px;
+    color: #cbd1de;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.recuperar .campo {
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.recuperar .campo label {
+    position: absolute;
+    top: 17px;
+    left: 16px;
+    padding: 0 3px;
+    background: transparent;
+    color: #b7c0d2;
+    font-size: 16px;
+    pointer-events: none;
+    transition: top 150ms ease, color 150ms ease, font-size 150ms ease;
+}
+
+.recuperar .campo input {
+    padding: 20px 16px 10px;
+}
+
+.recuperar .campo input:focus + label,
+.recuperar .campo input:not(:placeholder-shown) + label {
+    top: 3px;
+    background: #242a3a;
+    color: #9dc7ff;
+    font-size: 12px;
+}
+
+.recuperar #form-recuperar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.recuperar .esqueci {
+    align-self: center;
+    margin: 16px 0 0;
+}
+
+.recuperar .enviar-codigo {
+    min-height: 46px;
+    margin: -6px 0 20px;
+    border: 1px solid rgba(88, 166, 255, 0.58);
+    border-radius: 11px;
+    background: rgba(88, 166, 255, 0.12);
+    color: #b7d8ff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+}
+
+#mensagem-recuperacao {
+    color: #b7ffe3;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+    .login-layout {
+        min-height: 100vh;
+        min-height: 100svh;
+        grid-template-columns: 0.85fr 1.15fr;
     }
 
-    25% {
-        transform: translate(20vw, -50vh) scale(1);
+    .login-brand {
+        padding: 36px;
     }
 
-    50% {
-        transform: translate(-5vw, 50vh) scale(1.25);
+    .login-brand h1 {
+        font-size: clamp(48px, 8vw, 76px);
     }
 
-    100% {
-        transform: translate(-80vw, -80vh) scale(0.9);
+    .login-panel {
+        padding: 28px;
+    }
+
+    .vidro {
+        padding: 32px 26px;
     }
 }
 
-
-@keyframes mover-cor-3 { /*AZUL*/
-    0% {
-        transform: translate(0, 0) scale(1);
+@media (max-width: 640px) {
+    .pagina {
+        min-height: 100svh;
+        padding: 0;
     }
 
-    25% {
-        transform: translate(30vw, -70vh) scale(0.9);
+    .login-layout {
+        width: 100%;
+        height: auto;
+        min-height: 100svh;
+        grid-template-columns: 1fr;
+        border: 0;
+        border-radius: 0;
     }
 
-    50% {
-        transform: translate(50vw, -70vh) scale(1.2);
+    .login-brand {
+        min-height: 285px;
+        justify-content: flex-end;
+        padding: 32px 26px 24px;
+        border-right: 0;
+        border-bottom: 1px solid rgba(126, 158, 219, 0.18);
     }
 
-    100% {
-        transform: translate(-45vw, -85vh) scale(1);
+    .brand-logo {
+        top: 24px;
+        left: 26px;
+        gap: 10px;
+        font-size: 21px;
+    }
+
+    .brand-logo img {
+        width: 38px;
+        height: 38px;
+    }
+
+    .brand-copy h1 {
+        margin-bottom: 14px;
+        font-size: clamp(40px, 12vw, 64px);
+        line-height: 0.9;
+    }
+
+    .brand-copy {
+        margin-top: 82px;
+    }
+
+    .brand-copy h1 strong {
+        display: inline;
+        font-size: 0.72em;
+    }
+
+    .brand-copy p {
+        max-width: 440px;
+        font-size: 15px;
+        line-height: 1.45;
+    }
+
+    .login-panel {
+        min-height: 440px;
+        padding: 28px 20px 38px;
+    }
+
+    .python-decor {
+        width: 30px;
+        height: 30px;
+    }
+
+    .python-decor:nth-of-type(2) { left: 3%; }
+    .python-decor:nth-of-type(3) { left: 15%; }
+    .python-decor:nth-of-type(4) { left: 28%; }
+    .python-decor:nth-of-type(5) { left: 42%; }
+    .python-decor:nth-of-type(6) { left: 56%; }
+    .python-decor:nth-of-type(7) { left: 69%; }
+    .python-decor:nth-of-type(8) { left: 82%; }
+    .python-decor:nth-of-type(9) { left: 94%; }
+    .python-decor:nth-of-type(10) { left: 49%; }
+
+    .vidro {
+        width: min(100%, 480px);
+        padding: 28px 22px;
+        border-radius: 17px;
+    }
+
+    .vidro h2 {
+        margin-bottom: 24px;
+        font-size: 28px;
+    }
+
+    .campo {
+        margin-bottom: 18px;
+    }
+
+    .campo input {
+        min-height: 54px;
+        font-size: 16px;
+    }
+
+    .entrar {
+        min-height: 56px;
+        font-size: 19px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .python-decor {
+        top: 12%;
+        animation: none;
     }
 }

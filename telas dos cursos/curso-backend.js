@@ -18,7 +18,7 @@ const emptyProgress = () => ({
   pdf_opened: false,
   quiz_completed: false,
   quiz_completed_count: 0,
-  quiz_total: 1,
+  quiz_total: 10,
   editor_completed: false
 });
 
@@ -52,7 +52,7 @@ function renderCourseProgress() {
   pdfProgressStatus.textContent = pdfOpened ? 'Aberto' : 'Não aberto';
   quizProgressStatus.textContent = quizDone
     ? 'Concluído'
-    : `${courseProgress.quiz_completed_count || 0} de ${courseProgress.quiz_total || 1} acertos`;
+    : `${courseProgress.quiz_completed_count || 0} de ${courseProgress.quiz_total || 10} acertos`;
   editorProgressStatus.textContent = editorDone ? 'Concluído' : 'Não concluído';
 }
 

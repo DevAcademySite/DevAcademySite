@@ -4,7 +4,7 @@ window.DevAcademy = (() => {
     const response = await fetch(path, data === undefined ? {credentials:'same-origin'} : {
       method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)
     });
-    const result = await response.json().catch(() => { throw new Error('Inicie o projeto com py server.py e abra http://127.0.0.1:8000.'); });
+    const result = await response.json().catch(() => { throw new Error('Inicie o projeto com py server.py e abra http://127.0.0.1:8001.'); });
     if (!response.ok) throw new Error(result.error || 'Não foi possível concluir. Tente novamente.');
     return result;
   }

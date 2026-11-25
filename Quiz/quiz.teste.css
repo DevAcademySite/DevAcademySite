@@ -124,6 +124,25 @@ button:focus-visible {
     border-color: #ffa3b7;
 }
 
+.btn-alternativa[data-feedback]::after {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.85em;
+    font-weight: 700;
+}
+
+.btn-alternativa.correta::after {
+    color: #a7f3d0;
+}
+
+.btn-alternativa.errada::after {
+    color: #ffc0cd;
+}
+
+.btn-alternativa[data-feedback]::after {
+    content: attr(data-feedback);
+}
+
 .explicacao {
     margin-top: 22px;
     padding: 18px;
@@ -305,6 +324,20 @@ body.quiz-embedded {
 
 .quiz-embedded .btn-alternativa:hover:not(:disabled) {
     background: #388bfd;
+}
+
+.quiz-embedded .btn-alternativa.correta:hover:not(:disabled),
+.quiz-embedded .btn-alternativa.correta {
+    background: #175943;
+    border-color: #73e4b2;
+    box-shadow: 0 0 0 2px rgba(115, 228, 178, 0.18);
+}
+
+.quiz-embedded .btn-alternativa.errada:hover:not(:disabled),
+.quiz-embedded .btn-alternativa.errada {
+    background: #702e42;
+    border-color: #ffa3b7;
+    box-shadow: 0 0 0 2px rgba(255, 163, 183, 0.16);
 }
 
 .quiz-embedded #code-editor {

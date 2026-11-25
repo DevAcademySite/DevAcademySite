@@ -1,15 +1,20 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "chrome",
+            "name": "DevAcademy: iniciar servidor",
+            "type": "debugpy",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}"
+            "program": "${workspaceFolder}/server.py",
+            "python": "C:\\Users\\gabriel.nascimento\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "serverReadyAction": {
+                "pattern": "DevAcademy: (http://[^\\s]+)",
+                "uriFormat": "%s",
+                "action": "openExternally"
+            }
         }
     ]
 }

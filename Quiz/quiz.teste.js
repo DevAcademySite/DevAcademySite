@@ -410,6 +410,8 @@ const CODING_CHALLENGES = {
 
       reviewAnswers.set(current.id, { selected, correctIndex, correct, explanation });
       buttons[correctIndex].classList.add('correta');
+      buttons[correctIndex].dataset.feedback = 'Resposta correta';
+      buttons[correctIndex].setAttribute('aria-label', buttons[correctIndex].textContent + ' — Resposta correta');
       if (correct) {
         points += 10;
         const reviewed = completed.has(current.id);
@@ -417,6 +419,8 @@ const CODING_CHALLENGES = {
         robot(reviewed ? 'Resposta correta! Acerto registrado.' : 'Muito bem! Resposta exata! +10 pontos.');
       } else {
         buttons[selected].classList.add('errada');
+        buttons[selected].dataset.feedback = 'Sua resposta';
+        buttons[selected].setAttribute('aria-label', buttons[selected].textContent + ' — Sua resposta, incorreta');
         robot('Leia a explicação para entender o conceito.');
       }
       if (!user || !window.DevAcademy) saveLocalQuizProgress();

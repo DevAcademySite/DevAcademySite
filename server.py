@@ -1,15 +1,34 @@
-"""Servidor local DevAcademy. Python 3.10+, sem pacotes externos."""
+"""Servidor DevAcademy para desenvolvimento local e publicação."""
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from http.cookies import SimpleCookie
 from email.message import EmailMessage
 from pathlib import Path
-from urllib.parse import urlsplit, unquote, parse_qs
-import hashlib, hmac, json, mimetypes, secrets, sqlite3, time, re, os, smtplib
+from urllib.parse import urlsplit, unquote, parse_qs, urlencode
+import hashlib, hmac, json, mimetypes, secrets, time, re, os, smtplib
 
 ROOT = Path(__file__).resolve().parent
-DATA = ROOT / 'dados'
-DB = DATA / 'devacademy.sqlite3'
-ORIGIN = 'http://127.0.0.1:8000'
+ORIGIN = 'http://127.0.0.1:8001'
+
+def load_local_environment():
+    if os.environ.get('VERCEL'):
+        return
+    env_file = ROOT / '.env'
+    if not env_file.is_file():
+        return
+    for line in env_file.read_text(encoding='utf-8').splitlines():
+        line = line.strip()
+        if not line or line.startswith('#') or '=' not in line:
+            continue
+        name, value = line.split('=', 1)
+        name, value = name.strip(), value.strip()
+        if name != 'DATABASE_URL' and not name.startswith('DEVACADEMY_SMTP_'):
+            continue
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
+            value = value[1:-1]
+        os.environ.setdefault(name, value)
+
+load_local_environment()
+
 TRACKS = {'web': {'name': 'Desenvolvimento Web',
          'questions': [{'id': 'html-significado',
                         'pergunta': 'O que significa a sigla HTML?',
@@ -193,28 +212,69 @@ MODULES = {'web': [{'id': 'html',
                           'code': 'SELECT nome FROM estudantes;'}]}]}
 
 def connect():
-    db = sqlite3.connect(DB)
-    db.row_factory = sqlite3.Row
-    return db
+    database_url = os.environ.get('DATABASE_URL')
+    if not database_url:
+        raise RuntimeError('Configure DATABASE_URL no arquivo .env ou nas variáveis do servidor.')
+    try:
+        import psycopg
+        from psycopg.rows import dict_row
+    except ImportError as error:
+        raise RuntimeError('Instale as dependências listadas em requirements.txt.') from error
+    connection = psycopg.connect(
+        database_url,
+        connect_timeout=10,
+        prepare_threshold=None,
+        row_factory=dict_row,
+        sslmode='require'
+    )
+    return PostgresConnection(connection)
+
+class PostgresConnection:
+    def __init__(self, connection):
+        self.connection = connection
+
+    def execute(self, statement, parameters=()):
+        return self.connection.execute(statement.replace('?', '%s'), parameters)
+
+    def commit(self):
+        self.connection.commit()
+
+    def rollback(self):
+        self.connection.rollback()
+
+    def __enter__(self):
+        self.connection.__enter__()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        return self.connection.__exit__(exc_type, exc_value, traceback)
 
 def initialize():
-    DATA.mkdir(exist_ok=True)
     with connect() as db:
-        db.executescript('''CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY, email TEXT UNIQUE NOT NULL, name TEXT NOT NULL,
+        schema = '''CREATE TABLE IF NOT EXISTS users (
+        id BIGSERIAL PRIMARY KEY, email TEXT UNIQUE NOT NULL, name TEXT NOT NULL,
         password TEXT NOT NULL, recovery TEXT NOT NULL, track TEXT NOT NULL DEFAULT '');
-        CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, user_id INTEGER, expires REAL);
-        CREATE TABLE IF NOT EXISTS attempts (ip TEXT, stamp REAL);
-        CREATE TABLE IF NOT EXISTS progress (user_id INTEGER, track TEXT, question_id TEXT,
+        CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, user_id BIGINT, expires DOUBLE PRECISION);
+        CREATE TABLE IF NOT EXISTS attempts (ip TEXT, stamp DOUBLE PRECISION);
+        CREATE TABLE IF NOT EXISTS progress (user_id BIGINT, track TEXT, question_id TEXT,
         PRIMARY KEY(user_id, track, question_id));
-        CREATE TABLE IF NOT EXISTS module_learning (user_id INTEGER, track TEXT, module_id TEXT,
-        started_at REAL NOT NULL, lesson_read INTEGER NOT NULL DEFAULT 0,
+        CREATE TABLE IF NOT EXISTS module_learning (user_id BIGINT, track TEXT, module_id TEXT,
+        started_at DOUBLE PRECISION NOT NULL, lesson_read INTEGER NOT NULL DEFAULT 0,
         editor_completed INTEGER NOT NULL DEFAULT 0,
         PRIMARY KEY(user_id, track, module_id));
-        CREATE TABLE IF NOT EXISTS course_modules (user_id INTEGER, track TEXT,
+        CREATE TABLE IF NOT EXISTS course_modules (user_id BIGINT, track TEXT,
         module_number INTEGER, pdf_opened INTEGER NOT NULL DEFAULT 0,
-        PRIMARY KEY(user_id, track, module_number));''')
-        columns = {row['name'] for row in db.execute('PRAGMA table_info(module_learning)')}
+        PRIMARY KEY(user_id, track, module_number));'''
+        for statement in schema.split(';'):
+            if statement.strip():
+                db.execute(statement)
+        columns = {
+            row['column_name']
+            for row in db.execute(
+                "SELECT column_name FROM information_schema.columns "
+                "WHERE table_schema = current_schema() AND table_name = 'module_learning'"
+            )
+        }
         if 'editor_completed' not in columns:
             db.execute('ALTER TABLE module_learning ADD COLUMN editor_completed INTEGER NOT NULL DEFAULT 0')
 
@@ -279,7 +339,7 @@ def completion(completed, total, started=False):
 
 def module_progress(db, user_id, track, module_id):
     ids = {q['id'] for q in module_questions(track,module_id)}
-    saved = {row[0] for row in db.execute('SELECT question_id FROM progress WHERE user_id=? AND track=?',(user_id,track))}
+    saved = {row['question_id'] for row in db.execute('SELECT question_id FROM progress WHERE user_id=? AND track=?',(user_id,track))}
     state = db.execute('SELECT lesson_read, editor_completed FROM module_learning WHERE user_id=? AND track=? AND module_id=?',(user_id,track,module_id)).fetchone()
     result = completion(len(ids & saved),len(ids),state is not None)
     result['lesson_read'] = bool(state and state['lesson_read'])
@@ -365,7 +425,35 @@ class Handler(BaseHTTPRequestHandler):
             return db.execute('SELECT users.* FROM users JOIN sessions ON users.id=sessions.user_id WHERE token=? AND expires>?', (digest(token.value), time.time())).fetchone()
 
     def allowed_host(self):
-        return self.headers.get('Host') in ('127.0.0.1:8000', 'localhost:8000')
+        host = self.headers.get('Host', '').lower()
+        allowed = {'127.0.0.1:8001', 'localhost:8001'}
+        allowed.update(
+            value.lower()
+            for value in (
+                os.environ.get('VERCEL_URL', ''),
+                os.environ.get('VERCEL_PROJECT_PRODUCTION_URL', '')
+            )
+            if value
+        )
+        allowed.update(
+            value.strip().lower()
+            for value in os.environ.get('DEVACADEMY_ALLOWED_HOSTS', '').split(',')
+            if value.strip()
+        )
+        return host in allowed
+
+    def allowed_origin(self):
+        host = self.headers.get('Host', '').lower()
+        origin = urlsplit(self.headers.get('Origin', ''))
+        if origin.netloc.lower() != host:
+            return False
+        if host in ('127.0.0.1:8001', 'localhost:8001'):
+            return origin.scheme == 'http'
+        return origin.scheme == 'https'
+
+    def session_cookie(self, token, max_age):
+        secure = '' if self.headers.get('Host', '').lower() in ('127.0.0.1:8001', 'localhost:8001') else '; Secure'
+        return f'devacademy_session={token}; HttpOnly; SameSite=Strict; Path=/; Max-Age={max_age}{secure}'
 
     def do_GET(self):
         if not self.allowed_host(): return self.reply(403, {'error':'Endereço não permitido.'})
@@ -384,7 +472,7 @@ class Handler(BaseHTTPRequestHandler):
                         'pdf_opened': False,
                         'modules': [{'number': 1, 'pdf_opened': False}],
                         'quiz_completed': False, 'quiz_completed_count': 0,
-                        'quiz_total': 1, 'editor_completed': False
+                        'quiz_total': 10, 'editor_completed': False
                     }})
                 return self.reply(200, {'course_progress': {
                     'completed': 0, 'total': 8, 'percent': 0,
@@ -410,7 +498,7 @@ class Handler(BaseHTTPRequestHandler):
                 item = TRACKS[track]
                 selected = module_questions(track,module_id) if module else item['questions']
                 questions = [{k:q[k] for k in ('id','pergunta','alternativas','module')} for q in selected]
-                saved = {row[0] for row in db.execute('SELECT question_id FROM progress WHERE user_id=? AND track=?',(user['id'],track))} if user else set()
+                saved = {row['question_id'] for row in db.execute('SELECT question_id FROM progress WHERE user_id=? AND track=?',(user['id'],track))} if user else set()
                 return self.reply(200, {'name':item['name'], 'questions':questions, 'completed_ids':[q['id'] for q in selected if q['id'] in saved], 'module':module, 'module_progress':module_progress(db,user['id'],track,module_id) if (module and user) else None, 'progress':track_progress(db,user['id'],track) if user else None, 'course_progress':course_progress(db,user['id'],track) if (user and track=='web') else None})
         if path == '/api/session':
             user = self.user()
@@ -455,7 +543,7 @@ class Handler(BaseHTTPRequestHandler):
         return self.reply(200, file.read_bytes(), content)
 
     def do_POST(self):
-        if not self.allowed_host() or self.headers.get('Origin') not in (ORIGIN, 'http://localhost:8000'):
+        if not self.allowed_host() or not self.allowed_origin():
             return self.reply(403, {'error':'Abra o site pelo endereço mostrado no terminal.'})
         if self.headers.get('Content-Type','').split(';')[0] != 'application/json': return self.reply(415, {'error':'Formato inválido.'})
         try:
@@ -471,7 +559,7 @@ class Handler(BaseHTTPRequestHandler):
         if path in ('/api/login','/api/register','/api/recover',send_recovery_path):
             with connect() as db:
                 db.execute('DELETE FROM attempts WHERE stamp<?', (time.time()-300,))
-                count = db.execute('SELECT count(*) FROM attempts WHERE ip=?',(self.client_address[0],)).fetchone()[0]
+                count = db.execute('SELECT count(*) AS attempts FROM attempts WHERE ip=?',(self.client_address[0],)).fetchone()['attempts']
                 if count >= 20: return self.reply(429, {'error':'Muitas tentativas. Aguarde cinco minutos.'})
                 db.execute('INSERT INTO attempts VALUES (?,?)',(self.client_address[0],time.time()))
             if not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+',email) or len(email)>254:
@@ -512,7 +600,7 @@ class Handler(BaseHTTPRequestHandler):
                                (user['id'], track, int(module)))
                 elif phase == 'editor_completed':
                     if module != '1': return self.reply(400, {'error':'Módulo inválido.'})
-                    db.execute('INSERT OR IGNORE INTO module_learning (user_id,track,module_id,started_at) VALUES (?,?,?,?)',
+                    db.execute('INSERT INTO module_learning (user_id,track,module_id,started_at) VALUES (?,?,?,?) ON CONFLICT(user_id,track,module_id) DO NOTHING',
                                (user['id'], track, module_id, time.time()))
                     db.execute('UPDATE module_learning SET editor_completed=1 WHERE user_id=? AND track=? AND module_id=?',
                                (user['id'], track, module_id))
@@ -532,7 +620,7 @@ class Handler(BaseHTTPRequestHandler):
                     return self.reply(400, {'error':'Módulo inválido.'})
                 phase = data.get('phase','start')
                 if phase not in ('start','read'): return self.reply(400, {'error':'Etapa inválida.'})
-                db.execute('INSERT OR IGNORE INTO module_learning (user_id,track,module_id,started_at) VALUES (?,?,?,?)',(user['id'],track,module_id,time.time()))
+                db.execute('INSERT INTO module_learning (user_id,track,module_id,started_at) VALUES (?,?,?,?) ON CONFLICT(user_id,track,module_id) DO NOTHING',(user['id'],track,module_id,time.time()))
                 if phase=='read': db.execute('UPDATE module_learning SET lesson_read=1 WHERE user_id=? AND track=? AND module_id=?',(user['id'],track,module_id))
                 db.commit()
                 return self.reply(200, {'module_progress':module_progress(db,user['id'],track,module_id)})
@@ -547,15 +635,16 @@ class Handler(BaseHTTPRequestHandler):
                     return self.reply(400, {'error':'Resposta inválida.'})
                 correct = int(answer)==question['respostaCorreta']
                 if correct:
-                    db.execute('INSERT OR IGNORE INTO progress VALUES (?,?,?)', (user['id'],track,question['id']))
+                    db.execute('INSERT INTO progress (user_id,track,question_id) VALUES (?,?,?) ON CONFLICT(user_id,track,question_id) DO NOTHING', (user['id'],track,question['id']))
                 db.commit()
                 return self.reply(200, {'correct':correct, 'correctIndex':question['respostaCorreta'], 'explanation':question['explicacao'], 'progress':track_progress(db,user['id'],track), 'module_progress':module_progress(db,user['id'],track,question['module']), 'course_progress':course_progress(db,user['id'],track) if track=='web' else None})
             if path == '/api/register':
                 name = data.get('name','').strip()
                 if not 2 <= len(name) <= 80: return self.reply(400, {'error':'Informe um nome de 2 a 80 caracteres.'})
                 recovery = secrets.token_hex(16)
-                try: db.execute('INSERT INTO users (email,name,password,recovery) VALUES (?,?,?,?)',(email,name,password_hash(password),digest(recovery)))
-                except sqlite3.IntegrityError: return self.reply(409, {'error':'Este e-mail já possui cadastro. Entre ou recupere seu acesso.'})
+                result = db.execute('INSERT INTO users (email,name,password,recovery) VALUES (?,?,?,?) ON CONFLICT(email) DO NOTHING',(email,name,password_hash(password),digest(recovery)))
+                if result.rowcount == 0:
+                    return self.reply(409, {'error':'Este e-mail já possui cadastro. Entre ou recupere seu acesso.'})
                 return self.reply(201, {'recovery':recovery})
             if path == '/api/login':
                 user = db.execute('SELECT * FROM users WHERE email=?',(email,)).fetchone()
@@ -564,7 +653,7 @@ class Handler(BaseHTTPRequestHandler):
                 db.execute('DELETE FROM sessions WHERE expires<?',(time.time(),))
                 db.execute('INSERT INTO sessions VALUES (?,?,?)',(digest(token),user['id'],time.time()+8*3600))
                 db.commit()
-                return self.reply(200, {'user':public(user)}, cookie='devacademy_session='+token+'; HttpOnly; SameSite=Strict; Path=/; Max-Age=28800')
+                return self.reply(200, {'user':public(user)}, cookie=self.session_cookie(token, 28800))
             if path == '/api/recover':
                 user = db.execute('SELECT * FROM users WHERE email=?',(email,)).fetchone()
                 code = data.get('code','').strip().lower()
@@ -576,7 +665,7 @@ class Handler(BaseHTTPRequestHandler):
             if path == '/api/logout':
                 cookie = SimpleCookie(self.headers.get('Cookie',''))
                 if cookie.get('devacademy_session'): db.execute('DELETE FROM sessions WHERE token=?',(digest(cookie['devacademy_session'].value),))
-                return self.reply(200, {'ok':True},cookie='devacademy_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
+                return self.reply(200, {'ok':True},cookie=self.session_cookie('', 0))
             if path == '/api/profile':
                 user = self.user()
                 if not user: return self.reply(401, {'error':'Entre novamente para continuar.'})
@@ -591,5 +680,5 @@ if __name__ == '__main__':
     initialize()
     print('DevAcademy: '+ORIGIN+'/dev.telas/dev.login/login.html', flush=True)
     print('Deixe este terminal aberto. Para encerrar: Ctrl+C.', flush=True)
-    try: ThreadingHTTPServer(('127.0.0.1',8000),Handler).serve_forever()
+    try: ThreadingHTTPServer(('127.0.0.1',8001),Handler).serve_forever()
     except KeyboardInterrupt: print('\nServidor encerrado.')
